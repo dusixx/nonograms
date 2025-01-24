@@ -1,7 +1,7 @@
-import { Component } from './base/component.js';
+import { Element } from './base/element.js';
 import { isFunc, isPrimitive } from '../utils/index.js';
 
-export class Select extends Component {
+export class Select extends Element {
   #onChange;
 
   constructor(props, optionValues) {
@@ -17,7 +17,7 @@ export class Select extends Component {
         text = itm.text;
         value = itm.value ?? text;
       }
-      return new Component({ tag: 'option', text, value });
+      return new Element({ tag: 'option', text, value });
     });
     // tag is always be 'select'
     super({ ...props, tag: 'select' }, ...options);

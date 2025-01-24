@@ -1,3 +1,3 @@
 export * from './button.js';
 export * from './select.js';
-export * from './base/component.js';
+export * from './base/element.js';

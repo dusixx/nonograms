@@ -1,7 +1,7 @@
-import { Component } from './base/component.js';
+import { Element } from './base/element.js';
 import { isFunc } from '../utils/index.js';
 
-export class Button extends Component {
+export class Button extends Element {
   #onClick;
 
   constructor(props, ...children) {
