@@ -1,57 +1,36 @@
-import { Element, isFunc } from '../utils/index.js';
+import { Component } from './base/component.js';
+import { isFunc } from '../utils/index.js';
 
-export class Button {
-  #element;
+export class Button extends Component {
   #onClick;
 
-  constructor({ text = '', className = '', ...rest } = {}) {
-    this.#element = new Element({
-      tag: 'button',
-      type: 'button',
-      className,
-      text,
-      ...rest,
-    });
+  constructor(props, ...children) {
+    // tag is always be 'button'
+    super(
+      {
+        type: 'button',
+        ...props,
+        tag: 'button',
+      },
+      ...children
+    );
   }
 
   set onClick(handler) {
     this.#onClick = isFunc(handler) ? handler : null;
+
     if (this.#onClick) {
-      this.#element.addListener('click', this.#onClick);
+      this.addListener('click', this.#onClick);
     } else {
-      this.#element.removeListener('click', this.#onClick);
+      this.removeListener('click', this.#onClick);
     }
   }
 
-  hide() {
-    this.#element.ref.style.display = 'none';
-  }
-
-  show() {
-    this.#element.ref.style.display = '';
-  }
-
-  get text() {
-    return this.#element.text;
-  }
-
-  set text(v) {
-    this.#element.text = v;
-  }
-
   get disabled() {
-    return this.#element.ref.disabled;
+    return this.ref.disabled;
   }
 
   set disabled(v) {
-    this.#element.ref.disabled = Boolean(v);
-  }
-
-  get ref() {
-    return this.#element.ref;
-  }
-
-  get underlyingElement() {
-    return this.#element;
+    this.ref.disabled = Boolean(v);
   }
 }

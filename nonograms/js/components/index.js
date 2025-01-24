@@ -1,2 +1,3 @@
 export * from './button.js';
-export * from './difficulty.js';
+export * from './select.js';
+export * from './base/component.js';
