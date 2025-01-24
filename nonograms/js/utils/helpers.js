@@ -6,6 +6,16 @@ export const isInt = (v) => Number.isInteger(Number(v));
 export const isFunc = (v) => typeof v === 'function';
 export const isRegex = (v) => v instanceof RegExp;
 
+export const typeExpected = (v, typeName) => {
+  if (getTypeName(v) !== typeName) {
+    throw TypeError(`${typeName} expected`);
+  }
+};
+
+export const isPrimitive = (v) => {
+  return Object(v) !== v;
+};
+
 export const sleep = async (tio) => {
   await new Promise((resolve) => setTimeout(resolve, tio));
 };
