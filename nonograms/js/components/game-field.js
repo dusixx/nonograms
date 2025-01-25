@@ -18,6 +18,12 @@ const cls = {
 
 const eventName = {
   solutionFound: 'solutionfound',
+  cellMouseDown: 'cellmousedown',
+};
+
+const cssVar = {
+  gameFieldRows: '--game-field-rows',
+  gameFieldCols: '--game-field-cols',
 };
 
 //
@@ -50,6 +56,10 @@ export class GameField extends Element {
   //   return this.#cellsMap.has(ref) ? this.#cellsMap.get(ref) : null;
   // };
 
+  #wasSolved = () => {
+    return this.#refSum === this.#curSum && !this.#invalids.size;
+  };
+
   #handleCellMouseDown = ({ detail: { target: cell } }) => {
     if (cell.highlighted) {
       if (cell.valid) {
@@ -64,18 +74,26 @@ export class GameField extends Element {
         this.#invalids.delete(cell);
       }
     }
-    // solved
-    if (this.#refSum === this.#curSum && !this.#invalids.size) {
+    console.log(this.#refSum, this.#curSum, this.#invalids.size);
+    if (this.#wasSolved()) {
       this.dispatch(eventName.solutionFound);
     }
   };
 
   #addInteractivity = () => {
-    this.addListener('cellmousedown', this.#handleCellMouseDown);
+    this.addListener(eventName.cellMouseDown, this.#handleCellMouseDown);
+  };
+
+  #applyStyles = (mx) => {
+    const { style } = this.ref;
+    style.setProperty(cssVar.gameFieldRows, mx.length);
+    style.setProperty(cssVar.gameFieldCols, mx[0]?.length ?? 0);
   };
 
   #makeCells = (mx) => {
     typeExpected(mx, 'Array');
+
+    this.#applyStyles(mx);
 
     // [ div.cells__row > div.cell,... ]
     return mx.map((rowArr, row) => {
@@ -101,15 +119,15 @@ export class GameField extends Element {
   };
 
   #init() {
-    this.#started = false;
     this.#curSum = 0;
-    this.#refSum = 0;
+    this.#started = false;
     this.#invalids.clear();
   }
 
   update(matrix) {
     this.#init();
 
+    this.#refSum = 0;
     this.#cellsMap.clear();
     this.#cellsRef.removeChildren();
     // div.cells > div.cells__row*mxSize > div.cell*mxSize
@@ -126,6 +144,7 @@ export class GameField extends Element {
   }
 
   revealSolution() {
+    this.reset();
     this.cells.forEach((itm) =>
       itm.valid ? itm.toggleHighlight(true) : itm.reset()
     );
