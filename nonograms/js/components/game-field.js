@@ -34,11 +34,12 @@ const cssVar = {
 
 export class GameField extends Element {
   #cellsRef;
-  #refSum = 0;
-  #curSum = 0;
+  #validCount = 0;
   #started = false;
+  // TODO: can be deleted
   #cellsMap = new Map(); //{ref, instance}
-  #invalids = new Set(); //instances
+  #valid = new Set(); //instances
+  #invalid = new Set(); //instances
 
   constructor(matrix) {
     const cluesTop = new Element({ className: cls.cluesTop });
@@ -57,25 +58,17 @@ export class GameField extends Element {
   // };
 
   #wasSolved = () => {
-    return this.#refSum === this.#curSum && !this.#invalids.size;
+    return this.#valid.size === this.#validCount && this.#invalid.size === 0;
   };
 
   #handleCellMouseDown = ({ detail: { target: cell } }) => {
-    if (cell.highlighted) {
-      if (cell.valid) {
-        this.#curSum += 1;
-      } else {
-        this.#invalids.add(cell);
-      }
-    } else {
-      if (cell.valid) {
-        this.#curSum -= 1;
-      } else {
-        this.#invalids.delete(cell);
-      }
-    }
-    console.log(this.#refSum, this.#curSum, this.#invalids.size);
+    const targetSet = cell.valid ? this.#valid : this.#invalid;
+    const action = cell.selected ? 'add' : 'delete';
+
+    targetSet[action](cell);
+
     if (this.#wasSolved()) {
+      this.allowPointerEvents(false);
       this.dispatch(eventName.solutionFound);
     }
   };
@@ -101,14 +94,13 @@ export class GameField extends Element {
 
       const items = rowArr.map((value, col) => {
         const cell = new Cell();
-
+        // init
         this.#cellsMap.set(cell.ref, cell);
         cell.position = { row, col };
         cell.valid = value;
 
-        // calc reference matrix sum
         if (cell.valid) {
-          this.#refSum += 1;
+          this.#validCount += 1;
         }
         return cell;
       });
@@ -119,15 +111,16 @@ export class GameField extends Element {
   };
 
   #init() {
-    this.#curSum = 0;
     this.#started = false;
-    this.#invalids.clear();
+    this.#invalid.clear();
+    this.#valid.clear();
+    this.allowPointerEvents(true);
   }
 
   update(matrix) {
     this.#init();
 
-    this.#refSum = 0;
+    this.#validCount = 0;
     this.#cellsMap.clear();
     this.#cellsRef.removeChildren();
     // div.cells > div.cells__row*mxSize > div.cell*mxSize
@@ -145,8 +138,10 @@ export class GameField extends Element {
 
   revealSolution() {
     this.reset();
+    this.allowPointerEvents(false);
+
     this.cells.forEach((itm) =>
-      itm.valid ? itm.toggleHighlight(true) : itm.reset()
+      itm.valid ? itm.toggleSelect(true) : itm.reset()
     );
   }
 }
