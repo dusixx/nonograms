@@ -5,6 +5,17 @@ export class Element extends BaseElement {
     super(props, ...children);
   }
 
+  dispatch(name, detail, opts) {
+    return this.ref.dispatchEvent(
+      new CustomEvent(name, {
+        bubbles: true,
+        cancelable: true,
+        detail: { ...detail, target: this },
+        ...opts,
+      })
+    );
+  }
+
   set visibile(v) {
     const { style } = this.ref;
     style.visibility = v ? 'visible' : 'hidden';
