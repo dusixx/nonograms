@@ -10,7 +10,7 @@ const mouseBtn = {
 const CLS_CELL = 'cell';
 const cls = {
   cell: CLS_CELL,
-  highlighted: `${CLS_CELL}--highlighted`,
+  selected: `${CLS_CELL}--selected`,
   discarded: `${CLS_CELL}--discarded`,
 };
 
@@ -27,7 +27,7 @@ const eventName = {
 export class Cell extends Element {
   #valid;
   #position; //{row, col}
-  #highlighted = false;
+  #selected = false;
   #discarded = false;
 
   constructor(props, ...children) {
@@ -39,7 +39,7 @@ export class Cell extends Element {
 
   #handleMouseDown = (e) => {
     if (e.button === mouseBtn.left) {
-      this.toggleHighlight();
+      this.toggleSelect();
     } else if (e.button === mouseBtn.right) {
       this.toggleDiscard();
     }
@@ -52,27 +52,27 @@ export class Cell extends Element {
     this.addListener('mousedown', this.#handleMouseDown);
   };
 
-  toggleHighlight(force) {
-    this.#highlighted = this.toggleClass(cls.highlighted, force);
-    if (this.#highlighted) {
-      this.toggleClass(cls.discarded, false);
+  toggleSelect(force) {
+    this.#selected = this.toggleClass(cls.selected, force);
+    if (this.#selected) {
+      this.toggleDiscard(false);
     }
   }
 
   toggleDiscard(force) {
     this.#discarded = this.toggleClass(cls.discarded, force);
     if (this.#discarded) {
-      this.toggleClass(cls.highlighted, false);
+      this.toggleSelect(false);
     }
   }
 
   reset() {
     this.toggleDiscard(false);
-    this.toggleHighlight(false);
+    this.toggleSelect(false);
   }
 
-  get highlighted() {
-    return this.#highlighted;
+  get selected() {
+    return this.#selected;
   }
 
   get discarded() {
