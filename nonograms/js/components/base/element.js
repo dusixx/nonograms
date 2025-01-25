@@ -16,6 +16,10 @@ export class Element extends BaseElement {
     );
   }
 
+  allowPointerEvents(v) {
+    this.ref.style.pointerEvents = v ? '' : 'none';
+  }
+
   set visibile(v) {
     const { style } = this.ref;
     style.visibility = v ? 'visible' : 'hidden';
