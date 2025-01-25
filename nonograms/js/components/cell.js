@@ -14,6 +14,10 @@ const cls = {
   discarded: `${CLS_CELL}--discarded`,
 };
 
+const eventName = {
+  cellMouseDown: 'cellmousedown',
+};
+
 //
 //------------------
 // Cell
@@ -21,12 +25,10 @@ const cls = {
 //
 
 export class Cell extends Element {
-  #highlighted;
-  #discarded;
   #valid;
   #position; //{row, col}
-  //#onDiscard;
-  //#onHighlight;
+  #highlighted = false;
+  #discarded = false;
 
   constructor(props, ...children) {
     super(props, ...children);
@@ -41,6 +43,7 @@ export class Cell extends Element {
     } else if (e.button === mouseBtn.right) {
       this.toggleDiscard();
     }
+    this.dispatch(eventName.cellMouseDown);
   };
 
   #addInteractivity = () => {
@@ -52,13 +55,6 @@ export class Cell extends Element {
   toggleHighlight(force) {
     this.#highlighted = this.toggleClass(cls.highlighted, force);
     if (this.#highlighted) {
-      //this.#onHighlight?.();
-      //
-      //TODO: for debugging only
-      if (this.valid) {
-        this.ref.style.backgroundColor = 'green';
-      }
-      //
       this.toggleClass(cls.discarded, false);
     }
   }
@@ -66,7 +62,6 @@ export class Cell extends Element {
   toggleDiscard(force) {
     this.#discarded = this.toggleClass(cls.discarded, force);
     if (this.#discarded) {
-      //this.#onDiscard?.();
       this.toggleClass(cls.highlighted, false);
     }
   }
