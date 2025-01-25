@@ -16,6 +16,10 @@ const cls = {
   cluesTop: 'clues-top',
 };
 
+const eventName = {
+  solutionFound: 'solutionfound',
+};
+
 //
 //------------------
 // GameField
@@ -26,13 +30,11 @@ export class GameField extends Element {
   #cellsRef;
   #refSum = 0;
   #curSum = 0;
-  #valid = true;
   #started = false;
   #cellsMap = new Map(); //{ref, instance}
-  #onSolve;
-  #onStart;
+  #invalids = new Set(); //instances
 
-  constructor(mx) {
+  constructor(matrix) {
     const cluesTop = new Element({ className: cls.cluesTop });
     const cluesLeft = new Element({ className: cls.cluesLeft });
     const cells = new Element({ className: cls.cells });
@@ -41,36 +43,35 @@ export class GameField extends Element {
     // init
     this.#cellsRef = cells;
     this.#addInteractivity();
-    this.update(mx);
+    this.update(matrix);
   }
 
-  #getCellByRef = (ref) => {
-    return this.#cellsMap.has(ref) ? this.#cellsMap.get(ref) : null;
-  };
+  // #getCellByRef = (ref) => {
+  //   return this.#cellsMap.has(ref) ? this.#cellsMap.get(ref) : null;
+  // };
 
-  #checkResult = (cell) => {
-    this.#valid &&= cell.valid;
-    if (cell.valid) {
-      this.#curSum += 1;
+  #handleCellMouseDown = ({ detail: { target: cell } }) => {
+    if (cell.highlighted) {
+      if (cell.valid) {
+        this.#curSum += 1;
+      } else {
+        this.#invalids.add(cell);
+      }
     } else {
-      this.#curSum -= 1;
+      if (cell.valid) {
+        this.#curSum -= 1;
+      } else {
+        this.#invalids.delete(cell);
+      }
     }
-    if (this.#curSum === this.#refSum && this.#valid) {
-      this.#onSolve?.();
+    // solved
+    if (this.#refSum === this.#curSum && !this.#invalids.size) {
+      this.dispatch(eventName.solutionFound);
     }
-  };
-
-  #handleMouseDown = (e) => {
-    const cell = this.#getCellByRef(e.target);
-    if (!cell) {
-      return;
-    }
-    this.#started = true;
-    this.#checkResult(cell);
   };
 
   #addInteractivity = () => {
-    this.addListener('mousedown', this.#handleMouseDown);
+    this.addListener('cellmousedown', this.#handleCellMouseDown);
   };
 
   #makeCells = (mx) => {
@@ -101,18 +102,18 @@ export class GameField extends Element {
 
   #init() {
     this.#started = false;
-    this.#valid = true;
     this.#curSum = 0;
     this.#refSum = 0;
+    this.#invalids.clear();
   }
 
-  update(mx) {
+  update(matrix) {
     this.#init();
 
-    this.#cellsMap = new Map();
+    this.#cellsMap.clear();
     this.#cellsRef.removeChildren();
     // div.cells > div.cells__row*mxSize > div.cell*mxSize
-    this.#cellsRef.append(...this.#makeCells(mx));
+    this.#cellsRef.append(...this.#makeCells(matrix));
   }
 
   get cells() {
@@ -121,20 +122,12 @@ export class GameField extends Element {
 
   reset() {
     this.#init();
-    this.cells().forEach((itm) => itm.reset());
+    this.cells.forEach((itm) => itm.reset());
   }
 
   revealSolution() {
-    this.cells().forEach((itm) =>
+    this.cells.forEach((itm) =>
       itm.valid ? itm.toggleHighlight(true) : itm.reset()
     );
-  }
-
-  set onSolve(handler) {
-    this.#onSolve = isFunc(handler) ? handler : null;
-  }
-
-  set onStart(handler) {
-    this.#onStart = isFunc(handler) ? handler : null;
   }
 }
