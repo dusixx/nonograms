@@ -39,10 +39,8 @@ export class GameField extends Element {
   #cellsRef;
   #cluesLeftRef;
   #cluesTopRef;
-
   #validCount = 0;
   #started = false;
-  // TODO: can be deleted
   #cellsMap = new Map(); //{ref, instance}
   #valid = new Set(); //instances
   #invalid = new Set(); //instances
@@ -62,9 +60,9 @@ export class GameField extends Element {
     this.update(matrix);
   }
 
-  // #getCellByRef = (ref) => {
-  //   return this.#cellsMap.has(ref) ? this.#cellsMap.get(ref) : null;
-  // };
+  #getCellByRef = (ref) => {
+    return this.#cellsMap.has(ref) ? this.#cellsMap.get(ref) : null;
+  };
 
   #wasSolved = () => {
     return this.#valid.size === this.#validCount && this.#invalid.size === 0;
@@ -96,39 +94,36 @@ export class GameField extends Element {
     checkArgument(mx, 'Array');
 
     this.#updateCSSVariables(mx);
-
     const cluesHelper = new CluesHelper(mx);
 
     // [ div.cells__row > div.cell,... ]
-    const res = mx.map((row, rowIdx) => {
+    const allRows = mx.map((row, rowIdx) => {
       const cellsRow = new Element({ className: cls.cellsRow });
 
       const items = row.map((value, colIdx) => {
         const cell = new Cell();
-        // init
+
         this.#cellsMap.set(cell.ref, cell);
         cell.position = { row: rowIdx, col: colIdx };
         cell.valid = value;
 
         if (cell.valid) {
-          // count clue values
+          cell.ref.style.backgroundColor = '#ddd';
           cluesHelper.push(cell);
-          // count matrix sum
           this.#validCount += 1;
         }
         return cell;
       });
-      // fill row with cells
       cellsRow.append(...items);
 
       return cellsRow;
     });
-    // update clues
+    // create clues
     const { top, left } = cluesHelper.getClues();
     this.#cluesTopRef.update(top);
     this.#cluesLeftRef.update(left);
 
-    return res;
+    return allRows;
   };
 
   #init() {
@@ -143,9 +138,52 @@ export class GameField extends Element {
 
     this.#validCount = 0;
     this.#cellsMap.clear();
-    this.#cellsRef.removeChildren();
+
     // div.cells > div.cells__row*mxSize > div.cell*mxSize
+    this.#cellsRef.removeChildren();
     this.#cellsRef.append(...this.#makeCells(matrix));
+  }
+
+  createSnapshot() {
+    const snapshot = this.cells.reduce(
+      (res, cell) => {
+        const {
+          selected,
+          discarded,
+          position: { row, col },
+        } = cell;
+
+        if (selected) {
+          res.selected.push([row, col]);
+        } else if (discarded) {
+          res.discarded.push([row, col]);
+        }
+        return res;
+      },
+      {
+        selected: [],
+        discarded: [],
+        cluesLeft: this.#cluesLeftRef.createSnapshot(),
+        cluesTop: this.#cluesTopRef.createSnapshot(),
+      }
+    );
+
+    return JSON.stringify(snapshot);
+  }
+
+  restoreBySnapshot(snapshot) {
+    const { selected, discarded, cluesTop, cluesLeft } =
+      JSON.parse(snapshot) ?? '';
+
+    this.#cluesTopRef.restoreBySnapshot(cluesTop);
+    this.#cluesLeftRef.restoreBySnapshot(cluesLeft);
+
+    selected.forEach(([row, col]) => {
+      this.#cellsRef.children[row].children[col].selected = true;
+    });
+    discarded.forEach(([row, col]) => {
+      this.#cellsRef.children[row].children[col].discarded = true;
+    });
   }
 
   get cells() {
@@ -154,6 +192,8 @@ export class GameField extends Element {
 
   reset() {
     this.#init();
+    this.#cluesLeftRef.reset();
+    this.#cluesTopRef.reset();
     this.cells.forEach((itm) => itm.reset());
   }
 
