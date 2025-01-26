@@ -1,15 +1,69 @@
-import { checkArgument } from '../utils/helpers.js';
+import { checkArgument, isArray } from '../utils/helpers.js';
 import { Element } from './base/element.js';
 
 const cls = {
   clues: 'clues',
-  clueItem: 'clues__item',
+  highlighted: 'clues--highlighted',
+  cluesItem: 'clues__item',
+  discarded: 'clues__item--discarded',
 };
 
 export class Clues extends Element {
   constructor(...args) {
     super(...args);
+
+    this.#addInteractivity();
   }
+
+  get [Symbol.toStringTag]() {
+    return 'Clues';
+  }
+
+  reset() {
+    this.children.forEach((cluesList) => {
+      cluesList.children.forEach((itm) => {
+        itm.toggleClass(cls.discarded, false);
+      });
+    });
+  }
+
+  createSnapshot() {
+    const res = this.children.reduce((res, cluesList, rowIdx) => {
+      cluesList.children.forEach((itm, colIdx) => {
+        if (itm.ref.classList.contains(cls.discarded)) {
+          res.push([rowIdx, colIdx]);
+        }
+      });
+      return res;
+    }, []);
+    return JSON.stringify(res);
+  }
+
+  restoreBySnapshot(snapshot) {
+    const discarded = JSON.parse(String(snapshot));
+    if (!isArray(discarded)) {
+      return;
+    }
+    discarded.forEach(([row, col]) => {
+      this.children[row]?.children[col]?.toggleClass(cls.discarded, true);
+    });
+  }
+
+  highlight(rowIdx, force = true) {
+    this.children[rowIdx]?.toggleClass(cls.highlighted, force);
+  }
+
+  #handleMouseDown = ({ target: { classList } }) => {
+    if (classList.contains(cls.cluesItem)) {
+      classList.toggle(cls.discarded);
+    }
+  };
+
+  #addInteractivity = () => {
+    // disable RMB context menu
+    this.addListener('contextmenu', (e) => e.preventDefault());
+    this.addListener('mousedown', this.#handleMouseDown);
+  };
 
   update(cluesMatrix) {
     checkArgument(cluesMatrix, 'Array');
@@ -18,7 +72,7 @@ export class Clues extends Element {
       const cluesList = new Element({ tag: 'ul', className: cls.clues });
 
       const items = row.map((clue) => {
-        return new Element({ tag: 'li', className: cls.clueItem, text: clue });
+        return new Element({ tag: 'li', className: cls.cluesItem, text: clue });
       });
       cluesList.append(...items);
 
