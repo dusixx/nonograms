@@ -37,6 +37,10 @@ export class Cell extends Element {
     this.#addInteractivity();
   }
 
+  get [Symbol.toStringTag]() {
+    return 'Cell';
+  }
+
   #handleMouseDown = (e) => {
     if (e.button === mouseBtn.left) {
       this.toggleSelect();
@@ -77,6 +81,14 @@ export class Cell extends Element {
 
   get discarded() {
     return this.#discarded;
+  }
+
+  set selected(v) {
+    this.toggleSelect(Boolean(v));
+  }
+
+  set discarded(v) {
+    this.toggleDiscard(Boolean(v));
   }
 
   get position() {
