@@ -36,15 +36,14 @@ export class Clues extends Element {
       });
       return res;
     }, []);
-    return JSON.stringify(res);
+    return res;
   }
 
   restoreBySnapshot(snapshot) {
-    const discarded = JSON.parse(String(snapshot));
-    if (!isArray(discarded)) {
+    if (!isArray(snapshot)) {
       return;
     }
-    discarded.forEach(([row, col]) => {
+    snapshot.forEach(([row, col]) => {
       this.children[row]?.children[col]?.toggleClass(cls.discarded, true);
     });
   }
