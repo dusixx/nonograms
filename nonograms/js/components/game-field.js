@@ -1,12 +1,15 @@
-import { Element } from './base/element.js';
-import { Cell } from './cell.js';
 import {
   isArray,
   isFunc,
   isInt,
   isPositiveInt,
-  typeExpected,
+  checkArgument,
 } from '../utils/index.js';
+
+import { Element } from './base/element.js';
+import { Cell } from './cell.js';
+import { CluesHelper } from './clues-helper.js';
+import { Clues } from './clues.js';
 
 const cls = {
   gameField: 'game-field',
@@ -34,6 +37,9 @@ const cssVar = {
 
 export class GameField extends Element {
   #cellsRef;
+  #cluesLeftRef;
+  #cluesTopRef;
+
   #validCount = 0;
   #started = false;
   // TODO: can be deleted
@@ -42,13 +48,16 @@ export class GameField extends Element {
   #invalid = new Set(); //instances
 
   constructor(matrix) {
-    const cluesTop = new Element({ className: cls.cluesTop });
-    const cluesLeft = new Element({ className: cls.cluesLeft });
+    const cluesTop = new Clues({ className: cls.cluesTop });
+    const cluesLeft = new Clues({ className: cls.cluesLeft });
     const cells = new Element({ className: cls.cells });
 
     super({ className: cls.gameField }, cluesTop, cluesLeft, cells);
-    // init
+
     this.#cellsRef = cells;
+    this.#cluesTopRef = cluesTop;
+    this.#cluesLeftRef = cluesLeft;
+
     this.#addInteractivity();
     this.update(matrix);
   }
@@ -77,37 +86,49 @@ export class GameField extends Element {
     this.addListener(eventName.cellMouseDown, this.#handleCellMouseDown);
   };
 
-  #applyStyles = (mx) => {
+  #updateCSSVariables = (mx) => {
     const { style } = this.ref;
     style.setProperty(cssVar.gameFieldRows, mx.length);
     style.setProperty(cssVar.gameFieldCols, mx[0]?.length ?? 0);
   };
 
   #makeCells = (mx) => {
-    typeExpected(mx, 'Array');
+    checkArgument(mx, 'Array');
 
-    this.#applyStyles(mx);
+    this.#updateCSSVariables(mx);
+
+    const cluesHelper = new CluesHelper(mx);
 
     // [ div.cells__row > div.cell,... ]
-    return mx.map((rowArr, row) => {
+    const res = mx.map((row, rowIdx) => {
       const cellsRow = new Element({ className: cls.cellsRow });
 
-      const items = rowArr.map((value, col) => {
+      const items = row.map((value, colIdx) => {
         const cell = new Cell();
         // init
         this.#cellsMap.set(cell.ref, cell);
-        cell.position = { row, col };
+        cell.position = { row: rowIdx, col: colIdx };
         cell.valid = value;
 
         if (cell.valid) {
+          // count clue values
+          cluesHelper.push(cell);
+          // count matrix sum
           this.#validCount += 1;
         }
         return cell;
       });
+      // fill row with cells
       cellsRow.append(...items);
 
       return cellsRow;
     });
+    // update clues
+    const { top, left } = cluesHelper.getClues();
+    this.#cluesTopRef.update(top);
+    this.#cluesLeftRef.update(left);
+
+    return res;
   };
 
   #init() {
