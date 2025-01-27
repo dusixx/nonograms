@@ -4,6 +4,7 @@ import {
   isInt,
   isPositiveInt,
   checkArgument,
+  JSONParse,
 } from '../utils/index.js';
 
 import { Element } from './base/element.js';
@@ -91,8 +92,9 @@ export class GameField extends Element {
   };
 
   #makeCells = (mx) => {
-    checkArgument(mx, 'Array');
-
+    if (!isArray(mx)) {
+      return;
+    }
     this.#updateCSSVariables(mx);
     const cluesHelper = new CluesHelper(mx);
 
@@ -134,17 +136,42 @@ export class GameField extends Element {
   }
 
   update(matrix) {
+    if (!isArray(matrix)) {
+      return;
+    }
     this.#init();
-
     this.#validCount = 0;
     this.#cellsMap.clear();
+
+    this.#cluesLeftRef.removeChildren();
+    this.#cluesTopRef.removeChildren();
 
     // div.cells > div.cells__row*mxSize > div.cell*mxSize
     this.#cellsRef.removeChildren();
     this.#cellsRef.append(...this.#makeCells(matrix));
   }
 
-  createSnapshot() {
+  get cells() {
+    return [...this.#cellsMap.values()];
+  }
+
+  reset() {
+    this.#init();
+    this.#cluesLeftRef.reset();
+    this.#cluesTopRef.reset();
+    this.cells.forEach((itm) => itm.reset());
+  }
+
+  revealSolution() {
+    this.reset();
+    this.allowPointerEvents(false);
+
+    this.cells.forEach((itm) =>
+      itm.valid ? itm.toggleSelect(true) : itm.reset()
+    );
+  }
+
+  createSnapshot(stringify = true) {
     const snapshot = this.cells.reduce(
       (res, cell) => {
         const {
@@ -168,41 +195,24 @@ export class GameField extends Element {
       }
     );
 
-    return JSON.stringify(snapshot);
+    return stringify ? JSON.stringify(snapshot) : snapshot;
   }
 
   restoreBySnapshot(snapshot) {
     const { selected, discarded, cluesTop, cluesLeft } =
-      JSON.parse(snapshot) ?? '';
+      JSONParse(snapshot) ?? '';
 
+    // clues
     this.#cluesTopRef.restoreBySnapshot(cluesTop);
     this.#cluesLeftRef.restoreBySnapshot(cluesLeft);
 
+    // selected cells
     selected.forEach(([row, col]) => {
       this.#cellsRef.children[row].children[col].selected = true;
     });
+    // discarded cells
     discarded.forEach(([row, col]) => {
       this.#cellsRef.children[row].children[col].discarded = true;
     });
-  }
-
-  get cells() {
-    return [...this.#cellsMap.values()];
-  }
-
-  reset() {
-    this.#init();
-    this.#cluesLeftRef.reset();
-    this.#cluesTopRef.reset();
-    this.cells.forEach((itm) => itm.reset());
-  }
-
-  revealSolution() {
-    this.reset();
-    this.allowPointerEvents(false);
-
-    this.cells.forEach((itm) =>
-      itm.valid ? itm.toggleSelect(true) : itm.reset()
-    );
   }
 }
