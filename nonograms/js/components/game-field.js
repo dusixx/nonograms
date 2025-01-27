@@ -23,6 +23,8 @@ const cls = {
 const eventName = {
   solutionFound: 'solutionfound',
   cellMouseDown: 'cellmousedown',
+  cellMouseEnter: 'cellmouseenter',
+  cellMouseLeave: 'cellmouseleave',
 };
 
 const cssVar = {
@@ -81,8 +83,22 @@ export class GameField extends Element {
     }
   };
 
+  #handleCellMouseEnter = ({ detail: { target: cell } }) => {
+    const { row, col } = cell.position;
+    this.#cluesLeftRef.highlight(row, true);
+    this.#cluesTopRef.highlight(col, true);
+  };
+
+  #handleCellMouseLeave = ({ detail: { target: cell } }) => {
+    const { row, col } = cell.position;
+    this.#cluesLeftRef.highlight(row, false);
+    this.#cluesTopRef.highlight(col, false);
+  };
+
   #addInteractivity = () => {
     this.addListener(eventName.cellMouseDown, this.#handleCellMouseDown);
+    this.addListener(eventName.cellMouseEnter, this.#handleCellMouseEnter);
+    this.addListener(eventName.cellMouseLeave, this.#handleCellMouseLeave);
   };
 
   #updateCSSVariables = (mx) => {
