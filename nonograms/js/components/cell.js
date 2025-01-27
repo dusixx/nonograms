@@ -7,15 +7,16 @@ const mouseBtn = {
   right: 2,
 };
 
-const CLS_CELL = 'cell';
 const cls = {
-  cell: CLS_CELL,
-  selected: `${CLS_CELL}--selected`,
-  discarded: `${CLS_CELL}--discarded`,
+  cell: 'cell',
+  selected: 'cell--selected',
+  discarded: 'cell--discarded',
 };
 
 const eventName = {
   cellMouseDown: 'cellmousedown',
+  cellMouseEnter: 'cellmouseenter',
+  cellMouseLeave: 'cellmouseleave',
 };
 
 //
@@ -29,6 +30,7 @@ export class Cell extends Element {
   #position; //{row, col}
   #selected = false;
   #discarded = false;
+  #pressedMouseBtn;
 
   constructor(props, ...children) {
     super(props, ...children);
@@ -41,19 +43,46 @@ export class Cell extends Element {
     return 'Cell';
   }
 
-  #handleMouseDown = (e) => {
-    if (e.button === mouseBtn.left) {
-      this.toggleSelect();
-    } else if (e.button === mouseBtn.right) {
-      this.toggleDiscard();
+  #handleMouseDown = (e, btn, force) => {
+    const button = btn ?? e?.button;
+
+    if (button === mouseBtn.left) {
+      this.toggleSelect(force);
+    } else if (button === mouseBtn.right) {
+      this.toggleDiscard(force);
     }
     this.dispatch(eventName.cellMouseDown);
   };
 
+  #handleMouseEnter = (e) => {
+    this.#handleMouseDown(null, this.#pressedMouseBtn, true);
+    this.dispatch(eventName.cellMouseEnter);
+  };
+
+  #handleMouseLeave = (e) => {
+    this.dispatch(eventName.cellMouseLeave);
+  };
+
+  #handleDocumentMouseDown = (e) => {
+    this.#pressedMouseBtn = e.button;
+  };
+
+  #handleDocumentMouseUp = () => {
+    this.#pressedMouseBtn = null;
+  };
+
+  #handleContextMenu = (e) => {
+    e.preventDefault();
+  };
+
   #addInteractivity = () => {
+    document.addEventListener('mousedown', this.#handleDocumentMouseDown);
+    document.addEventListener('mouseup', this.#handleDocumentMouseUp);
     // disable RMB context menu
-    this.addListener('contextmenu', (e) => e.preventDefault());
+    this.addListener('contextmenu', this.#handleContextMenu);
     this.addListener('mousedown', this.#handleMouseDown);
+    this.addListener('mouseenter', this.#handleMouseEnter);
+    this.addListener('mouseleave', this.#handleMouseLeave);
   };
 
   toggleSelect(force) {
