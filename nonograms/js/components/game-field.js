@@ -27,6 +27,13 @@ const eventName = {
   cellMouseLeave: 'cellmouseleave',
 };
 
+const cellState = {
+  invalid: 0,
+  valid: 1,
+  selected: 2,
+  discarded: 3,
+};
+
 const cssVar = {
   gameFieldRows: '--game-field-rows',
   gameFieldCols: '--game-field-cols',
@@ -42,6 +49,7 @@ export class GameField extends Element {
   #cellsRef;
   #cluesLeftRef;
   #cluesTopRef;
+  #snapshot;
   #validCount = 0;
   #started = false;
   #cellsMap = new Map(); //{ref, instance}
@@ -70,6 +78,11 @@ export class GameField extends Element {
   #wasSolved = () => {
     return this.#valid.size === this.#validCount && this.#invalid.size === 0;
   };
+
+  // #updateSnapshot = (cell) => {
+  //       const { row, col } = cell;
+  //   this.#snapshot[row][col] |= ;
+  // };
 
   #handleCellMouseDown = ({ detail: { target: cell } }) => {
     const targetSet = cell.valid ? this.#valid : this.#invalid;
@@ -107,12 +120,14 @@ export class GameField extends Element {
     style.setProperty(cssVar.gameFieldCols, mx[0]?.length ?? 0);
   };
 
-  #makeCells = (mx) => {
+  #createCells = (mx) => {
     if (!isArray(mx)) {
       return;
     }
     this.#updateCSSVariables(mx);
     const cluesHelper = new CluesHelper(mx);
+
+    this.#snapshot = [...mx];
 
     // [ div.cells__row > div.cell,... ]
     const allRows = mx.map((row, rowIdx) => {
@@ -123,7 +138,9 @@ export class GameField extends Element {
 
         this.#cellsMap.set(cell.ref, cell);
         cell.position = { row: rowIdx, col: colIdx };
-        cell.valid = value;
+
+        cell.valid = cellState.valid & value;
+        this.#snapshot[rowIdx][colIdx] = cellState.valid & value;
 
         if (cell.valid) {
           cell.ref.style.backgroundColor = '#ddd';
@@ -151,8 +168,8 @@ export class GameField extends Element {
     this.allowPointerEvents(true);
   }
 
-  update(matrix) {
-    if (!isArray(matrix)) {
+  update(mx) {
+    if (!isArray(mx)) {
       return;
     }
     this.#init();
@@ -164,7 +181,7 @@ export class GameField extends Element {
 
     // div.cells > div.cells__row*mxSize > div.cell*mxSize
     this.#cellsRef.removeChildren();
-    this.#cellsRef.append(...this.#makeCells(matrix));
+    this.#cellsRef.append(...this.#createCells(mx));
   }
 
   get cells() {

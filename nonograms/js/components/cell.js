@@ -31,6 +31,7 @@ export class Cell extends Element {
   #selected = false;
   #discarded = false;
   #pressedMouseBtn;
+  #eraserMode = false;
 
   constructor(props, ...children) {
     super(props, ...children);
@@ -55,7 +56,7 @@ export class Cell extends Element {
   };
 
   #handleMouseEnter = (e) => {
-    this.#handleMouseDown(null, this.#pressedMouseBtn, true);
+    this.#handleMouseDown(null, this.#pressedMouseBtn, this.#eraserMode);
     this.dispatch(eventName.cellMouseEnter);
   };
 
@@ -65,6 +66,7 @@ export class Cell extends Element {
 
   #handleDocumentMouseDown = (e) => {
     this.#pressedMouseBtn = e.button;
+    this.#eraserMode = !this.#eraserMode;
   };
 
   #handleDocumentMouseUp = () => {
