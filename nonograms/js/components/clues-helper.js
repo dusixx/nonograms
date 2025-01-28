@@ -1,4 +1,4 @@
-import { checkArgument } from '../utils/helpers.js';
+import { checkArgument, isMatrix } from '../utils/helpers.js';
 
 export class CluesHelper {
   #mx;
@@ -9,7 +9,7 @@ export class CluesHelper {
    * @param {Array<Array<0|1>>} mx source solution matrix
    */
   constructor(mx) {
-    checkArgument(mx, 'Array');
+    checkArgument(mx, 'Matrix', isMatrix);
 
     const rowsCount = mx.length;
     const colsCount = mx[0]?.length ?? 0;

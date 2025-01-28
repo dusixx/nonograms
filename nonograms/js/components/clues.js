@@ -1,82 +1,96 @@
-import { checkArgument, isArray } from '../utils/helpers.js';
+import { checkArgument, isMatrix, isArray } from '../utils/helpers.js';
 import { Element } from './base/element.js';
+import { Clue, cls as clueCls } from './clue.js';
 
 const cls = {
   clues: 'clues',
   highlighted: 'clues--highlighted',
-  cluesItem: 'clues__item',
-  discarded: 'clues__item--discarded',
+  ...clueCls,
 };
 
 export class Clues extends Element {
+  #cluesMap = new Map(); // Map<ref,Cell>
+
   constructor(...args) {
     super(...args);
-
     this.#addInteractivity();
   }
 
-  get [Symbol.toStringTag]() {
-    return 'Clues';
-  }
+  #getClueByRef = (ref) => {
+    return this.#cluesMap.has(ref) ? this.#cluesMap.get(ref) : null;
+  };
 
-  reset() {
-    this.children.forEach((cluesList) => {
-      cluesList.children.forEach((itm) => {
-        itm.toggleClass(cls.discarded, false);
-      });
-    });
-  }
-
-  createSnapshot() {
-    const res = this.children.reduce((res, cluesList, rowIdx) => {
-      cluesList.children.forEach((itm, colIdx) => {
-        if (itm.ref.classList.contains(cls.discarded)) {
-          res.push([rowIdx, colIdx]);
-        }
-      });
-      return res;
-    }, []);
-    return res;
-  }
-
-  restoreBySnapshot(snapshot) {
-    if (!isArray(snapshot)) {
+  #handleMouseDown = ({ target }) => {
+    const clue = this.#getClueByRef(target.closest(`.${cls.clue}`));
+    if (!clue) {
       return;
     }
-    snapshot.forEach(([row, col]) => {
-      this.children[row]?.children[col]?.toggleClass(cls.discarded, true);
-    });
-  }
-
-  highlight(rowIdx, force = true) {
-    this.children[rowIdx]?.toggleClass(cls.highlighted, force);
-  }
-
-  #handleMouseDown = ({ target: { classList } }) => {
-    if (classList.contains(cls.cluesItem)) {
-      classList.toggle(cls.discarded);
-    }
+    clue.toggleDiscard();
   };
 
   #addInteractivity = () => {
-    // disable RMB context menu
-    this.addListener('contextmenu', (e) => e.preventDefault());
     this.addListener('mousedown', this.#handleMouseDown);
   };
 
-  update(cluesMatrix) {
-    checkArgument(cluesMatrix, 'Array');
+  #appendClues = (cluesMx) => {
+    if (!isMatrix(cluesMx)) {
+      return;
+    }
+    const allClues = cluesMx.map((row, rowIdx) => {
+      const cluesList = new Element({ className: cls.clues });
 
-    const allClues = cluesMatrix.map((row) => {
-      const cluesList = new Element({ tag: 'ul', className: cls.clues });
+      const items = row.map((value, colIdx) => {
+        const clue = new Clue({ text: value });
+        clue.position = { row: rowIdx, col: colIdx };
 
-      const items = row.map((clue) => {
-        return new Element({ tag: 'li', className: cls.cluesItem, text: clue });
+        this.#cluesMap.set(clue.ref, clue);
+
+        return clue;
       });
       cluesList.append(...items);
 
       return cluesList;
     });
     this.append(...allClues);
+  };
+
+  update(cluesMx) {
+    if (!isMatrix(cluesMx)) {
+      return;
+    }
+    this.#cluesMap.clear();
+    this.removeChildren();
+    this.#appendClues(cluesMx);
+  }
+
+  #enumClues = (callback) => {
+    this.children.forEach((cellsRow) => {
+      cellsRow.children.forEach(callback);
+    });
+  };
+
+  reset() {
+    this.#enumClues((clue) => clue.toggleDiscard(false));
+  }
+
+  // highlight clues row|col
+  highlight(rowIdx, force = true) {
+    this.children[rowIdx]?.toggleClass(cls.highlighted, force);
+  }
+
+  getSnapshot() {
+    return this.children.map((cluesList) => {
+      return cluesList.children.map((clue) => Number(clue.isDiscarded));
+    });
+  }
+
+  restoreBySnapshot(snapshot) {
+    if (!isMatrix(snapshot)) {
+      return;
+    }
+    this.#enumClues((clue) => {
+      const { row, col } = clue.position;
+      clue.isDiscarded = snapshot[row][col];
+    });
   }
 }
