@@ -1,10 +1,10 @@
 import {
-  isArray,
   isFunc,
   isInt,
   isPositiveInt,
   checkArgument,
   JSONParse,
+  isMatrix,
 } from '../utils/index.js';
 
 import { Element } from './base/element.js';
@@ -48,21 +48,22 @@ export class GameField extends Element {
     this.update(mx);
   }
 
-  #handleCellMouseEnter = ({ detail: { target: cell } }) => {
+  #handleCellMouseOver = ({ detail: { target: cell } }) => {
     const { row, col } = cell.position;
     this.#cluesLeft.highlight(row, true);
     this.#cluesTop.highlight(col, true);
   };
 
-  #handleCellMouseLeave = ({ detail: { target: cell } }) => {
+  #handleCellMouseOut = ({ detail: { target: cell } }) => {
     const { row, col } = cell.position;
     this.#cluesLeft.highlight(row, false);
     this.#cluesTop.highlight(col, false);
   };
 
   #addInteractivity = () => {
-    this.addListener(eventName.cellMouseEnter, this.#handleCellMouseEnter);
-    this.addListener(eventName.cellMouseLeave, this.#handleCellMouseLeave);
+    this.addListener(eventName.cellMouseOver, this.#handleCellMouseOver);
+    this.addListener(eventName.cellMouseOut, this.#handleCellMouseOut);
+    this.addListener('contextmenu', (e) => e.preventDefault());
   };
 
   #updateCSSVariables = (mx) => {
@@ -72,7 +73,7 @@ export class GameField extends Element {
   };
 
   update(mx) {
-    if (!isArray(mx)) {
+    if (!isMatrix(mx)) {
       return;
     }
     this.#updateCSSVariables(mx);
@@ -94,48 +95,23 @@ export class GameField extends Element {
     this.#cluesTop.reset();
   }
 
-  // createSnapshot(stringify = true) {
-  //   const snapshot = this.cells.reduce(
-  //     (res, cell) => {
-  //       const {
-  //         selected,
-  //         discarded,
-  //         position: { row, col },
-  //       } = cell;
+  revealSolution() {
+    this.#cells.revealSolution();
+  }
 
-  //       if (selected) {
-  //         res.selected.push([row, col]);
-  //       } else if (discarded) {
-  //         res.discarded.push([row, col]);
-  //       }
-  //       return res;
-  //     },
-  //     {
-  //       selected: [],
-  //       discarded: [],
-  //       cluesLeft: this.#cluesLeftRef.createSnapshot(),
-  //       cluesTop: this.#cluesTopRef.createSnapshot(),
-  //     }
-  //   );
+  getSnapshot() {
+    return {
+      cells: this.#cells.getSnapshot(),
+      cluesLeft: this.#cluesLeft.getSnapshot(),
+      cluesTop: this.#cluesTop.getSnapshot(),
+    };
+  }
 
-  //   return stringify ? JSON.stringify(snapshot) : snapshot;
-  // }
+  restoreBySnapshot(snapshot) {
+    const { cells, cluesTop, cluesLeft } = JSONParse(snapshot) ?? '';
 
-  // restoreBySnapshot(snapshot) {
-  //   const { selected, discarded, cluesTop, cluesLeft } =
-  //     JSONParse(snapshot) ?? '';
-
-  //   // clues
-  //   this.#cluesTopRef.restoreBySnapshot(cluesTop);
-  //   this.#cluesLeftRef.restoreBySnapshot(cluesLeft);
-
-  //   // selected cells
-  //   selected.forEach(([row, col]) => {
-  //     this.#cellsRef.children[row].children[col].selected = true;
-  //   });
-  //   // discarded cells
-  //   discarded.forEach(([row, col]) => {
-  //     this.#cellsRef.children[row].children[col].discarded = true;
-  //   });
-  // }
+    this.#cells.restoreBySnapshot(cells);
+    this.#cluesTop.restoreBySnapshot(cluesTop);
+    this.#cluesLeft.restoreBySnapshot(cluesLeft);
+  }
 }
