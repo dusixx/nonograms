@@ -19,6 +19,13 @@ const eventName = {
   cellMouseLeave: 'cellmouseleave',
 };
 
+export const cellStateFlags = {
+  invalid: 0,
+  valid: 1,
+  selected: 2,
+  discarded: 4,
+};
+
 //
 //------------------
 // Cell
@@ -26,10 +33,8 @@ const eventName = {
 //
 
 export class Cell extends Element {
-  #valid;
+  #value = cellStateFlags.invalid;
   #position; //{row, col}
-  #selected = false;
-  #discarded = false;
   #pressedMouseBtn;
   #eraserMode = false;
 
@@ -56,7 +61,9 @@ export class Cell extends Element {
   };
 
   #handleMouseEnter = (e) => {
-    this.#handleMouseDown(null, this.#pressedMouseBtn, this.#eraserMode);
+    if (this.#pressedMouseBtn != null) {
+      this.#handleMouseDown(null, this.#pressedMouseBtn, this.#eraserMode);
+    }
     this.dispatch(eventName.cellMouseEnter);
   };
 
@@ -88,38 +95,28 @@ export class Cell extends Element {
   };
 
   toggleSelect(force) {
-    this.#selected = this.toggleClass(cls.selected, force);
-    if (this.#selected) {
+    const selected = this.toggleClass(cls.selected, force);
+    if (selected) {
+      this.#value |= cellStateFlags.selected;
       this.toggleDiscard(false);
+    } else {
+      this.#value &= ~cellStateFlags.selected;
     }
   }
 
   toggleDiscard(force) {
-    this.#discarded = this.toggleClass(cls.discarded, force);
-    if (this.#discarded) {
+    const discarded = this.toggleClass(cls.discarded, force);
+    if (discarded) {
+      this.#value |= cellStateFlags.discarded;
       this.toggleSelect(false);
+    } else {
+      this.#value &= ~cellStateFlags.discarded;
     }
   }
 
   reset() {
     this.toggleDiscard(false);
     this.toggleSelect(false);
-  }
-
-  get selected() {
-    return this.#selected;
-  }
-
-  get discarded() {
-    return this.#discarded;
-  }
-
-  set selected(v) {
-    this.toggleSelect(Boolean(v));
-  }
-
-  set discarded(v) {
-    this.toggleDiscard(Boolean(v));
   }
 
   get position() {
@@ -132,11 +129,36 @@ export class Cell extends Element {
     }
   }
 
-  get valid() {
-    return this.#valid;
+  get value() {
+    return this.#value;
   }
 
-  set valid(v) {
-    this.#valid = Boolean(v);
+  set value(v) {
+    if (!isPositiveInt(v)) {
+      return;
+    }
+    this.isSelected = v & cellStateFlags.selected;
+    this.isDiscarded = v & cellStateFlags.discarded;
+    this.#value = v;
+  }
+
+  get isSelected() {
+    return !!(this.value & cellStateFlags.selected);
+  }
+
+  set isSelected(v) {
+    this.toggleSelect(!!v);
+  }
+
+  get isDiscarded() {
+    return !!(this.value & cellStateFlags.discarded);
+  }
+
+  set isDiscarded(v) {
+    this.toggleDiscard(!!v);
+  }
+
+  get isValid() {
+    return !!(this.value & cellStateFlags.valid);
   }
 }
