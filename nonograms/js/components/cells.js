@@ -1,19 +1,26 @@
-import { Cell } from './cell.js';
+import { Cell, cls as cellCls } from './cell.js';
 import { Element } from './base/element.js';
-import { isArray } from '../utils/helpers.js';
-import { eventName, cellStateFlags } from '../../data/constants.js';
+import { isMatrix } from '../utils/helpers.js';
+
+import {
+  eventName,
+  cellStateFlags,
+  mouseBtn,
+  drawingMode,
+} from '../../data/constants.js';
 
 const cls = {
   cells: 'cells',
   cellsRow: 'cells__row',
+  ...cellCls,
 };
 
 export class Cells extends Element {
-  #snapshot;
   #numOfValid = 0;
-  #cellsMap = new Map(); //{ref, instance}
-  #selectedValid = new Set(); //instances
-  #selectedInvalid = new Set(); //instances
+  #selectedValid = new Set(); // Set<Cell>
+  #selectedInvalid = new Set(); // Set<Cell>
+  #cellsMap = new Map(); // Map<ref,Cell>
+  #drawingMode;
 
   constructor(mx, callback) {
     super({ className: cls.cells });
@@ -33,54 +40,112 @@ export class Cells extends Element {
     );
   };
 
-  #handleCellMouseDown = ({ detail: { target: cell } }) => {
+  #addSelectedCellToDesiredSet = (cell) => {
     const targetSet = cell.isValid
       ? this.#selectedValid
       : this.#selectedInvalid;
 
     const action = cell.isSelected ? 'add' : 'delete';
-
     targetSet[action](cell);
-
-    // update cells snapshot
-    const { row, col } = cell.position;
-    this.#snapshot[row][col] = cell.value;
-
-    console.log(this.#snapshot);
 
     if (this.#wasSolved()) {
       this.dispatch(eventName.solutionFound);
     }
   };
 
+  #changeDrawingModeOnMouseDown = (btn, cell) => {
+    if (btn === mouseBtn.left) {
+      this.#drawingMode = cell.isSelected
+        ? drawingMode.erase
+        : drawingMode.select;
+    } else if (btn === mouseBtn.right) {
+      this.#drawingMode = cell.isDiscarded
+        ? drawingMode.erase
+        : drawingMode.discard;
+    }
+  };
+
+  #handleMouseDown = (e) => {
+    const { button, target } = e;
+
+    if (!e.target.closest(`.${cls.cell}`)) {
+      return;
+    }
+    const cell = this.#getCellByRef(target);
+
+    this.#changeDrawingModeOnMouseDown(button, cell);
+
+    if (this.#drawingMode === drawingMode.select) {
+      cell.toggleSelect();
+    } else if (drawingMode === drawingMode.discard) {
+      cell.toggleDiscard();
+    }
+    this.#addSelectedCellToDesiredSet(cell);
+  };
+
+  #handleMouseUp = () => {
+    this.#drawingMode = drawingMode.none;
+  };
+
+  #handleMouseOver = (e) => {
+    if (!e.target.closest(`.${cls.cell}`)) {
+      return;
+    }
+    const cell = this.#getCellByRef(e.target);
+
+    cell.dispatch(eventName.cellMouseOver);
+
+    if (this.#drawingMode === drawingMode.erase) {
+      cell.toggleSelect(false).toggleDiscard(false);
+    } else if (this.#drawingMode === drawingMode.select) {
+      cell.toggleSelect(true);
+    } else if (this.#drawingMode === drawingMode.discard) {
+      cell.toggleDiscard(true);
+    }
+
+    if (this.#drawingMode !== drawingMode.none) {
+      this.#addSelectedCellToDesiredSet(cell);
+    }
+  };
+
+  #handleMouseOut = (e) => {
+    if (!e.target.closest(`.${cls.cell}`)) {
+      return;
+    }
+    const cell = this.#getCellByRef(e.target);
+    cell.dispatch(eventName.cellMouseOut);
+  };
+
   #addInteractivity = () => {
-    this.addListener(eventName.cellMouseDown, this.#handleCellMouseDown);
+    this.addListener('mousedown', this.#handleMouseDown);
+    this.addListener('mouseup', this.#handleMouseUp);
+    this.addListener('mouseover', this.#handleMouseOver);
+    this.addListener('mouseout', this.#handleMouseOut);
   };
 
   // div.cells > div.cells__row*mxSize > div.cell*mxSize
   #appendCells = (mx, callback) => {
-    if (!isArray(mx)) {
+    if (!isMatrix(mx)) {
       return;
     }
     // [ div.cells__row > div.cell,... ]
-    const allRows = mx.map((row, rowIdx) => {
+    const allRows = mx.map((valuesRow, row) => {
       const cellsRow = new Element({ className: cls.cellsRow });
 
-      const items = row.map((value, colIdx) => {
+      const items = valuesRow.map((value, col) => {
         const cell = new Cell();
-        cell.position = { row: rowIdx, col: colIdx };
+        cell.position = { row, col };
         cell.value = value;
 
-        callback?.(cell);
-
         this.#cellsMap.set(cell.ref, cell);
-        this.#snapshot[rowIdx][colIdx] = value;
 
         if (cell.isValid) {
-          // TODO: ...
           cell.ref.style.backgroundColor = '#ddd';
           this.#numOfValid += 1;
         }
+        this.#addSelectedCellToDesiredSet(cell);
+        callback?.(cell);
+
         return cell;
       });
       cellsRow.append(...items);
@@ -92,47 +157,44 @@ export class Cells extends Element {
   };
 
   update(mx, callback) {
-    if (!isArray(mx)) {
+    if (!isMatrix(mx)) {
       return;
     }
-    this.#snapshot = [...mx];
-    this.#cellsMap.clear();
+    this.#numOfValid = 0;
     this.#selectedValid.clear();
     this.#selectedInvalid.clear();
+    this.#cellsMap.clear();
 
     this.removeChildren();
     this.#appendCells(mx, callback);
   }
 
-  #resetSnapshot = () => {
-    this.#snapshot = this.#snapshot.map((rows) => {
-      return rows.map((value) =>
-        value & cellStateFlags.valid
-          ? cellStateFlags.valid
-          : cellStateFlags.invalid
-      );
+  #enumCells = (callback) => {
+    this.children.forEach((cellsRow) => {
+      cellsRow.children.forEach(callback);
     });
   };
-
-  getSnapshot() {
-    return this.#snapshot;
-  }
 
   reset() {
     this.#selectedValid.clear();
     this.#selectedInvalid.clear();
-    this.#resetSnapshot();
-    this.values.forEach((itm) => itm.reset());
+    this.#enumCells((cell) => cell.reset());
   }
 
   revealSolution() {
     this.reset();
-    this.values.forEach((itm) =>
-      itm.isValid ? itm.toggleSelect(true) : itm.reset()
+    this.#enumCells((cell) =>
+      cell.isValid ? cell.toggleSelect(true) : cell.reset()
     );
   }
 
-  get values() {
-    return [...this.#cellsMap.values()];
+  getSnapshot() {
+    return this.children.map((cellsRow) => {
+      return cellsRow.children.map(({ value }) => value);
+    });
+  }
+
+  restoreBySnapshot(snapshot) {
+    this.update(snapshot);
   }
 }
