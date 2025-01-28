@@ -5,13 +5,15 @@ export class CluesHelper {
   #top;
   #left;
 
+  /**
+   * @param {Array<Array<0|1>>} mx source solution matrix
+   */
   constructor(mx) {
     checkArgument(mx, 'Array');
 
     const rowsCount = mx.length;
     const colsCount = mx[0]?.length ?? 0;
 
-    // source solution matrix
     this.#mx = mx;
     // create clues matrices
     this.#left = Array.from({ length: rowsCount }, (_) => []);
@@ -28,7 +30,7 @@ export class CluesHelper {
   push(cell) {
     checkArgument(cell, 'Cell');
 
-    if (!cell.valid) {
+    if (!cell.isValid) {
       return;
     }
     const { row: curRow, col: curCol } = cell.position;
