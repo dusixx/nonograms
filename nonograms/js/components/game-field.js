@@ -8,7 +8,7 @@ import {
 } from '../utils/index.js';
 
 import { Element } from './base/element.js';
-import { Cell } from './cell.js';
+import { Cell, cellStateFlags } from './cell.js';
 import { CluesHelper } from './clues-helper.js';
 import { Clues } from './clues.js';
 
@@ -27,13 +27,6 @@ const eventName = {
   cellMouseLeave: 'cellmouseleave',
 };
 
-const cellState = {
-  invalid: 0,
-  valid: 1,
-  selected: 2,
-  discarded: 3,
-};
-
 const cssVar = {
   gameFieldRows: '--game-field-rows',
   gameFieldCols: '--game-field-cols',
@@ -49,7 +42,7 @@ export class GameField extends Element {
   #cellsRef;
   #cluesLeftRef;
   #cluesTopRef;
-  #snapshot;
+  #cellsSnapshot;
   #validCount = 0;
   #started = false;
   #cellsMap = new Map(); //{ref, instance}
@@ -79,16 +72,17 @@ export class GameField extends Element {
     return this.#valid.size === this.#validCount && this.#invalid.size === 0;
   };
 
-  // #updateSnapshot = (cell) => {
-  //       const { row, col } = cell;
-  //   this.#snapshot[row][col] |= ;
-  // };
-
   #handleCellMouseDown = ({ detail: { target: cell } }) => {
-    const targetSet = cell.valid ? this.#valid : this.#invalid;
-    const action = cell.selected ? 'add' : 'delete';
+    const targetSet = cell.isValid ? this.#valid : this.#invalid;
+    const action = cell.isSelected ? 'add' : 'delete';
 
     targetSet[action](cell);
+
+    // update cells snapshot
+    const { row, col } = cell.position;
+    this.#cellsSnapshot[row][col] = cell.value;
+
+    console.log(this.#cellsSnapshot);
 
     if (this.#wasSolved()) {
       this.allowPointerEvents(false);
@@ -127,7 +121,7 @@ export class GameField extends Element {
     this.#updateCSSVariables(mx);
     const cluesHelper = new CluesHelper(mx);
 
-    this.#snapshot = [...mx];
+    this.#cellsSnapshot = [];
 
     // [ div.cells__row > div.cell,... ]
     const allRows = mx.map((row, rowIdx) => {
@@ -138,11 +132,11 @@ export class GameField extends Element {
 
         this.#cellsMap.set(cell.ref, cell);
         cell.position = { row: rowIdx, col: colIdx };
+        cell.value = value;
 
-        cell.valid = cellState.valid & value;
-        this.#snapshot[rowIdx][colIdx] = cellState.valid & value;
+        this.#cellsSnapshot[rowIdx][colIdx] = value;
 
-        if (cell.valid) {
+        if (cell.isValid) {
           cell.ref.style.backgroundColor = '#ddd';
           cluesHelper.push(cell);
           this.#validCount += 1;
@@ -188,8 +182,19 @@ export class GameField extends Element {
     return [...this.#cellsMap.values()];
   }
 
+  #resetSnapshot = () => {
+    this.#cellsSnapshot = this.#cellsSnapshot.map((rows) => {
+      return rows.map((value) =>
+        value & cellStateFlags.valid
+          ? cellStateFlags.valid
+          : cellStateFlags.invalid
+      );
+    });
+  };
+
   reset() {
     this.#init();
+    this.#resetSnapshot();
     this.#cluesLeftRef.reset();
     this.#cluesTopRef.reset();
     this.cells.forEach((itm) => itm.reset());
@@ -200,52 +205,52 @@ export class GameField extends Element {
     this.allowPointerEvents(false);
 
     this.cells.forEach((itm) =>
-      itm.valid ? itm.toggleSelect(true) : itm.reset()
+      itm.isValid ? itm.toggleSelect(true) : itm.reset()
     );
   }
 
-  createSnapshot(stringify = true) {
-    const snapshot = this.cells.reduce(
-      (res, cell) => {
-        const {
-          selected,
-          discarded,
-          position: { row, col },
-        } = cell;
+  // createSnapshot(stringify = true) {
+  //   const snapshot = this.cells.reduce(
+  //     (res, cell) => {
+  //       const {
+  //         selected,
+  //         discarded,
+  //         position: { row, col },
+  //       } = cell;
 
-        if (selected) {
-          res.selected.push([row, col]);
-        } else if (discarded) {
-          res.discarded.push([row, col]);
-        }
-        return res;
-      },
-      {
-        selected: [],
-        discarded: [],
-        cluesLeft: this.#cluesLeftRef.createSnapshot(),
-        cluesTop: this.#cluesTopRef.createSnapshot(),
-      }
-    );
+  //       if (selected) {
+  //         res.selected.push([row, col]);
+  //       } else if (discarded) {
+  //         res.discarded.push([row, col]);
+  //       }
+  //       return res;
+  //     },
+  //     {
+  //       selected: [],
+  //       discarded: [],
+  //       cluesLeft: this.#cluesLeftRef.createSnapshot(),
+  //       cluesTop: this.#cluesTopRef.createSnapshot(),
+  //     }
+  //   );
 
-    return stringify ? JSON.stringify(snapshot) : snapshot;
-  }
+  //   return stringify ? JSON.stringify(snapshot) : snapshot;
+  // }
 
-  restoreBySnapshot(snapshot) {
-    const { selected, discarded, cluesTop, cluesLeft } =
-      JSONParse(snapshot) ?? '';
+  // restoreBySnapshot(snapshot) {
+  //   const { selected, discarded, cluesTop, cluesLeft } =
+  //     JSONParse(snapshot) ?? '';
 
-    // clues
-    this.#cluesTopRef.restoreBySnapshot(cluesTop);
-    this.#cluesLeftRef.restoreBySnapshot(cluesLeft);
+  //   // clues
+  //   this.#cluesTopRef.restoreBySnapshot(cluesTop);
+  //   this.#cluesLeftRef.restoreBySnapshot(cluesLeft);
 
-    // selected cells
-    selected.forEach(([row, col]) => {
-      this.#cellsRef.children[row].children[col].selected = true;
-    });
-    // discarded cells
-    discarded.forEach(([row, col]) => {
-      this.#cellsRef.children[row].children[col].discarded = true;
-    });
-  }
+  //   // selected cells
+  //   selected.forEach(([row, col]) => {
+  //     this.#cellsRef.children[row].children[col].selected = true;
+  //   });
+  //   // discarded cells
+  //   discarded.forEach(([row, col]) => {
+  //     this.#cellsRef.children[row].children[col].discarded = true;
+  //   });
+  // }
 }
