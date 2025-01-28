@@ -8,23 +8,16 @@ import {
 } from '../utils/index.js';
 
 import { Element } from './base/element.js';
-import { Cell, cellStateFlags } from './cell.js';
+import { Cell } from './cell.js';
 import { CluesHelper } from './clues-helper.js';
 import { Clues } from './clues.js';
+import { eventName, cellStateFlags } from '../../data/constants.js';
+import { Cells } from './cells.js';
 
 const cls = {
   gameField: 'game-field',
-  cells: 'cells',
-  cellsRow: 'cells__row',
   cluesLeft: 'clues-left',
   cluesTop: 'clues-top',
-};
-
-const eventName = {
-  solutionFound: 'solutionfound',
-  cellMouseDown: 'cellmousedown',
-  cellMouseEnter: 'cellmouseenter',
-  cellMouseLeave: 'cellmouseleave',
 };
 
 const cssVar = {
@@ -39,71 +32,35 @@ const cssVar = {
 //
 
 export class GameField extends Element {
-  #cellsRef;
-  #cluesLeftRef;
-  #cluesTopRef;
-  #cellsSnapshot;
-  #validCount = 0;
-  #started = false;
-  #cellsMap = new Map(); //{ref, instance}
-  #valid = new Set(); //instances
-  #invalid = new Set(); //instances
+  #cells;
+  #cluesLeft;
+  #cluesTop;
 
-  constructor(matrix) {
-    const cluesTop = new Clues({ className: cls.cluesTop });
-    const cluesLeft = new Clues({ className: cls.cluesLeft });
-    const cells = new Element({ className: cls.cells });
+  constructor(mx) {
+    super({ className: cls.gameField });
 
-    super({ className: cls.gameField }, cluesTop, cluesLeft, cells);
+    this.#cluesTop = new Clues({ className: cls.cluesTop });
+    this.#cluesLeft = new Clues({ className: cls.cluesLeft });
+    this.#cells = new Cells();
 
-    this.#cellsRef = cells;
-    this.#cluesTopRef = cluesTop;
-    this.#cluesLeftRef = cluesLeft;
-
+    this.append(this.#cluesTop, this.#cluesLeft, this.#cells);
     this.#addInteractivity();
-    this.update(matrix);
+    this.update(mx);
   }
-
-  #getCellByRef = (ref) => {
-    return this.#cellsMap.has(ref) ? this.#cellsMap.get(ref) : null;
-  };
-
-  #wasSolved = () => {
-    return this.#valid.size === this.#validCount && this.#invalid.size === 0;
-  };
-
-  #handleCellMouseDown = ({ detail: { target: cell } }) => {
-    const targetSet = cell.isValid ? this.#valid : this.#invalid;
-    const action = cell.isSelected ? 'add' : 'delete';
-
-    targetSet[action](cell);
-
-    // update cells snapshot
-    const { row, col } = cell.position;
-    this.#cellsSnapshot[row][col] = cell.value;
-
-    console.log(this.#cellsSnapshot);
-
-    if (this.#wasSolved()) {
-      this.allowPointerEvents(false);
-      this.dispatch(eventName.solutionFound);
-    }
-  };
 
   #handleCellMouseEnter = ({ detail: { target: cell } }) => {
     const { row, col } = cell.position;
-    this.#cluesLeftRef.highlight(row, true);
-    this.#cluesTopRef.highlight(col, true);
+    this.#cluesLeft.highlight(row, true);
+    this.#cluesTop.highlight(col, true);
   };
 
   #handleCellMouseLeave = ({ detail: { target: cell } }) => {
     const { row, col } = cell.position;
-    this.#cluesLeftRef.highlight(row, false);
-    this.#cluesTopRef.highlight(col, false);
+    this.#cluesLeft.highlight(row, false);
+    this.#cluesTop.highlight(col, false);
   };
 
   #addInteractivity = () => {
-    this.addListener(eventName.cellMouseDown, this.#handleCellMouseDown);
     this.addListener(eventName.cellMouseEnter, this.#handleCellMouseEnter);
     this.addListener(eventName.cellMouseLeave, this.#handleCellMouseLeave);
   };
@@ -114,99 +71,27 @@ export class GameField extends Element {
     style.setProperty(cssVar.gameFieldCols, mx[0]?.length ?? 0);
   };
 
-  #createCells = (mx) => {
+  update(mx) {
     if (!isArray(mx)) {
       return;
     }
     this.#updateCSSVariables(mx);
     const cluesHelper = new CluesHelper(mx);
 
-    this.#cellsSnapshot = [];
-
-    // [ div.cells__row > div.cell,... ]
-    const allRows = mx.map((row, rowIdx) => {
-      const cellsRow = new Element({ className: cls.cellsRow });
-
-      const items = row.map((value, colIdx) => {
-        const cell = new Cell();
-
-        this.#cellsMap.set(cell.ref, cell);
-        cell.position = { row: rowIdx, col: colIdx };
-        cell.value = value;
-
-        this.#cellsSnapshot[rowIdx][colIdx] = value;
-
-        if (cell.isValid) {
-          cell.ref.style.backgroundColor = '#ddd';
-          cluesHelper.push(cell);
-          this.#validCount += 1;
-        }
-        return cell;
-      });
-      cellsRow.append(...items);
-
-      return cellsRow;
+    this.#cells.update(mx, (cell) => {
+      // build clues matrices
+      cluesHelper.push(cell);
     });
     // create clues
     const { top, left } = cluesHelper.getClues();
-    this.#cluesTopRef.update(top);
-    this.#cluesLeftRef.update(left);
-
-    return allRows;
-  };
-
-  #init() {
-    this.#started = false;
-    this.#invalid.clear();
-    this.#valid.clear();
-    this.allowPointerEvents(true);
+    this.#cluesTop.update(top);
+    this.#cluesLeft.update(left);
   }
-
-  update(mx) {
-    if (!isArray(mx)) {
-      return;
-    }
-    this.#init();
-    this.#validCount = 0;
-    this.#cellsMap.clear();
-
-    this.#cluesLeftRef.removeChildren();
-    this.#cluesTopRef.removeChildren();
-
-    // div.cells > div.cells__row*mxSize > div.cell*mxSize
-    this.#cellsRef.removeChildren();
-    this.#cellsRef.append(...this.#createCells(mx));
-  }
-
-  get cells() {
-    return [...this.#cellsMap.values()];
-  }
-
-  #resetSnapshot = () => {
-    this.#cellsSnapshot = this.#cellsSnapshot.map((rows) => {
-      return rows.map((value) =>
-        value & cellStateFlags.valid
-          ? cellStateFlags.valid
-          : cellStateFlags.invalid
-      );
-    });
-  };
 
   reset() {
-    this.#init();
-    this.#resetSnapshot();
-    this.#cluesLeftRef.reset();
-    this.#cluesTopRef.reset();
-    this.cells.forEach((itm) => itm.reset());
-  }
-
-  revealSolution() {
-    this.reset();
-    this.allowPointerEvents(false);
-
-    this.cells.forEach((itm) =>
-      itm.isValid ? itm.toggleSelect(true) : itm.reset()
-    );
+    this.#cells.reset();
+    this.#cluesLeft.reset();
+    this.#cluesTop.reset();
   }
 
   // createSnapshot(stringify = true) {
