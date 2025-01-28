@@ -1,29 +1,11 @@
 import { isPositiveInt } from '../utils/helpers.js';
 import { Element } from './base/element.js';
+import { eventName, cellStateFlags, mouseBtn } from '../../data/constants.js';
 
-const mouseBtn = {
-  left: 0,
-  middle: 1,
-  right: 2,
-};
-
-const cls = {
+export const cls = {
   cell: 'cell',
   selected: 'cell--selected',
   discarded: 'cell--discarded',
-};
-
-const eventName = {
-  cellMouseDown: 'cellmousedown',
-  cellMouseEnter: 'cellmouseenter',
-  cellMouseLeave: 'cellmouseleave',
-};
-
-export const cellStateFlags = {
-  invalid: 0,
-  valid: 1,
-  selected: 2,
-  discarded: 4,
 };
 
 //
@@ -35,8 +17,6 @@ export const cellStateFlags = {
 export class Cell extends Element {
   #value = cellStateFlags.invalid;
   #position; //{row, col}
-  #pressedMouseBtn;
-  #eraserMode = false;
 
   constructor(props, ...children) {
     super(props, ...children);
@@ -49,51 +29,6 @@ export class Cell extends Element {
     return 'Cell';
   }
 
-  #handleMouseDown = (e, btn, force) => {
-    const button = btn ?? e?.button;
-
-    if (button === mouseBtn.left) {
-      this.toggleSelect(force);
-    } else if (button === mouseBtn.right) {
-      this.toggleDiscard(force);
-    }
-    this.dispatch(eventName.cellMouseDown);
-  };
-
-  #handleMouseEnter = (e) => {
-    if (this.#pressedMouseBtn != null) {
-      this.#handleMouseDown(null, this.#pressedMouseBtn, this.#eraserMode);
-    }
-    this.dispatch(eventName.cellMouseEnter);
-  };
-
-  #handleMouseLeave = (e) => {
-    this.dispatch(eventName.cellMouseLeave);
-  };
-
-  #handleDocumentMouseDown = (e) => {
-    this.#pressedMouseBtn = e.button;
-    this.#eraserMode = !this.#eraserMode;
-  };
-
-  #handleDocumentMouseUp = () => {
-    this.#pressedMouseBtn = null;
-  };
-
-  #handleContextMenu = (e) => {
-    e.preventDefault();
-  };
-
-  #addInteractivity = () => {
-    document.addEventListener('mousedown', this.#handleDocumentMouseDown);
-    document.addEventListener('mouseup', this.#handleDocumentMouseUp);
-    // disable RMB context menu
-    this.addListener('contextmenu', this.#handleContextMenu);
-    this.addListener('mousedown', this.#handleMouseDown);
-    this.addListener('mouseenter', this.#handleMouseEnter);
-    this.addListener('mouseleave', this.#handleMouseLeave);
-  };
-
   toggleSelect(force) {
     const selected = this.toggleClass(cls.selected, force);
     if (selected) {
@@ -102,6 +37,7 @@ export class Cell extends Element {
     } else {
       this.#value &= ~cellStateFlags.selected;
     }
+    return this;
   }
 
   toggleDiscard(force) {
@@ -112,6 +48,7 @@ export class Cell extends Element {
     } else {
       this.#value &= ~cellStateFlags.discarded;
     }
+    return this;
   }
 
   reset() {
