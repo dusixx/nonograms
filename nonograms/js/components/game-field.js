@@ -1,17 +1,7 @@
-import {
-  isFunc,
-  isInt,
-  isPositiveInt,
-  checkArgument,
-  JSONParse,
-  isMatrix,
-} from '../utils/index.js';
-
+import { JSONParse, isMatrix } from '../utils/index.js';
 import { Element } from './base/element.js';
-import { Cell } from './cell.js';
-import { CluesHelper } from './clues-helper.js';
 import { Clues } from './clues.js';
-import { eventName, cellStateFlags } from '../../data/constants.js';
+import { eventName } from '../../data/constants.js';
 import { Cells } from './cells.js';
 
 const cls = {
@@ -61,9 +51,9 @@ export class GameField extends Element {
   };
 
   #addInteractivity = () => {
+    this.addListener('contextmenu', (e) => e.preventDefault());
     this.addListener(eventName.cellMouseOver, this.#handleCellMouseOver);
     this.addListener(eventName.cellMouseOut, this.#handleCellMouseOut);
-    this.addListener('contextmenu', (e) => e.preventDefault());
   };
 
   #updateCSSVariables = (mx) => {
@@ -77,16 +67,10 @@ export class GameField extends Element {
       return;
     }
     this.#updateCSSVariables(mx);
-    const cluesHelper = new CluesHelper(mx);
 
-    this.#cells.update(mx, (cell) => {
-      // build clues matrices
-      cluesHelper.push(cell);
-    });
-    // create clues
-    const { top, left } = cluesHelper.getClues();
-    this.#cluesTop.update(top);
-    this.#cluesLeft.update(left);
+    const { cluesTop, cluesLeft } = this.#cells.update(mx);
+    this.#cluesTop.update(cluesTop);
+    this.#cluesLeft.update(cluesLeft);
   }
 
   reset() {
