@@ -41,8 +41,8 @@ export class Clues extends Element {
 
       const items = row.map((value, colIdx) => {
         const clue = new Clue({ text: value });
-        clue.position = { row: rowIdx, col: colIdx };
 
+        clue.position = { row: rowIdx, col: colIdx };
         this.#cluesMap.set(clue.ref, clue);
 
         return clue;
@@ -69,8 +69,12 @@ export class Clues extends Element {
     });
   };
 
+  get values() {
+    return [...this.#cluesMap.values()];
+  }
+
   reset() {
-    this.#enumClues((clue) => clue.toggleDiscard(false));
+    this.values.forEach((clue) => clue.toggleDiscard(false));
   }
 
   // highlight clues row|col
@@ -88,7 +92,7 @@ export class Clues extends Element {
     if (!isMatrix(snapshot)) {
       return;
     }
-    this.#enumClues((clue) => {
+    this.values.forEach((clue) => {
       const { row, col } = clue.position;
       clue.isDiscarded = snapshot[row][col];
     });
