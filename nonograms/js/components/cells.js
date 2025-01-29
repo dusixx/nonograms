@@ -1,13 +1,8 @@
 import { Cell, cls as cellCls } from './cell.js';
 import { Element } from './base/element.js';
 import { isMatrix } from '../utils/helpers.js';
-
-import {
-  eventName,
-  cellStateFlags,
-  mouseBtn,
-  drawingMode,
-} from '../../data/constants.js';
+import { eventName, cellStateFlags, mouseBtn } from '../../data/constants.js';
+import { CluesHelper } from './clues-helper.js';
 
 const cls = {
   cells: 'cells',
@@ -17,15 +12,17 @@ const cls = {
 
 export class Cells extends Element {
   #numOfValid = 0;
+  #curSum = 0;
   #selectedValid = new Set(); // Set<Cell>
   #selectedInvalid = new Set(); // Set<Cell>
   #cellsMap = new Map(); // Map<ref,Cell>
-  #drawingMode;
+  #eraserMode;
+  #pressedMouseBtn;
 
   constructor(mx, callback) {
     super({ className: cls.cells });
 
-    this.update(mx, callback);
+    this.update(mx);
     this.#addInteractivity();
   }
 
@@ -33,11 +30,13 @@ export class Cells extends Element {
     return this.#cellsMap.has(ref) ? this.#cellsMap.get(ref) : null;
   };
 
-  #wasSolved = () => {
-    return (
+  #checkIfSolved = () => {
+    const wasSolved =
       this.#selectedValid.size === this.#numOfValid &&
-      this.#selectedInvalid.size === 0
-    );
+      this.#selectedInvalid.size === 0;
+    if (wasSolved) {
+      this.dispatch(eventName.solutionFound);
+    }
   };
 
   #addSelectedCellToDesiredSet = (cell) => {
@@ -47,72 +46,60 @@ export class Cells extends Element {
 
     const action = cell.isSelected ? 'add' : 'delete';
     targetSet[action](cell);
-
-    if (this.#wasSolved()) {
-      this.dispatch(eventName.solutionFound);
-    }
-  };
-
-  #changeDrawingModeOnMouseDown = (btn, cell) => {
-    if (btn === mouseBtn.left) {
-      this.#drawingMode = cell.isSelected
-        ? drawingMode.erase
-        : drawingMode.select;
-    } else if (btn === mouseBtn.right) {
-      this.#drawingMode = cell.isDiscarded
-        ? drawingMode.erase
-        : drawingMode.discard;
-    }
   };
 
   #handleMouseDown = (e) => {
-    const { button, target } = e;
+    const { button: btn, target } = e;
 
-    if (!e.target.closest(`.${cls.cell}`)) {
+    const cell = this.#getCellByRef(target.closest(`.${cls.cell}`));
+    if (!cell) {
       return;
     }
-    const cell = this.#getCellByRef(target);
+    this.#pressedMouseBtn = btn;
+    this.#eraserMode =
+      (cell.isSelected && btn === mouseBtn.left) ||
+      (cell.isDiscarded && btn === mouseBtn.right);
 
-    this.#changeDrawingModeOnMouseDown(button, cell);
-
-    if (this.#drawingMode === drawingMode.select) {
+    if (btn === mouseBtn.left) {
       cell.toggleSelect();
-    } else if (drawingMode === drawingMode.discard) {
+    } else if (btn === mouseBtn.right) {
       cell.toggleDiscard();
     }
     this.#addSelectedCellToDesiredSet(cell);
+    this.#checkIfSolved();
   };
 
   #handleMouseUp = () => {
-    this.#drawingMode = drawingMode.none;
+    this.#pressedMouseBtn = null;
+    this.#eraserMode = false;
   };
 
-  #handleMouseOver = (e) => {
-    if (!e.target.closest(`.${cls.cell}`)) {
+  #handleMouseOver = ({ target }) => {
+    const cell = this.#getCellByRef(target.closest(`.${cls.cell}`));
+    if (!cell) {
       return;
     }
-    const cell = this.#getCellByRef(e.target);
-
     cell.dispatch(eventName.cellMouseOver);
 
-    if (this.#drawingMode === drawingMode.erase) {
-      cell.toggleSelect(false).toggleDiscard(false);
-    } else if (this.#drawingMode === drawingMode.select) {
+    if (this.#eraserMode) {
+      cell.toggleSelect(false);
+      cell.toggleDiscard(false);
+    } else if (this.#pressedMouseBtn === mouseBtn.left) {
       cell.toggleSelect(true);
-    } else if (this.#drawingMode === drawingMode.discard) {
+    } else if (this.#pressedMouseBtn === mouseBtn.right) {
       cell.toggleDiscard(true);
-    }
-
-    if (this.#drawingMode !== drawingMode.none) {
-      this.#addSelectedCellToDesiredSet(cell);
-    }
-  };
-
-  #handleMouseOut = (e) => {
-    if (!e.target.closest(`.${cls.cell}`)) {
+    } else {
       return;
     }
-    const cell = this.#getCellByRef(e.target);
+    this.#addSelectedCellToDesiredSet(cell);
+    this.#checkIfSolved();
+  };
+
+  #handleMouseOut = ({ target }) => {
+    const cell = this.#getCellByRef(target.closest(`.${cls.cell}`));
+    if (!cell) {
+      return;
+    }
     cell.dispatch(eventName.cellMouseOut);
   };
 
@@ -124,19 +111,21 @@ export class Cells extends Element {
   };
 
   // div.cells > div.cells__row*mxSize > div.cell*mxSize
-  #appendCells = (mx, callback) => {
+  #appendCells = (mx) => {
     if (!isMatrix(mx)) {
       return;
     }
+    const cluesHelper = new CluesHelper(mx);
+
     // [ div.cells__row > div.cell,... ]
     const allRows = mx.map((valuesRow, row) => {
       const cellsRow = new Element({ className: cls.cellsRow });
 
       const items = valuesRow.map((value, col) => {
         const cell = new Cell();
+
         cell.position = { row, col };
         cell.value = value;
-
         this.#cellsMap.set(cell.ref, cell);
 
         if (cell.isValid) {
@@ -144,7 +133,7 @@ export class Cells extends Element {
           this.#numOfValid += 1;
         }
         this.#addSelectedCellToDesiredSet(cell);
-        callback?.(cell);
+        cluesHelper.push(cell);
 
         return cell;
       });
@@ -152,11 +141,13 @@ export class Cells extends Element {
 
       return cellsRow;
     });
-
     this.append(...allRows);
+    this.#checkIfSolved();
+
+    return cluesHelper.getClues();
   };
 
-  update(mx, callback) {
+  update(mx) {
     if (!isMatrix(mx)) {
       return;
     }
@@ -166,24 +157,23 @@ export class Cells extends Element {
     this.#cellsMap.clear();
 
     this.removeChildren();
-    this.#appendCells(mx, callback);
+
+    return this.#appendCells(mx);
   }
 
-  #enumCells = (callback) => {
-    this.children.forEach((cellsRow) => {
-      cellsRow.children.forEach(callback);
-    });
-  };
+  get values() {
+    return [...this.#cellsMap.values()];
+  }
 
   reset() {
     this.#selectedValid.clear();
     this.#selectedInvalid.clear();
-    this.#enumCells((cell) => cell.reset());
+    this.values.forEach((cell) => cell.reset());
   }
 
   revealSolution() {
     this.reset();
-    this.#enumCells((cell) =>
+    this.values.forEach((cell) =>
       cell.isValid ? cell.toggleSelect(true) : cell.reset()
     );
   }
