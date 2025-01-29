@@ -1,13 +1,13 @@
 import { checkArgument, isMatrix } from '../utils/helpers.js';
+import { cellStateFlags } from '../../data/constants.js';
+
+const isValid = (v) => v & cellStateFlags.valid;
 
 export class CluesHelper {
   #mx;
   #top;
   #left;
 
-  /**
-   * @param {Array<Array<0|1>>} mx source solution matrix
-   */
   constructor(mx) {
     checkArgument(mx, 'Matrix', isMatrix);
 
@@ -22,8 +22,8 @@ export class CluesHelper {
 
   getClues() {
     return {
-      top: [...this.#top],
-      left: [...this.#left],
+      cluesTop: [...this.#top],
+      cluesLeft: [...this.#left],
     };
   }
 
@@ -42,7 +42,7 @@ export class CluesHelper {
 
     let curColTopCluesIdx = top[curCol].length - 1;
     // the cell above the current is invalid
-    if (!mx[curRow - 1]?.[curCol]) {
+    if (!isValid(mx[curRow - 1]?.[curCol])) {
       // (-1) -> 0
       curColTopCluesIdx += 1;
     }
@@ -53,10 +53,9 @@ export class CluesHelper {
 
     let curRowLeftCluesIdx = left[curRow].length - 1;
     // the cell before the current is invalid
-    if (!mx[curRow][curCol - 1]) {
+    if (!isValid(mx[curRow][curCol - 1])) {
       curRowLeftCluesIdx += 1;
     }
-
     const curRowLeftCluesCount = left[curRow][curRowLeftCluesIdx] ?? 0;
     left[curRow][curRowLeftCluesIdx] = curRowLeftCluesCount + 1;
   }
