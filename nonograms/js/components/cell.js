@@ -22,7 +22,6 @@ export class Cell extends Element {
     super(props, ...children);
     // add cell base class
     this.toggleClass(cls.cell, true);
-    this.#addInteractivity();
   }
 
   get [Symbol.toStringTag]() {
@@ -37,7 +36,6 @@ export class Cell extends Element {
     } else {
       this.#value &= ~cellStateFlags.selected;
     }
-    return this;
   }
 
   toggleDiscard(force) {
@@ -48,7 +46,6 @@ export class Cell extends Element {
     } else {
       this.#value &= ~cellStateFlags.discarded;
     }
-    return this;
   }
 
   reset() {
