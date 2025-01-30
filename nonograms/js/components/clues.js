@@ -3,13 +3,13 @@ import { Element } from './base/element.js';
 import { Clue, cls as clueCls } from './clue.js';
 
 const cls = {
-  clues: 'clues',
-  highlighted: 'clues--highlighted',
+  cluesList: 'clues-list',
+  highlighted: 'clues-list--highlighted',
   ...clueCls,
 };
 
 export class Clues extends Element {
-  #cluesMap = new Map(); // Map<ref,Cell>
+  #cluesMap = new Map(); // Map<ref,Clue>
 
   constructor(...args) {
     super(...args);
@@ -37,7 +37,7 @@ export class Clues extends Element {
       return;
     }
     const allClues = cluesMx.map((row, rowIdx) => {
-      const cluesList = new Element({ className: cls.clues });
+      const cluesList = new Element({ className: cls.cluesList });
 
       const items = row.map((value, colIdx) => {
         const clue = new Clue({ text: value });
@@ -63,18 +63,16 @@ export class Clues extends Element {
     this.#appendClues(cluesMx);
   }
 
-  #enumClues = (callback) => {
-    this.children.forEach((cellsRow) => {
-      cellsRow.children.forEach(callback);
-    });
-  };
-
   get values() {
     return [...this.#cluesMap.values()];
   }
 
+  discardAll(force = true) {
+    this.values.forEach((clue) => clue.toggleDiscard(force));
+  }
+
   reset() {
-    this.values.forEach((clue) => clue.toggleDiscard(false));
+    this.discardAll(false);
   }
 
   // highlight clues row|col
