@@ -56,17 +56,13 @@ export class GameField extends Element {
     this.addListener(eventName.cellMouseOut, this.#handleCellMouseOut);
   };
 
-  #updateCSSVariables = (mx) => {
-    const { style } = this.ref;
-    style.setProperty(cssVar.gameFieldRows, mx.length);
-    style.setProperty(cssVar.gameFieldCols, mx[0]?.length ?? 0);
-  };
-
   update(mx) {
     if (!isMatrix(mx)) {
       return;
     }
-    this.#updateCSSVariables(mx);
+    const { style } = this.ref;
+    style.setProperty(cssVar.gameFieldRows, mx.length);
+    style.setProperty(cssVar.gameFieldCols, mx[0]?.length ?? 0);
 
     const { cluesTop, cluesLeft } = this.#cells.update(mx);
     this.#cluesTop.update(cluesTop);
@@ -81,6 +77,12 @@ export class GameField extends Element {
 
   revealSolution() {
     this.#cells.revealSolution();
+    this.#cluesTop.discardAll();
+    this.#cluesLeft.discardAll();
+  }
+
+  toggleReviewerMode(force) {
+    return this.#cells.toggleReviewerMode(force);
   }
 
   getSnapshot() {
