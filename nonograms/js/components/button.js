@@ -14,16 +14,19 @@ export class Button extends Element {
       },
       ...children
     );
+    this.#addInteractivity();
   }
+
+  #handleOnClick = (e) => {
+    return this.#onClick?.(e);
+  };
+
+  #addInteractivity = () => {
+    this.addListener('click', this.#handleOnClick);
+  };
 
   set onClick(handler) {
     this.#onClick = isFunc(handler) ? handler : null;
-
-    if (this.#onClick) {
-      this.addListener('click', this.#onClick);
-    } else {
-      this.removeListener('click', this.#onClick);
-    }
   }
 
   get disabled() {
