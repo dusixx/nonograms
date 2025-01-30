@@ -1,16 +1,19 @@
 import { Element } from './base/element.js';
 import { puzzles } from '../../data/puzzles/index.js';
 import { isFunc, rndInt } from '../utils/helpers.js';
+import { Button } from './button.js';
 
 const cls = {
   puzzleSelect: 'puzzle-select',
-  puzzleSelectLvl: 'puzzle-select__lvl',
-  puzzleSelectPic: 'puzzle-select__pic',
+  puzzleSelectLvl: 'puzzle-select__lvl select-primary',
+  puzzleSelectPic: 'puzzle-select__pic select-primary',
+  puzzleSelectRnd: 'puzzle-select__rnd btn-secondary',
 };
 
 export class PuzzleSelect extends Element {
   #level;
   #puzzle;
+  #random;
   #onChange;
 
   constructor(props) {
@@ -30,8 +33,12 @@ export class PuzzleSelect extends Element {
       tag: 'select',
       className: cls.puzzleSelectPic,
     });
+    this.#random = new Button({
+      className: cls.puzzleSelectRnd,
+      text: 'random',
+    });
     this.#updatePuzzles(lvlNames[0]);
-    this.append(this.#level, this.#puzzle);
+    this.append(this.#level, this.#puzzle, this.#random);
     this.#addInteractivity();
   }
 
@@ -43,16 +50,18 @@ export class PuzzleSelect extends Element {
 
     this.#puzzle.removeChildren();
     this.#puzzle.append(
-      ...puzzleData.map(({ id, name, mx }) => {
-        callback?.({ id, name, mx });
+      ...puzzleData
+        .sort((a, b) => a.name.localeCompare(b.name))
+        .map(({ id, name, mx }) => {
+          callback?.({ id, name, mx });
 
-        const opt = new Element({
-          tag: 'option',
-          value: id,
-          text: name,
-        });
-        return opt;
-      })
+          const opt = new Element({
+            tag: 'option',
+            value: id,
+            text: name,
+          });
+          return opt;
+        })
     );
   };
 
@@ -71,7 +80,6 @@ export class PuzzleSelect extends Element {
     this.#updatePuzzles(lvlName, ({ id }) => {
       isPuzzleIdExists = isPuzzleIdExists || id === puzzleId;
     });
-
     this.#puzzle.ref.value = isPuzzleIdExists
       ? puzzleId
       : puzzles[lvlName][0].id;
@@ -82,15 +90,13 @@ export class PuzzleSelect extends Element {
     const lvlName = lvlNames[rndInt(0, lvlNames.length - 1)];
     const puzzleData = puzzles[lvlName];
     const { id: puzzleId } = puzzleData[rndInt(0, puzzleData.length - 1)];
-    const { lvlName: curLvlName, puzzleId: curPuzzleId } = this.value;
 
+    const { lvlName: curLvlName, puzzleId: curPuzzleId } = this.value;
     if (lvlName === curLvlName && puzzleId === curPuzzleId) {
       return this.random();
     }
     this.update({ lvlName, puzzleId });
-    this.#puzzle.ref.dispatchEvent(
-      new Event('change', { bubbles: true, cancelable: true })
-    );
+    this.#puzzle.dispatch('change');
   }
 
   get value() {
@@ -109,9 +115,7 @@ export class PuzzleSelect extends Element {
       target: { value: lvlName },
     } = e;
     this.#updatePuzzles(lvlName);
-    this.#puzzle.ref.dispatchEvent(
-      new Event('change', { bubbles: true, cancelable: true })
-    );
+    this.#puzzle.dispatch('change');
   };
 
   #handlePuzzleChange = (e) => {
@@ -121,6 +125,7 @@ export class PuzzleSelect extends Element {
   #addInteractivity() {
     this.#level.addListener('change', this.#handleLevelChange);
     this.#puzzle.addListener('change', this.#handlePuzzleChange);
+    this.#random.onClick = () => this.random();
   }
 
   get puzzleData() {
