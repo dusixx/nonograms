@@ -1,0 +1,91 @@
+.clues-top,
+.clues-left {
+  display: grid;
+  justify-content: center;
+  align-content: center;
+  //background-color: var(--color-clues-bg);
+}
+
+.clues-top {
+  grid-template-columns: repeat(
+    var(--game-field-cols),
+    var(--game-field-cell-size)
+  );
+  grid-area: clues-top;
+
+  border-left: 2px solid var(--color-cell-border-bold);
+  border-right: 2px solid var(--color-cell-border-bold);
+
+  .clues-list {
+    flex-direction: column;
+    justify-content: end;
+
+    &:not(:last-of-type) {
+      border-right: 1px solid var(--color-cell-border);
+    }
+
+    &:nth-of-type(5n):not(:last-of-type) {
+      border-right: 1px solid var(--color-cell-border-bold);
+      & + .clues-list {
+        border-left: 1px solid var(--color-cell-border-bold);
+      }
+    }
+  }
+}
+
+.clues-left {
+  //justify-items: end;
+  grid-template-rows: repeat(
+    var(--game-field-rows),
+    var(--game-field-cell-size)
+  );
+  grid-area: clues-left;
+
+  border-top: 2px solid var(--color-cell-border-bold);
+  border-bottom: 2px solid var(--color-cell-border-bold);
+
+  .clues-list {
+    justify-content: end;
+
+    &:not(:last-of-type) {
+      border-bottom: 1px solid var(--color-cell-border);
+    }
+
+    &:nth-of-type(5n):not(:last-of-type) {
+      border-bottom: 1px solid var(--color-cell-border-bold);
+      & + .clues-list {
+        border-top: 1px solid var(--color-cell-border-bold);
+      }
+    }
+  }
+}
+
+.clues-list {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background-color: var(--color-clues-row-bg);
+
+  &--highlighted {
+    backdrop-filter: brightness(0.8);
+  }
+}
+
+.clue {
+  position: relative;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  height: 1.5em; //var(--game-field-cell-size);
+  width: 1.5em; //var(--game-field-cell-size);
+
+  line-height: 0;
+  cursor: pointer;
+
+  &--discarded {
+    @include crossed-out($size: 100%);
+  }
+}

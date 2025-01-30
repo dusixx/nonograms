@@ -1,6 +1,12 @@
 body {
-  font-family: 'Nunito', sans-serif;
+  //font-family: 'Nunito', sans-serif;
+  font-family: 'Oswald', sans-serif;
   user-select: none;
+  color: var(--color-dark);
+  // background-color: whitesmoke;
+  // width: 100vw;
+  // height: 100vh;
+  // filter: invert(1);
 }
 
 // body::before {

@@ -1,0 +1,25 @@
+$max-container-width: 800px;
+$min-container-width: 375px;
+
+:root {
+  --color-accent: rgb(22, 123, 255);
+  --color-text: rgb(65, 65, 65);
+  --color-border: rgb(206, 206, 206);
+  --color-border-dark: rgb(177, 177, 177);
+  --color-reviewer-mode: #ddd;
+
+  --color-clues-row-highlighted-bg: rgb(190, 190, 190);
+  //--color-clues-bg: transparent; //rgba(199, 199, 199, 0.4);
+  --color-clues-row-bg: rgba(214, 214, 214, 0.4);
+  --color-clues-border: rgb(199, 199, 199);
+
+  --color-cell-selected-bg: rgb(61, 61, 61);
+  --color-cell-border: rgb(189, 189, 189);
+  --color-cell-border-bold: rgb(148, 148, 148);
+
+  --color-cross: rgb(109, 109, 109);
+
+  --border-radius: 6px;
+  --container-max-width: 800px;
+  --container-min-width: 375px;
+}

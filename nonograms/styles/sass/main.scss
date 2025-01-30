@@ -3,5 +3,11 @@
 @import './vendors/modern-normalize';
 @import './utils/funcs';
 @import './utils/mixins';
+@import './utils/vars';
 @import './components/wrapper';
 @import './components/btn';
+@import './components/select';
+@import './components/game-field';
+@import './components/clues';
+@import './components/cells';
+@import './components/puzzle-select';

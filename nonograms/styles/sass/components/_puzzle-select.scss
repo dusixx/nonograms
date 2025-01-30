@@ -1,0 +1,14 @@
+.puzzle-select {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  max-width: var(--container-min-width);
+
+  &__pic {
+    width: 120px;
+  }
+
+  &__lvl {
+    width: 90px;
+  }
+}

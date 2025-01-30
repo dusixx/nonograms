@@ -1,0 +1,15 @@
+.game-field {
+  --game-field-rows: 5;
+  --game-field-cols: 5;
+  // NOTE: for square board only
+  --game-field-cell-size: min(2.5em, calc(76vw / var(--game-field-cols)));
+
+  display: grid;
+  grid-template-areas:
+    'placeholder clues-top'
+    'clues-left cells';
+
+  font-weight: 300;
+  font-size: 12px;
+  color: var(--color-text);
+}
