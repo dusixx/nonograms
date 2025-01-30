@@ -12,12 +12,14 @@ const cls = {
 
 export class Cells extends Element {
   #numOfValid = 0;
-  #curSum = 0;
   #selectedValid = new Set(); // Set<Cell>
   #selectedInvalid = new Set(); // Set<Cell>
   #cellsMap = new Map(); // Map<ref,Cell>
+  #pressedMouseBtn = -1;
   #eraserMode;
-  #pressedMouseBtn;
+  #reviewerMode;
+  // to avoid blind spots when hovering over cells row
+  #mouseOverCell;
 
   constructor(mx, callback) {
     super({ className: cls.cells });
@@ -35,7 +37,7 @@ export class Cells extends Element {
       this.#selectedValid.size === this.#numOfValid &&
       this.#selectedInvalid.size === 0;
     if (wasSolved) {
-      this.dispatch(eventName.solutionFound);
+      this.dispatchCustom(eventName.solutionFound);
     }
   };
 
@@ -51,7 +53,8 @@ export class Cells extends Element {
   #handleMouseDown = (e) => {
     const { button: btn, target } = e;
 
-    const cell = this.#getCellByRef(target.closest(`.${cls.cell}`));
+    const cell =
+      this.#getCellByRef(target.closest(`.${cls.cell}`)) ?? this.#mouseOverCell;
     if (!cell) {
       return;
     }
@@ -70,16 +73,18 @@ export class Cells extends Element {
   };
 
   #handleMouseUp = () => {
-    this.#pressedMouseBtn = null;
+    this.#pressedMouseBtn = -1;
     this.#eraserMode = false;
   };
 
   #handleMouseOver = ({ target }) => {
-    const cell = this.#getCellByRef(target.closest(`.${cls.cell}`));
+    const cell =
+      this.#getCellByRef(target.closest(`.${cls.cell}`)) ?? this.#mouseOverCell;
     if (!cell) {
       return;
     }
-    cell.dispatch(eventName.cellMouseOver);
+    this.#mouseOverCell = cell;
+    cell.dispatchCustom(eventName.cellMouseOver);
 
     if (this.#eraserMode) {
       cell.toggleSelect(false);
@@ -96,11 +101,25 @@ export class Cells extends Element {
   };
 
   #handleMouseOut = ({ target }) => {
-    const cell = this.#getCellByRef(target.closest(`.${cls.cell}`));
+    const cell =
+      this.#getCellByRef(target.closest(`.${cls.cell}`)) ?? this.#mouseOverCell;
     if (!cell) {
       return;
     }
-    cell.dispatch(eventName.cellMouseOut);
+    cell.dispatchCustom(eventName.cellMouseOut);
+  };
+
+  // fired after mouseup
+  #handleContextMenu = (e) => {
+    // not long tap
+    if (e.button !== -1) {
+      return;
+    }
+    const cell = this.#getCellByRef(e.target.closest(`.${cls.cell}`));
+    if (!cell) {
+      return;
+    }
+    cell.toggleDiscard();
   };
 
   #addInteractivity = () => {
@@ -108,6 +127,7 @@ export class Cells extends Element {
     this.addListener('mouseup', this.#handleMouseUp);
     this.addListener('mouseover', this.#handleMouseOver);
     this.addListener('mouseout', this.#handleMouseOut);
+    this.addListener('contextmenu', this.#handleContextMenu);
   };
 
   // div.cells > div.cells__row*mxSize > div.cell*mxSize
@@ -129,7 +149,6 @@ export class Cells extends Element {
         this.#cellsMap.set(cell.ref, cell);
 
         if (cell.isValid) {
-          cell.ref.style.backgroundColor = '#ddd';
           this.#numOfValid += 1;
         }
         this.#addSelectedCellToDesiredSet(cell);
@@ -174,8 +193,20 @@ export class Cells extends Element {
   revealSolution() {
     this.reset();
     this.values.forEach((cell) =>
-      cell.isValid ? cell.toggleSelect(true) : cell.reset()
+      cell.isValid ? cell.toggleSelect(true) : cell.toggleDiscard(true)
     );
+  }
+
+  toggleReviewerMode(force) {
+    this.#reviewerMode = force != null ? !!force : !this.#reviewerMode;
+
+    this.values.forEach((cell) => {
+      cell.ref.style.backgroundColor =
+        cell.isValid && this.#reviewerMode
+          ? 'var(--color-reviewer-mode)'
+          : null;
+    });
+    return this.#reviewerMode;
   }
 
   getSnapshot() {
