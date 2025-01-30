@@ -5,7 +5,17 @@ export class Element extends BaseElement {
     super(props, ...children);
   }
 
-  dispatch(name, detail, opts) {
+  dispatch(name, opts) {
+    return this.ref.dispatchEvent(
+      new Event(name, {
+        bubbles: true,
+        cancelable: true,
+        ...opts,
+      })
+    );
+  }
+
+  dispatchCustom(name, detail, opts) {
     return this.ref.dispatchEvent(
       new CustomEvent(name, {
         bubbles: true,
