@@ -18,8 +18,9 @@ export class Cells extends Element {
   #pressedMouseBtn = -1;
   #eraserMode;
   #reviewerMode;
-  // to avoid blind spots when hovering over cells row
+  // to avoid blind spots when hovering over cell row border
   #mouseOverCell;
+  #started;
 
   constructor(mx, callback) {
     super({ className: cls.cells });
@@ -37,6 +38,7 @@ export class Cells extends Element {
       this.#selectedValid.size === this.#numOfValid &&
       this.#selectedInvalid.size === 0;
     if (wasSolved) {
+      //this.allowPointerEvents(false);
       this.dispatchCustom(eventName.solutionFound);
     }
   };
@@ -57,6 +59,11 @@ export class Cells extends Element {
       this.#getCellByRef(target.closest(`.${cls.cell}`)) ?? this.#mouseOverCell;
     if (!cell) {
       return;
+    }
+    // game started
+    if (!this.#started) {
+      this.#started = true;
+      this.dispatchCustom(eventName.cellMouseDownInitial);
     }
     this.#pressedMouseBtn = btn;
     this.#eraserMode =
@@ -128,6 +135,7 @@ export class Cells extends Element {
     this.addListener('mouseover', this.#handleMouseOver);
     this.addListener('mouseout', this.#handleMouseOut);
     this.addListener('contextmenu', this.#handleContextMenu);
+    document.addEventListener('mouseup', this.#handleMouseUp);
   };
 
   // div.cells > div.cells__row*mxSize > div.cell*mxSize
@@ -166,13 +174,19 @@ export class Cells extends Element {
     return cluesHelper.getClues();
   };
 
+  #init() {
+    this.#started = false;
+    this.#selectedValid.clear();
+    this.#selectedInvalid.clear();
+    //this.allowPointerEvents(true);
+  }
+
   update(mx) {
     if (!isMatrix(mx)) {
       return;
     }
+    this.#init();
     this.#numOfValid = 0;
-    this.#selectedValid.clear();
-    this.#selectedInvalid.clear();
     this.#cellsMap.clear();
 
     this.removeChildren();
@@ -185,13 +199,13 @@ export class Cells extends Element {
   }
 
   reset() {
-    this.#selectedValid.clear();
-    this.#selectedInvalid.clear();
+    this.#init();
     this.values.forEach((cell) => cell.reset());
   }
 
   revealSolution() {
     this.reset();
+    //this.allowPointerEvents(false);
     this.values.forEach((cell) =>
       cell.isValid ? cell.toggleSelect(true) : cell.toggleDiscard(true)
     );
@@ -213,9 +227,5 @@ export class Cells extends Element {
     return this.children.map((cellsRow) => {
       return cellsRow.children.map(({ value }) => value);
     });
-  }
-
-  restoreBySnapshot(snapshot) {
-    this.update(snapshot);
   }
 }

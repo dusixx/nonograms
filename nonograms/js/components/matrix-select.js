@@ -1,6 +1,6 @@
 import { Element } from './base/element.js';
 import { isFunc } from '../utils/index.js';
-import { matrices } from '../../data/game-matrices.js';
+import { matrices } from '../../data/puzzles/matrices.js';
 
 export class MatrixSelect extends Element {
   #onChange;

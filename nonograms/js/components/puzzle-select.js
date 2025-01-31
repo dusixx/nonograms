@@ -5,9 +5,9 @@ import { Button } from './button.js';
 
 const cls = {
   puzzleSelect: 'puzzle-select',
-  puzzleSelectLvl: 'puzzle-select__lvl select-primary',
-  puzzleSelectPic: 'puzzle-select__pic select-primary',
-  puzzleSelectRnd: 'puzzle-select__rnd btn-secondary',
+  puzzleSelectLvl: 'custom-select',
+  puzzleSelectPic: 'custom-select',
+  puzzleSelectRnd: 'btn-secondary',
 };
 
 export class PuzzleSelect extends Element {

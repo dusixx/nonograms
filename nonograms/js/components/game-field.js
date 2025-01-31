@@ -96,7 +96,7 @@ export class GameField extends Element {
   restoreBySnapshot(snapshot) {
     const { cells, cluesTop, cluesLeft } = JSONParse(snapshot) ?? '';
 
-    this.#cells.restoreBySnapshot(cells);
+    this.update(cells);
     this.#cluesTop.restoreBySnapshot(cluesTop);
     this.#cluesLeft.restoreBySnapshot(cluesLeft);
   }
