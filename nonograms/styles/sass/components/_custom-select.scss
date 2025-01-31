@@ -1,0 +1,24 @@
+.custom-select {
+  appearance: unset;
+
+  display: flex;
+  align-items: center;
+  height: 30px;
+  padding: 0 10px;
+
+  font-size: 14px;
+  text-transform: capitalize;
+
+  background-color: var(--color-text-sec);
+  color: var(--color-text);
+
+  border: 1px solid var(--color-border-select);
+  border-radius: var(--border-radius);
+  cursor: pointer;
+
+  &:disabled {
+    @include non-interactive {
+      filter: grayscale(1);
+    }
+  }
+}

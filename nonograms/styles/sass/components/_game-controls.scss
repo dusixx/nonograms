@@ -1,0 +1,16 @@
+@use '../utils//vars';
+
+.game-controls {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  align-items: center;
+  gap: smooth-out($min-container-width, 15px, $max-container-width, 25px);
+  width: 100%;
+
+  .btn-primary {
+    font-size: 14px;
+    flex-grow: 1;
+    padding: 20px 4px;
+  }
+}

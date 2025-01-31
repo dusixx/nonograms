@@ -13,18 +13,16 @@
 .btn-primary {
   @extend .btn;
 
-  padding: 6px 10px;
+  height: 25px;
+  padding: 0 10px;
 
-  font-size: inherit;
+  font-size: 14px;
   line-height: 1;
-  //letter-spacing: 0.01rem;
   text-transform: capitalize;
   font-weight: 400;
 
-  color: var(--color-text);
-  background-color: transparent;
-
-  border: 1px solid var(--color-border);
+  color: var(--color-btn);
+  background-color: var(--color-btn-bg);
   border-radius: var(--border-radius);
 
   &:disabled {
@@ -35,14 +33,23 @@
 }
 
 .btn-secondary {
-  @extend .btn-primary;
+  @extend .btn;
 
-  text-transform: capitalize;
   display: inline-flex;
   padding-left: 0;
   padding-right: 0;
-  font-size: 14px;
-  color: var(--color-accent);
+
+  font-size: 13px;
+  text-transform: capitalize;
   text-decoration: underline;
+
+  background-color: transparent;
+  color: var(--color-text);
   border: unset;
+
+  &:disabled {
+    @include non-interactive {
+      opacity: 0.6;
+    }
+  }
 }

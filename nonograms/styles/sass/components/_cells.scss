@@ -1,7 +1,4 @@
 .cells {
-  --co-border: var(--color-cell-border);
-  --co-border-dark: var(--color-cell-border-bold);
-
   display: grid;
   grid-area: cells;
 
@@ -10,7 +7,7 @@
   //   var(--game-field-cell-size)
   // );
 
-  border: 2px solid var(--co-border-dark);
+  border: 2px solid var(--color-cell-border-bold);
 }
 
 .cells__row {
@@ -22,16 +19,17 @@
 
   // normal borders
   &:not(:last-of-type) {
-    border-bottom: 1px solid var(--co-border);
+    border-bottom: 1px solid var(--color-cell-border);
   }
   // bold borders
   &:nth-of-type(5n):not(:last-of-type) {
-    border-bottom-color: var(--co-border-dark);
+    border-bottom-color: var(--color-cell-border-bold);
     // next cells row
     & + .cells__row {
-      border-top: 1px solid var(--co-border-dark);
+      border-top: 1px solid var(--color-cell-border-bold);
     }
   }
+  cursor: pointer;
 }
 
 .cell {
@@ -39,16 +37,18 @@
   overflow: hidden;
   cursor: pointer;
 
+  background-color: var(--color-cell-bg);
+
   // normal borders
   &:not(:last-of-type) {
-    border-right: 1px solid var(--co-border);
+    border-right: 1px solid var(--color-cell-border);
   }
   // bold borders
   &:nth-of-type(5n) {
-    border-right-color: var(--co-border-dark);
+    border-right-color: var(--color-cell-border-bold);
     // next cell
     & + .cell {
-      border-left: 1px solid var(--co-border-dark);
+      border-left: 1px solid var(--color-cell-border-bold);
     }
   }
 

@@ -1,0 +1,29 @@
+.game-stats {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+
+  width: 100%;
+  margin-top: 10px;
+  padding-top: 10px;
+
+  @media (width <= 530px) {
+    flex-direction: column;
+  }
+}
+
+.puzzle-select {
+  display: flex;
+  gap: 15px;
+
+  .custom-select {
+    width: 100px;
+  }
+}
+
+.timer {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--color-text);
+}

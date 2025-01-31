@@ -1,3 +1,5 @@
+$clueSize: 1.5em;
+
 .clues-top,
 .clues-left {
   display: grid;
@@ -19,9 +21,14 @@
   .clues-list {
     flex-direction: column;
     justify-content: end;
+    padding: 5px 0;
+
+    @media (width <=500px) {
+      padding: 0;
+    }
 
     &:not(:last-of-type) {
-      border-right: 1px solid var(--color-cell-border);
+      border-right: 1px solid var(--color-clue-border);
     }
 
     &:nth-of-type(5n):not(:last-of-type) {
@@ -46,9 +53,14 @@
 
   .clues-list {
     justify-content: end;
+    padding: 0 5px;
+
+    @media (width <=500px) {
+      padding: 0;
+    }
 
     &:not(:last-of-type) {
-      border-bottom: 1px solid var(--color-cell-border);
+      border-bottom: 1px solid var(--color-clue-border);
     }
 
     &:nth-of-type(5n):not(:last-of-type) {
@@ -68,7 +80,7 @@
   background-color: var(--color-clues-row-bg);
 
   &--highlighted {
-    backdrop-filter: brightness(0.8);
+    background-color: var(--color-clues-row-highlighted-bg);
   }
 }
 
@@ -79,13 +91,13 @@
   justify-content: center;
   align-items: center;
 
-  height: 1.5em; //var(--game-field-cell-size);
-  width: 1.5em; //var(--game-field-cell-size);
+  height: $clueSize;
+  width: $clueSize;
 
   line-height: 0;
   cursor: pointer;
 
   &--discarded {
-    @include crossed-out($size: 100%);
+    @include crossed-out($size: 100%, $color: var(--color-clue-cross));
   }
 }

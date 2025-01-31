@@ -1,0 +1,68 @@
+.header {
+  &__wrapper {
+    @extend .wrapper;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding-top: 20px;
+    padding-bottom: 20px;
+  }
+
+  &__controls {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+}
+
+.score-btn {
+  @extend .btn;
+  padding: 5px;
+  //background-color: var(--color-header-control-bg);
+  background-color: transparent;
+  border-radius: 50%;
+  color: var(--color-header-control);
+
+  &__icon {
+    width: var(--header-control-size);
+    height: var(--header-control-size);
+    fill: currentColor;
+  }
+}
+
+.toggler {
+  @extend .btn;
+  width: fit-content;
+  padding: 5px;
+
+  color: var(--color-header-control);
+  background-color: transparent;
+
+  //border-radius: 50%;
+
+  & > svg {
+    width: var(--header-control-size);
+    height: var(--header-control-size);
+  }
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--color-text);
+
+  &__text {
+    line-height: 0;
+    font-weight: 800;
+    text-transform: uppercase;
+  }
+
+  &__icon {
+    width: 14px;
+    height: 14px;
+    fill: var(--color-logo-icon);
+  }
+}

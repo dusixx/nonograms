@@ -1,0 +1,11 @@
+.main {
+  &__wrapper {
+    @extend .wrapper;
+
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+
+    gap: 35px;
+  }
+}

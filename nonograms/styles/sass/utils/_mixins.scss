@@ -10,6 +10,7 @@
 @mixin non-interactive() {
   pointer-events: none;
   user-select: none;
+  cursor: not-allowed;
   @content;
 }
 

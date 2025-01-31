@@ -1,18 +1,15 @@
 body {
-  //font-family: 'Nunito', sans-serif;
-  font-family: 'Oswald', sans-serif;
+  font-family: 'Nunito', sans-serif;
+  //font-family: 'Oswald', sans-serif;
   user-select: none;
   color: var(--color-dark);
-  // background-color: whitesmoke;
-  // width: 100vw;
-  // height: 100vh;
-  // filter: invert(1);
+  background-color: var(--color-body-bg);
 }
 
-// body::before {
-//   content: '';
-//   display: block;
-//   width: 100%;
-//   height: 10px;
-//   background-color: rgb(227, 250, 233);
-// }
+body::before {
+  content: '';
+  display: block;
+  width: 100%;
+  height: 10px;
+  background-color: rgba(170, 170, 170, 0.2);
+}
