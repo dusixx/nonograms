@@ -10,16 +10,20 @@ import {
 import { CluesHelper } from './clues-helper.js';
 
 export class Cells extends Element {
+  #started;
   #numOfValid = 0;
+
   #selectedValid = new Set(); // Set<Cell>
   #selectedInvalid = new Set(); // Set<Cell>
+  #selected = new Set(); // Set<Cell>
+  #discarded = new Set(); // Set<Cell>
   #cellsMap = new Map(); // Map<ref,Cell>
+
   #pressedMouseBtn = -1;
   #eraserMode;
   #reviewerMode;
   // to avoid blind spots when hovering over cell row border
   #mouseOverCell;
-  #started;
 
   constructor(mx, callback) {
     super({ className: cls.cells });
@@ -37,8 +41,22 @@ export class Cells extends Element {
       this.#selectedValid.size === this.#numOfValid &&
       this.#selectedInvalid.size === 0;
     if (wasSolved) {
-      //this.allowPointerEvents(false);
+      // to avoid any side effect
+      this.#handleMouseUp();
       this.dispatchCustom(eventName.solutionFound);
+    }
+  };
+
+  #addCellToDesiredSet = (cell) => {
+    if (cell.isSelected) {
+      this.#selected.add(cell);
+      this.#discarded.delete(cell);
+    } else if (cell.isDiscarded) {
+      this.#discarded.add(cell);
+      this.#selected.delete(cell);
+    } else {
+      this.#discarded.delete(cell);
+      this.#selected.delete(cell);
     }
   };
 
@@ -49,6 +67,10 @@ export class Cells extends Element {
 
     const action = cell.isSelected ? 'add' : 'delete';
     targetSet[action](cell);
+
+    this.#addCellToDesiredSet(cell);
+
+    cell.dispatchCustom(eventName.cellHasChanged);
   };
 
   #handleMouseDown = (e) => {
@@ -62,7 +84,7 @@ export class Cells extends Element {
     // game started
     if (!this.#started) {
       this.#started = true;
-      this.dispatchCustom(eventName.cellMouseDownInitial);
+      cell.dispatchCustom(eventName.cellsChangedForTheFirstTime);
     }
 
     this.#pressedMouseBtn = btn;
@@ -178,6 +200,8 @@ export class Cells extends Element {
     this.#started = false;
     this.#selectedValid.clear();
     this.#selectedInvalid.clear();
+    this.#selected.clear();
+    this.#discarded.clear();
     //this.allowPointerEvents(true);
   }
 
@@ -223,25 +247,16 @@ export class Cells extends Element {
     return this.#reviewerMode;
   }
 
-  getCellsCount() {
-    return this.values.reduce(
-      (res, cell) => {
-        if (cell.isValid) {
-          res.valid += 1;
-        }
-        if (cell.isDiscarded) {
-          res.discarded += 1;
-        } else if (cell.isSelected) {
-          res.selected += 1;
-        }
-        return res;
-      },
-      {
-        selected: 0,
-        discarded: 0,
-        valid: 0,
-      }
-    );
+  get selectedCount() {
+    return this.#selected.size;
+  }
+
+  get discardedCount() {
+    return this.#discarded.size;
+  }
+
+  get hasSelectedOrDiscarded() {
+    return this.selectedCount || this.discardedCount;
   }
 
   getSnapshot() {
