@@ -3,8 +3,11 @@ export const eventName = {
   cellMouseDown: 'cellmousedown',
   cellMouseOver: 'cellmouseover',
   cellMouseOut: 'cellmouseout',
-  cellMouseDownInitial: 'cellmousedowninitial',
-  reviewerModeChange: 'reviewermodechange',
+  cellHasChanged: 'cellhaschanged',
+  cellsChangedForTheFirstTime: 'cellschangedforthefirsttime',
+  clueHasChanged: 'cluehaschanged',
+  gameFieldHasChanged: 'gamefieldhaschanged',
+  reviewerModeHasChanged: 'reviewermodehaschanged',
 };
 
 export const cellStateFlags = {
@@ -24,6 +27,7 @@ export const localStorageKey = {
   snapshot: 'nng-35fc8f7e525a-snapshot',
   theme: 'nng-35fc8f7e525a-theme',
   sound: 'nng-35fc8f7e525a-sound',
+  score: 'nng-35fc8f7e525a-score',
 };
 
 export const colorTheme = {
@@ -41,4 +45,10 @@ export const buttonName = {
   solution: 'solution',
   save: 'save',
   load: 'load',
+};
+
+export const message = {
+  haveSolved(secs) {
+    return `Great! You have solved the nonogram in ${secs} seconds!`;
+  },
 };

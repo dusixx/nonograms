@@ -45,4 +45,19 @@ export const classes = {
   gameControls: 'game-controls',
   solutionBtn: 'btn-primary',
   gameStats: 'game-stats',
+
+  score: 'score',
+  scoreResults: 'score__results',
+  scoreRow: 'score__row',
+  scoreRowItem: 'score__item',
+  scoreHeader: 'score__header',
+  scoreNoResults: 'score__noresults',
+
+  scrollLock: 'scroll-lock',
+  backdrop: 'backdrop',
+  backdropActive: 'backdrop--active',
+  modal: 'modal',
+  modalPara: 'modal__para',
+  modalContent: 'modal__content',
+  modalBtn: 'modal__btn',
 };
