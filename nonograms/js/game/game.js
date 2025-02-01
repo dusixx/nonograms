@@ -1,14 +1,7 @@
 import './togglers.js';
-import { Element } from '../components/index.js';
-import { JSONParse } from '../utils/helpers.js';
-
-import { state } from './state.js';
-
-import {
-  eventName,
-  localStorageKey as lsKey,
-  classes as cls,
-} from '../constants/index.js';
+import { saveSnapshot, getSavedSnapshot } from './helpers.js';
+import { eventName, classes as cls, message } from '../constants/index.js';
+import { Score } from '../components/score.js';
 
 import {
   scoreBtn,
@@ -20,57 +13,129 @@ import {
   loadBtn,
   solutionBtn,
   resetBtn,
+  modal,
 } from '../layout/index.js';
 
-document.addEventListener(eventName.reviewerModeChange, () => {
-  gameField.toggleReviewerMode(state.reviewerMode);
-});
+const score = new Score();
 
-gameField.update(puzzleSelect.puzzleData.mx);
+const init = () => {
+  saveBtn.disabled = true;
+  resetBtn.disabled = true;
+  solutionBtn.disabled = false;
+  loadBtn.disabled = !getSavedSnapshot();
 
-puzzleSelect.onChange = (puzzleData) => {
-  gameField.update(puzzleData.mx);
-  gameField.toggleReviewerMode(state.reviewerMode);
-};
+  gameField.update(puzzleSelect.puzzleData.mx);
+  gameField.toggleReviewerMode(reviewerModeToggler.isEnabled);
+  gameField.allowPointerEvents(true);
 
-resetBtn.onClick = () => {
-  gameField.reset();
   timer.reset();
 };
 
-saveBtn.onClick = () => {
-  if (!gameField.hasSelectedOrDiscarded()) {
-    console.log('nothing to save');
-    return;
-  }
-  const snapshot = JSON.stringify({
-    ...gameField.getSnapshot(),
-    ...puzzleSelect.value,
-    elapsed: timer.elapsed,
-  });
-  localStorage.setItem(lsKey.snapshot, snapshot);
+const reset = () => {
+  saveBtn.disabled = true;
+  resetBtn.disabled = true;
+  solutionBtn.disabled = false;
+  loadBtn.disabled = !getSavedSnapshot();
+
+  gameField.allowPointerEvents(true);
+  gameField.reset();
+
+  timer.reset();
 };
 
+//
+//--------------------
+// Handlers
+//--------------------
+//
+
+scoreBtn.onClick = () => {
+  score.loadFromLocalStorage();
+  modal.show(score);
+};
+
+// toggle reviewer mode
+reviewerModeToggler.onToggle = (enabled) => {
+  gameField.toggleReviewerMode(enabled);
+};
+
+// reinit game
+puzzleSelect.onChange = (puzzleData) => {
+  console.log(puzzleSelect.value);
+  init();
+};
+
+// reset current game
+resetBtn.onClick = () => {
+  reset();
+};
+
+// save current game
+saveBtn.onClick = () => {
+  saveSnapshot();
+  saveBtn.disabled = true;
+  loadBtn.disabled = true;
+};
+
+// load last saved game
 loadBtn.onClick = () => {
-  const snapshot = JSONParse(localStorage.getItem(lsKey.snapshot));
+  const snapshot = getSavedSnapshot();
   if (!snapshot) {
-    console.log('nothing to load');
     return;
   }
+  loadBtn.disabled = true;
+  saveBtn.disabled = true;
+  resetBtn.disabled = false;
+  solutionBtn.disabled = false;
+
   puzzleSelect.update({ ...snapshot, force: true });
+
   gameField.restoreBySnapshot(snapshot);
-  gameField.toggleReviewerMode(state.reviewerMode);
+  gameField.toggleReviewerMode(reviewerModeToggler.isEnabled);
+  gameField.allowPointerEvents(true);
 
   timer.reset();
   timer.elapsed = snapshot.elapsed;
 };
 
+// reveal solution
 solutionBtn.onClick = () => {
+  saveBtn.disabled = true;
+  resetBtn.disabled = false;
+  solutionBtn.disabled = true;
+  loadBtn.disabled = !getSavedSnapshot();
+
+  gameField.allowPointerEvents(false);
   gameField.revealSolution();
+
+  timer.reset();
 };
 
-gameField.addListener(eventName.cellMouseDownInitial, (e) => {
+// game was started
+gameField.addListener(eventName.cellsChangedForTheFirstTime, () => {
+  resetBtn.disabled = false;
   timer.start();
-  console.log('started');
 });
-gameField.addListener(eventName.solutionFound, (e) => console.log('You won!'));
+
+// solution found
+gameField.addListener(eventName.solutionFound, () => {
+  saveBtn.disabled = true;
+  solutionBtn.disabled = true;
+
+  gameField.allowPointerEvents(false);
+  timer.stop();
+
+  score.add({ ...puzzleSelect.value, elapsed: timer.elapsed });
+  score.saveToLocalStorage();
+
+  modal.show(message.haveSolved(timer.elapsed), '250px');
+});
+
+// game field was changed
+gameField.addListener(eventName.gameFieldHasChanged, () => {
+  // available only when there are selected or discarded cells
+  saveBtn.disabled = !gameField.hasSelectedOrDiscarded;
+  loadBtn.disabled = false;
+});
+
+init();

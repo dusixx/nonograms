@@ -1,5 +1,3 @@
-import { state } from './state.js';
-
 import {
   localStorageKey as lsKey,
   soundState,
@@ -13,14 +11,6 @@ import {
   soundToggler,
   themeToggler,
 } from '../layout/header.js';
-
-//
-// Reviewer mode
-//
-reviewerModeToggler.onToggle = (enabled) => {
-  state.reviewerMode = enabled;
-  reviewerModeToggler.dispatchCustom(eventName.reviewerModeChange);
-};
 
 //
 // Sound
