@@ -25,7 +25,7 @@ const logo = new Element(
 const scoreBtn = new Button(
   { className: cls.scoreBtn },
   new SVGElement(
-    { className: cls.scoreBtnIcon },
+    { className: cls.scoreBtnIcon, title: 'Score' },
     { href: './assets/icons.svg#icon-trophy' }
   )
 );
