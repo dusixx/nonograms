@@ -10,7 +10,6 @@
 @mixin non-interactive() {
   pointer-events: none;
   user-select: none;
-  cursor: not-allowed;
   @content;
 }
 
@@ -46,4 +45,15 @@
   &::after {
     transform: translateY(-50%) rotate(-45deg);
   }
+}
+
+@mixin hidden($flag: true) {
+  @if ($flag == true) {
+    pointer-events: none;
+    visibility: hidden;
+  } @else if ($flag == false) {
+    pointer-events: all;
+    visibility: visible;
+  }
+  @content;
 }

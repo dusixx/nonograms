@@ -1,0 +1,56 @@
+.score {
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+
+  font-size: 14px;
+  text-transform: capitalize;
+
+  &__results {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__noresults {
+    padding-top: 5px;
+    text-transform: lowercase;
+    text-align: center;
+    opacity: 0.5;
+  }
+
+  &__header,
+  &__row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+  }
+
+  &__row {
+    &:nth-of-type(odd) {
+      background-color: var(--color-score-zebra);
+    }
+  }
+
+  &__header {
+    font-weight: 700;
+  }
+
+  &__item {
+    display: flex;
+    justify-content: center;
+    padding: 10px 0;
+
+    &:first-of-type {
+      width: 10%;
+    }
+    height: auto;
+    width: 30%;
+
+    & > svg {
+      height: 22px;
+      width: 22px;
+      fill: var(--color-score-reward);
+    }
+  }
+}

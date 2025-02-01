@@ -30,6 +30,12 @@ $min-container-width: 375px;
   --color-clue-cross: var(--color-cross);
   --color-logo-icon: var(--color-text);
 
+  --color-modal-text: rgb(65, 65, 65);
+  --color-modal-bg: rgb(235, 235, 235);
+  --color-backdrop-bg: rgba(40, 40, 46, 0.8);
+
+  --color-score-reward: currentColor;
+  --color-score-zebra: rgb(221, 221, 221);
   --color-header-control: var(--color-text);
   --header-control-size: 15px;
 
@@ -64,4 +70,10 @@ $min-container-width: 375px;
   --color-clue-cross: rgb(175, 175, 175);
   --color-logo-icon: #5f3d5a;
   --color-header-control: rgb(158, 158, 158);
+
+  --color-modal-bg: rgb(218, 218, 218);
+  --color-backdrop-bg: rgba(40, 40, 46, 0.8);
+
+  --color-score-zebra: rgb(207, 207, 207);
+  //--color-score-reward: var(--color-accent);
 }

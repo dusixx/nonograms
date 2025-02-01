@@ -27,17 +27,17 @@
 
   &:disabled {
     @include non-interactive {
-      opacity: 0.4;
+      opacity: 0.5;
     }
   }
 }
 
-.btn-primary-invert {
-  @extend .btn-primary;
+// .btn-primary-invert {
+//   @extend .btn-primary;
 
-  color: var(--color-btn-bg);
-  background-color: var(--color-btn);
-}
+//   color: var(--color-btn-bg);
+//   background-color: var(--color-btn);
+// }
 
 .btn-secondary {
   @extend .btn;
