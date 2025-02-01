@@ -51,8 +51,11 @@ export const msToDHMS = (ms) => {
   };
 };
 
-// export const getRandomMatrix = (matrices) => {
-//   const allLevels = Object.keys(matrices);
-//   const lvl = allLevels[rndInt(0, allLevels.length - 1)];
-//   const allPuzzles = Object.matrices[lvl];
-// };
+export const elapsedToTime = (seconds) => {
+  const { secs, mins, hours } = msToDHMS(seconds * 1000);
+  const res = `${mins}`.padStart(2, 0) + ':' + `${secs}`.padStart(2, 0);
+  if (hours > 0) {
+    res = `${hours}`.padStart(2, 0) + res;
+  }
+  return res;
+};
