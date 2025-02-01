@@ -179,57 +179,9 @@ summary {
   display: list-item;
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-p {
-  margin: 0;
-}
-
-ul {
-  padding: 0;
-  margin: 0;
-  list-style: none;
-}
-
-img {
-  display: block;
-  max-width: 100%;
-  height: auto;
-}
-
-address {
-  font-style: normal;
-}
-
-a {
-  text-decoration: none;
-}
-
-body {
-  font-family: "Nunito", sans-serif;
-  -webkit-user-select: none;
-     -moz-user-select: none;
-      -ms-user-select: none;
-          user-select: none;
-  color: var(--color-dark);
-  background-color: var(--color-body-bg);
-}
-
-body::before {
-  content: "";
-  display: block;
-  width: 100%;
-  height: 10px;
-  background-color: rgba(170, 170, 170, 0.2);
-}
-
 :root {
-  --color-body-bg: rgb(255, 255, 255);
-  --color-accent: rgb(148, 86, 75);
+  --color-body-bg: rgb(247, 247, 247);
+  --color-accent: #593954;
   --color-text: rgb(65, 65, 65);
   --color-text-sec: rgb(235, 235, 235);
   --color-border: rgb(206, 206, 206);
@@ -278,14 +230,60 @@ body::before {
   --color-header-control: rgb(158, 158, 158);
 }
 
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  margin: 0;
+}
+
+ul {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+address {
+  font-style: normal;
+}
+
+a {
+  text-decoration: none;
+}
+
+body {
+  font-family: "Nunito", sans-serif;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  color: var(--color-dark);
+  background-color: var(--color-body-bg);
+  -webkit-transition-duration: 250ms;
+          transition-duration: 250ms;
+  -webkit-transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+          transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  -webkit-transition-property: color background-color;
+  transition-property: color background-color;
+}
+
 .wrapper, .main__wrapper, .header__wrapper {
-  padding: 0 5px;
+  padding: 10px 10px;
   margin: 0 auto;
   max-width: var(--container-max-width);
   min-width: var(--container-min-width);
 }
 
-.btn, .toggler, .score-btn, .btn-secondary, .btn-primary {
+.btn, .toggler, .score-btn, .btn-secondary, .btn-primary, .btn-primary-invert {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -304,7 +302,7 @@ body::before {
   cursor: pointer;
 }
 
-.btn-primary {
+.btn-primary, .btn-primary-invert {
   height: 25px;
   padding: 0 10px;
   font-size: 14px;
@@ -315,7 +313,7 @@ body::before {
   background-color: var(--color-btn-bg);
   border-radius: var(--border-radius);
 }
-.btn-primary:disabled {
+.btn-primary:disabled, .btn-primary-invert:disabled {
   pointer-events: none;
   -webkit-user-select: none;
      -moz-user-select: none;
@@ -323,6 +321,11 @@ body::before {
           user-select: none;
   cursor: not-allowed;
   opacity: 0.4;
+}
+
+.btn-primary-invert {
+  color: var(--color-btn-bg);
+  background-color: var(--color-btn);
 }
 
 .btn-secondary {
@@ -403,12 +406,6 @@ body::before {
   -webkit-box-pack: end;
       -ms-flex-pack: end;
           justify-content: end;
-  padding: 5px 0;
-}
-@media (width <= 500px) {
-  .clues-top .clues-list {
-    padding: 0;
-  }
 }
 .clues-top .clues-list:not(:last-of-type) {
   border-right: 1px solid var(--color-clue-border);
@@ -430,12 +427,6 @@ body::before {
   -webkit-box-pack: end;
       -ms-flex-pack: end;
           justify-content: end;
-  padding: 0 5px;
-}
-@media (width <= 500px) {
-  .clues-left .clues-list {
-    padding: 0;
-  }
 }
 .clues-left .clues-list:not(:last-of-type) {
   border-bottom: 1px solid var(--color-clue-border);
@@ -474,8 +465,8 @@ body::before {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  height: 1.5em;
-  width: 1.5em;
+  height: 1.7em;
+  width: 1.7em;
   line-height: 0;
   cursor: pointer;
 }
@@ -568,25 +559,19 @@ body::before {
   -webkit-box-pack: justify;
       -ms-flex-pack: justify;
           justify-content: space-between;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
   gap: 20px;
   width: 100%;
   margin-top: 10px;
   padding-top: 10px;
-}
-@media (width <= 530px) {
-  .game-stats {
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
-        -ms-flex-direction: column;
-            flex-direction: column;
-  }
 }
 
 .puzzle-select {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  gap: 15px;
+  gap: 10px;
 }
 .puzzle-select .custom-select {
   width: 100px;
@@ -601,12 +586,13 @@ body::before {
 .game-field {
   --game-field-rows: 5;
   --game-field-cols: 5;
-  --game-field-cell-size: min(2.5em, calc(78vw / var(--game-field-cols)));
+  --game-field-cell-size: min(3em, calc(78vw / var(--game-field-cols)));
   display: grid;
   grid-template-areas: "placeholder clues-top" "clues-left cells";
   width: -webkit-fit-content;
   width: -moz-fit-content;
   width: fit-content;
+  margin-top: 20px;
   font-family: "Oswald", sans-serif;
   font-weight: 300;
   font-size: 12px;
@@ -614,8 +600,8 @@ body::before {
 }
 
 :root {
-  --color-body-bg: rgb(255, 255, 255);
-  --color-accent: rgb(148, 86, 75);
+  --color-body-bg: rgb(247, 247, 247);
+  --color-accent: #593954;
   --color-text: rgb(65, 65, 65);
   --color-text-sec: rgb(235, 235, 235);
   --color-border: rgb(206, 206, 206);
@@ -670,16 +656,14 @@ body::before {
   display: flex;
   -ms-flex-wrap: wrap;
       flex-wrap: wrap;
-  -webkit-box-pack: space-evenly;
-      -ms-flex-pack: space-evenly;
-          justify-content: space-evenly;
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
   gap: clamp(15px, 15px + 10 * (100vw - 375px) / 225, 25px);
   width: 100%;
+  margin-top: 40px;
 }
-.game-controls .btn-primary {
+.game-controls .btn-primary, .game-controls .btn-primary-invert {
   font-size: 14px;
   -webkit-box-flex: 1;
       -ms-flex-positive: 1;
@@ -698,8 +682,7 @@ body::before {
       -ms-flex-pack: justify;
           justify-content: space-between;
   width: 100%;
-  padding-top: 20px;
-  padding-bottom: 20px;
+  padding-top: 15px;
 }
 .header__controls {
   display: -webkit-box;
@@ -734,6 +717,7 @@ body::before {
 .toggler > svg {
   width: var(--header-control-size);
   height: var(--header-control-size);
+  fill: currentColor;
 }
 
 .logo {
@@ -768,5 +752,4 @@ body::before {
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column;
-  gap: 35px;
 }/*# sourceMappingURL=main.css.map */

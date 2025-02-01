@@ -1,9 +1,6 @@
 import { Element } from './base/element.js';
 import { isPositiveInt, msToDHMS } from '../utils/helpers.js';
-
-const cls = {
-  timer: 'timer',
-};
+import { classes as cls } from '../constants/index.js';
 
 export class Timer extends Element {
   #elapsed = 0;
@@ -15,16 +12,24 @@ export class Timer extends Element {
   constructor() {
     super({ className: cls.timer });
 
-    this.#hours = new Element({ tag: 'span', text: '00:' });
-    this.#mins = new Element({ tag: 'span', text: '00:' });
-    this.#secs = new Element({ tag: 'span', text: '00' });
+    this.#hours = new Element({ tag: 'span' });
+    this.#mins = new Element({ tag: 'span' });
+    this.#secs = new Element({ tag: 'span' });
 
     this.append(this.#hours, this.#mins, this.#secs);
-    this.#hours.hide();
+    this.#init();
   }
 
+  #init = () => {
+    this.#secs.text = '00';
+    this.#mins.text = '00:';
+    this.#hours.text = '00:';
+    this.#hours.hide();
+    this.#timerId = 0;
+    this.#elapsed = 0;
+  };
+
   #render = () => {
-    this.#elapsed += 1;
     const { secs, mins, hours } = msToDHMS(this.#elapsed * 1000);
 
     this.#secs.text = `${secs}`.padStart(2, 0);
@@ -37,24 +42,20 @@ export class Timer extends Element {
     }
   };
 
-  start(secs) {
-    this.#elapsed = secs;
-    this.#timerId = setInterval(this.#render, 1000);
+  start() {
+    this.#render();
 
-    return this;
-  }
-
-  stop() {
-    clearInterval(this.#timerId);
-    this.#timerId = 0;
+    this.#timerId = setInterval(() => {
+      this.#elapsed += 1;
+      this.#render();
+    }, 1000);
 
     return this;
   }
 
   reset() {
-    this.#elapsed = 0;
-    this.#render();
-
+    clearInterval(this.#timerId);
+    this.#init();
     return this;
   }
 
@@ -63,6 +64,7 @@ export class Timer extends Element {
       return;
     }
     this.#elapsed = v;
+    this.#render();
   }
 
   get elapsed() {

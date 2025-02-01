@@ -1,14 +1,8 @@
 import { JSONParse, isMatrix } from '../utils/index.js';
 import { Element } from './base/element.js';
 import { Clues } from './clues.js';
-import { eventName } from '../../data/constants.js';
+import { eventName, classes as cls } from '../constants/index.js';
 import { Cells } from './cells.js';
-
-const cls = {
-  gameField: 'game-field',
-  cluesLeft: 'clues-left',
-  cluesTop: 'clues-top',
-};
 
 const cssVar = {
   gameFieldRows: '--game-field-rows',
@@ -99,5 +93,10 @@ export class GameField extends Element {
     this.update(cells);
     this.#cluesTop.restoreBySnapshot(cluesTop);
     this.#cluesLeft.restoreBySnapshot(cluesLeft);
+  }
+
+  hasSelectedOrDiscarded() {
+    const { selected, discarded } = this.#cells.getCellsCount();
+    return selected > 0 || discarded > 0;
   }
 }

@@ -1,11 +1,11 @@
 @import './vendors/modern-normalize';
 
-@import './base/reset';
-@import './base/base';
-
 @import './utils/funcs';
 @import './utils/mixins';
 @import './utils/vars';
+
+@import './base/reset';
+@import './base/base';
 
 @import './components/wrapper';
 @import './components/btn';

@@ -1,4 +1,4 @@
-$clueSize: 1.5em;
+$clueSize: 1.7em;
 
 .clues-top,
 .clues-left {
@@ -21,11 +21,10 @@ $clueSize: 1.5em;
   .clues-list {
     flex-direction: column;
     justify-content: end;
-    padding: 5px 0;
-
-    @media (width <=500px) {
-      padding: 0;
-    }
+    // padding: 5px 0;
+    // @media (width <=500px) {
+    //   padding: 0;
+    // }
 
     &:not(:last-of-type) {
       border-right: 1px solid var(--color-clue-border);
@@ -53,11 +52,10 @@ $clueSize: 1.5em;
 
   .clues-list {
     justify-content: end;
-    padding: 0 5px;
-
-    @media (width <=500px) {
-      padding: 0;
-    }
+    // padding: 0 5px;
+    // @media (width <=500px) {
+    //   padding: 0;
+    // }
 
     &:not(:last-of-type) {
       border-bottom: 1px solid var(--color-clue-border);

@@ -1,12 +1,11 @@
 import { isPositiveInt } from '../utils/helpers.js';
 import { Element } from './base/element.js';
-import { eventName, cellStateFlags, mouseBtn } from '../../data/constants.js';
-
-export const cls = {
-  cell: 'cell',
-  selected: 'cell--selected',
-  discarded: 'cell--discarded',
-};
+import {
+  eventName,
+  cellStateFlags,
+  mouseBtn,
+  classes as cls,
+} from '../constants/index.js';
 
 //
 //------------------
@@ -29,7 +28,7 @@ export class Cell extends Element {
   }
 
   toggleSelect(force) {
-    const selected = this.toggleClass(cls.selected, force);
+    const selected = this.toggleClass(cls.cellSelected, force);
     if (selected) {
       this.#value |= cellStateFlags.selected;
       this.toggleDiscard(false);
@@ -39,7 +38,7 @@ export class Cell extends Element {
   }
 
   toggleDiscard(force) {
-    const discarded = this.toggleClass(cls.discarded, force);
+    const discarded = this.toggleClass(cls.cellDiscarded, force);
     if (discarded) {
       this.#value |= cellStateFlags.discarded;
       this.toggleSelect(false);

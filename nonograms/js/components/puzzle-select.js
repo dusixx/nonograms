@@ -2,13 +2,7 @@ import { Element } from './base/element.js';
 import { puzzles } from '../../data/puzzles/index.js';
 import { isFunc, rndInt } from '../utils/helpers.js';
 import { Button } from './button.js';
-
-const cls = {
-  puzzleSelect: 'puzzle-select',
-  puzzleSelectLvl: 'custom-select',
-  puzzleSelectPic: 'custom-select',
-  puzzleSelectRnd: 'btn-secondary',
-};
+import { classes as cls } from '../constants/index.js';
 
 export class PuzzleSelect extends Element {
   #level;

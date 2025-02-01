@@ -3,10 +3,11 @@
 .game-controls {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-evenly;
+  //justify-content: space-evenly;
   align-items: center;
   gap: smooth-out($min-container-width, 15px, $max-container-width, 25px);
   width: 100%;
+  margin-top: 40px;
 
   .btn-primary {
     font-size: 14px;

@@ -1,4 +1,6 @@
 .header {
+  //border-bottom: solid 1px rgba(121, 121, 121, 0.1);
+
   &__wrapper {
     @extend .wrapper;
 
@@ -6,8 +8,8 @@
     align-items: center;
     justify-content: space-between;
     width: 100%;
-    padding-top: 20px;
-    padding-bottom: 20px;
+    padding-top: 15px;
+    //padding-bottom: 20px;
   }
 
   &__controls {
@@ -45,6 +47,7 @@
   & > svg {
     width: var(--header-control-size);
     height: var(--header-control-size);
+    fill: currentColor;
   }
 }
 

@@ -1,14 +1,13 @@
-import { Cell, cls as cellCls } from './cell.js';
+import { Cell } from './cell.js';
 import { Element } from './base/element.js';
 import { isMatrix } from '../utils/helpers.js';
-import { eventName, cellStateFlags, mouseBtn } from '../../data/constants.js';
+import {
+  eventName,
+  cellStateFlags,
+  mouseBtn,
+  classes as cls,
+} from '../constants/index.js';
 import { CluesHelper } from './clues-helper.js';
-
-const cls = {
-  cells: 'cells',
-  cellsRow: 'cells__row',
-  ...cellCls,
-};
 
 export class Cells extends Element {
   #numOfValid = 0;
@@ -65,6 +64,7 @@ export class Cells extends Element {
       this.#started = true;
       this.dispatchCustom(eventName.cellMouseDownInitial);
     }
+
     this.#pressedMouseBtn = btn;
     this.#eraserMode =
       (cell.isSelected && btn === mouseBtn.left) ||
@@ -221,6 +221,27 @@ export class Cells extends Element {
           : null;
     });
     return this.#reviewerMode;
+  }
+
+  getCellsCount() {
+    return this.values.reduce(
+      (res, cell) => {
+        if (cell.isValid) {
+          res.valid += 1;
+        }
+        if (cell.isDiscarded) {
+          res.discarded += 1;
+        } else if (cell.isSelected) {
+          res.selected += 1;
+        }
+        return res;
+      },
+      {
+        selected: 0,
+        discarded: 0,
+        valid: 0,
+      }
+    );
   }
 
   getSnapshot() {

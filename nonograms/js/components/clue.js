@@ -1,10 +1,6 @@
 import { Element } from './base/element.js';
 import { isPositiveInt } from '../utils/helpers.js';
-
-export const cls = {
-  clue: 'clue',
-  discarded: 'clue--discarded',
-};
+import { classes as cls } from '../constants/index.js';
 
 export class Clue extends Element {
   #position;
@@ -17,7 +13,7 @@ export class Clue extends Element {
   }
 
   toggleDiscard(force) {
-    this.#discarded = this.toggleClass(cls.discarded, force);
+    this.#discarded = this.toggleClass(cls.clueDiscarded, force);
   }
 
   get isDiscarded() {

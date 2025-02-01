@@ -1,12 +1,7 @@
 import { checkArgument, isMatrix, isArray } from '../utils/helpers.js';
 import { Element } from './base/element.js';
-import { Clue, cls as clueCls } from './clue.js';
-
-const cls = {
-  cluesList: 'clues-list',
-  highlighted: 'clues-list--highlighted',
-  ...clueCls,
-};
+import { classes as cls } from '../constants/index.js';
+import { Clue } from './clue.js';
 
 export class Clues extends Element {
   #cluesMap = new Map(); // Map<ref,Clue>
@@ -77,7 +72,7 @@ export class Clues extends Element {
 
   // highlight clues row|col
   highlight(rowIdx, force = true) {
-    this.children[rowIdx]?.toggleClass(cls.highlighted, force);
+    this.children[rowIdx]?.toggleClass(cls.cluesListHighlighted, force);
   }
 
   getSnapshot() {

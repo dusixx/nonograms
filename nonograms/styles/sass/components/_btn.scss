@@ -32,6 +32,13 @@
   }
 }
 
+.btn-primary-invert {
+  @extend .btn-primary;
+
+  color: var(--color-btn-bg);
+  background-color: var(--color-btn);
+}
+
 .btn-secondary {
   @extend .btn;
 

@@ -1,0 +1,82 @@
+.container {
+  font-size: 0.8rem;
+  display: grid;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  grid-template-areas: "placeholder clue-top" "clue-left cells";
+  border: 1px solid gray;
+}
+
+.cells {
+  display: grid;
+  grid-area: cells;
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: repeat(5, 1fr);
+  border: 1px solid gray;
+}
+
+.clue-top {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-area: clue-top;
+  background-color: rgb(207, 207, 207);
+}
+.clue-top > div {
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+}
+
+.yyy {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+.yyy > span {
+  padding: 5px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.xxx {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: end;
+  background-color: rgb(207, 207, 207);
+}
+.xxx > span {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.clue-left {
+  display: grid;
+  grid-template-rows: repeat(5, 1fr);
+  grid-area: clue-left;
+}
+.clue-left > li {
+  border: 1px solid rgb(207, 207, 207);
+}
+
+.cell {
+  width: 5vw;
+  height: 5vw;
+  border: 1px solid gray;
+}/*# sourceMappingURL=grid.css.map */

@@ -2,20 +2,21 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: wrap;
   gap: 20px;
 
   width: 100%;
   margin-top: 10px;
   padding-top: 10px;
 
-  @media (width <= 530px) {
-    flex-direction: column;
-  }
+  // @media (width <= 530px) {
+  //   flex-direction: column;
+  // }
 }
 
 .puzzle-select {
   display: flex;
-  gap: 15px;
+  gap: 10px;
 
   .custom-select {
     width: 100px;

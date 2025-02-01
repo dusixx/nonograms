@@ -1,5 +1,5 @@
 import { checkArgument, isMatrix } from '../utils/helpers.js';
-import { cellStateFlags } from '../../data/constants.js';
+import { cellStateFlags } from '../constants/index.js';
 
 const isValid = (v) => v & cellStateFlags.valid;
 
