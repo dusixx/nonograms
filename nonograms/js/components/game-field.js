@@ -44,10 +44,20 @@ export class GameField extends Element {
     this.#cluesTop.highlight(col, false);
   };
 
+  #handleCellChange = ({ detail: { target: cell } }) => {
+    this.dispatchCustom(eventName.gameFieldHasChanged, { cell });
+  };
+
+  #handleClueChange = ({ detail: { target: clue } }) => {
+    this.dispatchCustom(eventName.gameFieldHasChanged, { clue });
+  };
+
   #addInteractivity = () => {
     this.addListener('contextmenu', (e) => e.preventDefault());
     this.addListener(eventName.cellMouseOver, this.#handleCellMouseOver);
     this.addListener(eventName.cellMouseOut, this.#handleCellMouseOut);
+    this.addListener(eventName.cellHasChanged, this.#handleCellChange);
+    this.addListener(eventName.clueHasChanged, this.#handleClueChange);
   };
 
   update(mx) {
@@ -95,8 +105,7 @@ export class GameField extends Element {
     this.#cluesLeft.restoreBySnapshot(cluesLeft);
   }
 
-  hasSelectedOrDiscarded() {
-    const { selected, discarded } = this.#cells.getCellsCount();
-    return selected > 0 || discarded > 0;
+  get hasSelectedOrDiscarded() {
+    return this.#cells.hasSelectedOrDiscarded;
   }
 }

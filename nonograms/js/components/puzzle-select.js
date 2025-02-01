@@ -94,9 +94,11 @@ export class PuzzleSelect extends Element {
   }
 
   get value() {
+    const { selectedIndex: idx } = this.#puzzle.ref;
     return {
       lvlName: this.#level.ref.value,
       puzzleId: this.#puzzle.ref.value,
+      puzzleName: this.#puzzle.ref.options[idx].text,
     };
   }
 

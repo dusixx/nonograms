@@ -50,13 +50,15 @@ export class Modal extends Element {
     return wasShown;
   }
 
-  show(cont) {
+  show(cont, width) {
     if (isStr(cont)) {
       cont = new Element({ tag: 'p', text: cont, className: cls.modalPara });
     }
     if (!(cont instanceof Element)) {
       return;
     }
+    this.#content.ref.style.width = width ?? '';
+
     this.#content.removeChildren();
     this.#content.append(cont);
     this.#toggle(true);

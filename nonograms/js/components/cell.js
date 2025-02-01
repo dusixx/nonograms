@@ -33,6 +33,7 @@ export class Cell extends Element {
       this.#value |= cellStateFlags.selected;
       this.toggleDiscard(false);
     } else {
+      //this.dispatchCustom(eventName.cellHasChanged);
       this.#value &= ~cellStateFlags.selected;
     }
   }
@@ -43,6 +44,7 @@ export class Cell extends Element {
       this.#value |= cellStateFlags.discarded;
       this.toggleSelect(false);
     } else {
+      //this.dispatchCustom(eventName.cellHasChanged);
       this.#value &= ~cellStateFlags.discarded;
     }
   }

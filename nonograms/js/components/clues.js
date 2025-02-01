@@ -1,6 +1,6 @@
 import { checkArgument, isMatrix, isArray } from '../utils/helpers.js';
 import { Element } from './base/element.js';
-import { classes as cls } from '../constants/index.js';
+import { classes as cls, eventName } from '../constants/index.js';
 import { Clue } from './clue.js';
 
 export class Clues extends Element {
@@ -21,6 +21,7 @@ export class Clues extends Element {
       return;
     }
     clue.toggleDiscard();
+    clue.dispatchCustom(eventName.clueHasChanged);
   };
 
   #addInteractivity = () => {

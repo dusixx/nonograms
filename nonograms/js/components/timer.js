@@ -53,6 +53,11 @@ export class Timer extends Element {
     return this;
   }
 
+  stop() {
+    clearInterval(this.#timerId);
+    return this;
+  }
+
   reset() {
     clearInterval(this.#timerId);
     this.#init();
