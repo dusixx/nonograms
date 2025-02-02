@@ -13,6 +13,7 @@ import {
   classes as cls,
   message,
   sounds,
+  iconUrl,
 } from '../constants/index.js';
 
 export const getSavedSnapshot = () => {
@@ -35,10 +36,7 @@ export const getSolvedMessage = (secs) => {
   const text = message.haveSolved(secs);
   return new Element(
     { className: cls.solvedMsg },
-    new SVGElement(
-      { className: cls.solvedMsgIcon },
-      { href: './assets/icons.svg#icon-trophy5' }
-    ),
+    new SVGElement({ className: cls.solvedMsgIcon }, { href: iconUrl.trophy }),
     new Element({ tag: 'p', className: cls.solvedMsgText, text })
   );
 };

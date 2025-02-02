@@ -6,6 +6,7 @@ import {
   eventName,
   colorTheme,
   classes as cls,
+  iconUrl,
 } from '../constants/index.js';
 
 //
@@ -15,10 +16,7 @@ export { header, scoreBtn, reviewerModeToggler, themeToggler, soundToggler };
 
 const logo = new Element(
   { className: cls.logo },
-  new SVGElement(
-    { className: cls.logoIcon },
-    { href: './assets/icons.svg#icon-nng-logo' }
-  ),
+  new SVGElement({ className: cls.logoIcon }, { href: iconUrl.logo }),
   new Element({ tag: 'span', className: cls.logoText, text: 'nonograms' })
 );
 
@@ -26,29 +24,29 @@ const scoreBtn = new Button(
   { className: cls.scoreBtn },
   new SVGElement(
     { className: cls.scoreBtnIcon, title: 'Score' },
-    { href: './assets/icons.svg#icon-star' }
+    { href: iconUrl.star }
   )
 );
 
 const reviewerModeToggler = new Toggler(
   { className: cls.togglerReviewerMode },
   {
-    onSvgHref: './assets/icons.svg#icon-eye-on',
-    offSvgHref: './assets/icons.svg#icon-eye-off',
+    onSvgHref: iconUrl.eyeOn,
+    offSvgHref: iconUrl.eyeOff,
   }
 );
 
 const soundToggler = new Toggler(
   { className: cls.togglerSound },
   {
-    onSvgHref: './assets/icons.svg#icon-sound-on',
-    offSvgHref: './assets/icons.svg#icon-sound-off',
+    onSvgHref: iconUrl.soundOn,
+    offSvgHref: iconUrl.soundOff,
   }
 );
 
 const themeToggler = new Toggler(null, {
-  onSvgHref: './assets/icons.svg#icon-moon3',
-  offSvgHref: './assets/icons.svg#icon-sun3',
+  onSvgHref: iconUrl.moon,
+  offSvgHref: iconUrl.sun,
 });
 
 //

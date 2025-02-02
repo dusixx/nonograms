@@ -79,3 +79,15 @@ Object.entries(sounds).forEach(([name, value]) => {
     value.playbackRate = 1.5;
   }
 });
+
+export const iconUrl = {
+  trophy: './assets/icons.svg#icon-trophy5',
+  logo: './assets/icons.svg#icon-nng-logo',
+  star: './assets/icons.svg#icon-star',
+  eyeOn: './assets/icons.svg#icon-eye-on',
+  eyeOff: './assets/icons.svg#icon-eye-off',
+  soundOn: './assets/icons.svg#icon-sound-on',
+  soundOff: './assets/icons.svg#icon-sound-off',
+  moon: './assets/icons.svg#icon-moon3',
+  sun: './assets/icons.svg#icon-sun3',
+};
