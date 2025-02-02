@@ -1,5 +1,10 @@
 import { Element, SVGElement } from './base/index.js';
-import { classes as cls, localStorageKey } from '../constants/index.js';
+import {
+  classes as cls,
+  localStorageKey,
+  scoreColumnName as column,
+  scoreRewardColor as fill,
+} from '../constants/index.js';
 import {
   isArray,
   isNonEmptyStr,
@@ -7,8 +12,6 @@ import {
   elapsedToTime,
   JSONParse,
 } from '../utils/helpers.js';
-
-const column = '# puzzle complexity elapsed'.split(' ');
 
 const iconSrc = (idx) => {
   idx = idx > 3 ? 3 : idx;
@@ -59,6 +62,7 @@ export class Score extends Element {
     //{ puzzleName, lvlName, elapsed }
     const allRows = sorted.map((rowData, place) => {
       const icon = new SVGElement('', { href: iconSrc(place) });
+      icon.ref.style.fill = fill[place] ?? '';
 
       return new Element(
         { tag: 'ul', className: cls.scoreRow },

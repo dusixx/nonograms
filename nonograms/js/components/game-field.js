@@ -1,8 +1,8 @@
-import { JSONParse, isMatrix } from '../utils/index.js';
 import { Element } from './base/element.js';
-import { Clues } from './clues.js';
-import { eventName, classes as cls } from '../constants/index.js';
 import { Cells } from './cells.js';
+import { Clues } from './clues.js';
+import { JSONParse, isMatrix } from '../utils/index.js';
+import { eventName, classes as cls } from '../constants/index.js';
 
 const cssVar = {
   gameFieldRows: '--game-field-rows',

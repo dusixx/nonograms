@@ -3,7 +3,6 @@ import { Element, Button } from '../components/index.js';
 import { GameField } from '../components/game-field.js';
 import { PuzzleSelect } from '../components/puzzle-select.js';
 import { Timer } from '../components/timer.js';
-import { Score } from '../components/score.js';
 import { Modal } from '../components/modal.js';
 
 //
@@ -68,23 +67,7 @@ const gameControls = new Element(
   resetBtn
 );
 
-// const score = new Score();
 const modal = new Modal();
-
-// modal.show(
-//   'Hello worlddddddddddddddddddddddddddddddddddddddddddddsssssssssssssssssssssssssssssssssssssssss'
-// );
-
-// score.add({ puzzleName: 'xxx', lvlName: 'easy', elapsed: 62 });
-// score.add({ puzzleName: 'dsss', lvlName: 'easy', elapsed: 625 });
-// score.add({ puzzleName: 'dsss', lvlName: 'easy', elapsed: 625 });
-// score.add({ puzzleName: 'dsss', lvlName: 'easy', elapsed: 625 });
-// score.add({ puzzleName: 'dsss', lvlName: 'easy', elapsed: 625 });
-
-// score.update();
-
-// score.saveToLocalStorage();
-// score.loadFromLocalStorage();
 
 const main = new Element(
   { className: cls.main, tag: 'main' },

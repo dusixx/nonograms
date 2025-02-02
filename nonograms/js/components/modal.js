@@ -1,7 +1,7 @@
-import { Element } from './base/element.js';
+import { Element, Button } from './base/index.js';
 import { classes as cls } from '../constants/classes.js';
-import { Button } from './button.js';
 import { isNonEmptyStr, isStr } from '../utils/helpers.js';
+import { ScrollLock } from './scroll-lock.js';
 
 export class Modal extends Element {
   #content;
@@ -38,7 +38,8 @@ export class Modal extends Element {
 
   #toggle(force) {
     const wasShown = this.toggleClass(cls.backdropActive, force);
-    document.body.classList.toggle(cls.scrollLock, wasShown);
+    ScrollLock.toggle(wasShown);
+    //document.documentElement.classList.toggle(cls.scrollLock, wasShown);
 
     if (wasShown) {
       document.addEventListener('keydown', this.#handleEscKeydown, {

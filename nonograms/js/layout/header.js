@@ -26,23 +26,29 @@ const scoreBtn = new Button(
   { className: cls.scoreBtn },
   new SVGElement(
     { className: cls.scoreBtnIcon, title: 'Score' },
-    { href: './assets/icons.svg#icon-trophy' }
+    { href: './assets/icons.svg#icon-star' }
   )
 );
 
-const reviewerModeToggler = new Toggler(null, {
-  onSvgHref: './assets/icons.svg#icon-eye',
-  offSvgHref: './assets/icons.svg#icon-eye-blocked',
-});
+const reviewerModeToggler = new Toggler(
+  { className: cls.togglerReviewerMode },
+  {
+    onSvgHref: './assets/icons.svg#icon-eye-on',
+    offSvgHref: './assets/icons.svg#icon-eye-off',
+  }
+);
 
-const soundToggler = new Toggler(null, {
-  onSvgHref: './assets/icons.svg#icon-unmute',
-  offSvgHref: './assets/icons.svg#icon-mute',
-});
+const soundToggler = new Toggler(
+  { className: cls.togglerSound },
+  {
+    onSvgHref: './assets/icons.svg#icon-sound-on',
+    offSvgHref: './assets/icons.svg#icon-sound-off',
+  }
+);
 
 const themeToggler = new Toggler(null, {
-  onSvgHref: './assets/icons.svg#icon-moon',
-  offSvgHref: './assets/icons.svg#icon-sun',
+  onSvgHref: './assets/icons.svg#icon-moon3',
+  offSvgHref: './assets/icons.svg#icon-sun3',
 });
 
 //

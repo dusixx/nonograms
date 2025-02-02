@@ -40,7 +40,7 @@ export class CluesHelper {
 
     // top
     let curColTopCluesIdx = top[curCol].length - 1;
-    // the cell above the current is invalid
+    // cell above the current is invalid
     if (!isValid(mx[curRow - 1]?.[curCol])) {
       // (-1) -> 0
       curColTopCluesIdx += 1;
@@ -50,7 +50,7 @@ export class CluesHelper {
 
     // left
     let curRowLeftCluesIdx = left[curRow].length - 1;
-    // the cell before the current is invalid
+    // cell before the current is invalid
     if (!isValid(mx[curRow][curCol - 1])) {
       curRowLeftCluesIdx += 1;
     }

@@ -1,5 +1,5 @@
-import { Element } from './base/element.js';
-import { isFunc } from '../utils/index.js';
+import { Element } from './element.js';
+import { isFunc } from '../../utils/index.js';
 
 export class Button extends Element {
   #onClick;

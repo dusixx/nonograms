@@ -1,5 +1,5 @@
-import { isPositiveInt } from '../utils/helpers.js';
 import { Element } from './base/element.js';
+import { isPositiveInt } from '../utils/helpers.js';
 import {
   eventName,
   cellStateFlags,
@@ -33,7 +33,6 @@ export class Cell extends Element {
       this.#value |= cellStateFlags.selected;
       this.toggleDiscard(false);
     } else {
-      //this.dispatchCustom(eventName.cellHasChanged);
       this.#value &= ~cellStateFlags.selected;
     }
   }
@@ -44,7 +43,6 @@ export class Cell extends Element {
       this.#value |= cellStateFlags.discarded;
       this.toggleSelect(false);
     } else {
-      //this.dispatchCustom(eventName.cellHasChanged);
       this.#value &= ~cellStateFlags.discarded;
     }
   }

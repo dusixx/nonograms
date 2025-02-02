@@ -1,5 +1,4 @@
-import { Button } from './button.js';
-import { SVGElement } from './base/svg-element.js';
+import { Button, SVGElement } from './base/index.js';
 import { isPositiveInt, isFunc } from '../utils/helpers.js';
 import { classes as cls } from '../constants/index.js';
 
