@@ -1,9 +1,8 @@
-$max-container-width: 600px;
+$max-container-width: 680px;
 $min-container-width: 375px;
 
 :root {
   --color-body-bg: rgb(247, 247, 247);
-  // --color-accent: rgb(148, 86, 75);
   --color-accent: #593954;
   --color-text: rgb(65, 65, 65);
   --color-text-sec: rgb(235, 235, 235);
@@ -33,14 +32,16 @@ $min-container-width: 375px;
   --color-modal-text: rgb(65, 65, 65);
   --color-modal-bg: rgb(235, 235, 235);
   --color-backdrop-bg: rgba(40, 40, 46, 0.8);
+  --color-modal-reward: #bdb9b9;
 
   --color-score-reward: currentColor;
-  --color-score-zebra: rgb(221, 221, 221);
+  --color-score-zebra: rgb(218, 218, 218);
   --color-header-control: var(--color-text);
-  --header-control-size: 15px;
+  --color-header-control-bg: var(--color-text);
 
+  --header-control-size: 17px;
   --border-radius: 20px;
-  --container-max-width: 600px;
+  --container-max-width: 680px;
   --container-min-width: 375px;
   --box-shadow: 0 1px 1px 1px var(--color-body-bg);
 }
@@ -53,7 +54,7 @@ $min-container-width: 375px;
 
   --color-border: rgb(190, 190, 190);
   --color-border-dark: rgb(177, 177, 177);
-  --color-border-select: rgb(121, 121, 121);
+  --color-border-select: rgb(90, 90, 90);
 
   --color-btn: var(--color-text);
   --color-btn-bg: var(--color-accent);
@@ -68,12 +69,12 @@ $min-container-width: 375px;
 
   --color-header-control-bg: var(--color-accent);
   --color-clue-cross: rgb(175, 175, 175);
-  --color-logo-icon: #5f3d5a;
+  --color-logo-icon: #7e4a77;
   --color-header-control: rgb(158, 158, 158);
 
-  --color-modal-bg: rgb(218, 218, 218);
+  --color-modal-bg: rgb(219, 216, 212);
   --color-backdrop-bg: rgba(40, 40, 46, 0.8);
 
-  --color-score-zebra: rgb(207, 207, 207);
-  //--color-score-reward: var(--color-accent);
+  --color-score-zebra: rgb(192, 192, 192);
+  --color-modal-reward: #adaaaa;
 }

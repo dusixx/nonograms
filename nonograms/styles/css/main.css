@@ -203,12 +203,14 @@ summary {
   --color-modal-text: rgb(65, 65, 65);
   --color-modal-bg: rgb(235, 235, 235);
   --color-backdrop-bg: rgba(40, 40, 46, 0.8);
+  --color-modal-reward: #bdb9b9;
   --color-score-reward: currentColor;
-  --color-score-zebra: rgb(221, 221, 221);
+  --color-score-zebra: rgb(218, 218, 218);
   --color-header-control: var(--color-text);
-  --header-control-size: 15px;
+  --color-header-control-bg: var(--color-text);
+  --header-control-size: 17px;
   --border-radius: 20px;
-  --container-max-width: 600px;
+  --container-max-width: 680px;
   --container-min-width: 375px;
   --box-shadow: 0 1px 1px 1px var(--color-body-bg);
 }
@@ -220,7 +222,7 @@ summary {
   --color-text-sec: rgb(61, 61, 71);
   --color-border: rgb(190, 190, 190);
   --color-border-dark: rgb(177, 177, 177);
-  --color-border-select: rgb(121, 121, 121);
+  --color-border-select: rgb(90, 90, 90);
   --color-btn: var(--color-text);
   --color-btn-bg: var(--color-accent);
   --color-clues-row-highlighted-bg: rgb(82, 82, 92);
@@ -231,11 +233,12 @@ summary {
   --color-cell-border-bold: rgb(148, 148, 148);
   --color-header-control-bg: var(--color-accent);
   --color-clue-cross: rgb(175, 175, 175);
-  --color-logo-icon: #5f3d5a;
+  --color-logo-icon: #7e4a77;
   --color-header-control: rgb(158, 158, 158);
-  --color-modal-bg: rgb(218, 218, 218);
+  --color-modal-bg: rgb(219, 216, 212);
   --color-backdrop-bg: rgba(40, 40, 46, 0.8);
-  --color-score-zebra: rgb(207, 207, 207);
+  --color-score-zebra: rgb(192, 192, 192);
+  --color-modal-reward: #adaaaa;
 }
 
 h1,
@@ -313,7 +316,7 @@ body {
 .btn-primary, .modal__btn {
   height: 25px;
   padding: 0 10px;
-  font-size: 14px;
+  font-size: 15px;
   line-height: 1;
   text-transform: capitalize;
   font-weight: 400;
@@ -327,7 +330,9 @@ body {
      -moz-user-select: none;
       -ms-user-select: none;
           user-select: none;
-  opacity: 0.5;
+  opacity: 0.4;
+  -webkit-filter: grayscale(1);
+          filter: grayscale(1);
 }
 
 .btn-secondary {
@@ -363,7 +368,8 @@ body {
       -ms-flex-align: center;
           align-items: center;
   height: 30px;
-  padding: 0 10px;
+  padding-left: 10px;
+  padding-top: 1px;
   font-size: 14px;
   text-transform: capitalize;
   background-color: var(--color-text-sec);
@@ -406,6 +412,12 @@ body {
   -webkit-box-pack: end;
       -ms-flex-pack: end;
           justify-content: end;
+  padding: 5px 0;
+}
+@media (width <= 500px) {
+  .clues-top .clues-list {
+    padding: 0;
+  }
 }
 .clues-top .clues-list:not(:last-of-type) {
   border-right: 1px solid var(--color-clue-border);
@@ -427,6 +439,12 @@ body {
   -webkit-box-pack: end;
       -ms-flex-pack: end;
           justify-content: end;
+  padding: 0 5px;
+}
+@media (width <= 500px) {
+  .clues-left .clues-list {
+    padding: 0;
+  }
 }
 .clues-left .clues-list:not(:last-of-type) {
   border-bottom: 1px solid var(--color-clue-border);
@@ -563,30 +581,32 @@ body {
       flex-wrap: wrap;
   gap: 20px;
   width: 100%;
-  margin-top: 10px;
-  padding-top: 10px;
+  padding-top: 20px;
 }
 
 .puzzle-select {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  gap: 15px;
+  gap: 12px;
 }
 .puzzle-select .custom-select {
   width: 100px;
 }
 
 .timer {
-  font-size: 18px;
   font-weight: 600;
   color: var(--color-text);
+}
+
+.dark-theme .timer {
+  opacity: 0.7;
 }
 
 .game-field {
   --game-field-rows: 5;
   --game-field-cols: 5;
-  --game-field-cell-size: min(3em, calc(78vw / var(--game-field-cols)));
+  --game-field-cell-size: min(2.3rem, calc(78vw / var(--game-field-cols)));
   display: grid;
   grid-template-areas: "placeholder clues-top" "clues-left cells";
   width: -webkit-fit-content;
@@ -623,12 +643,14 @@ body {
   --color-modal-text: rgb(65, 65, 65);
   --color-modal-bg: rgb(235, 235, 235);
   --color-backdrop-bg: rgba(40, 40, 46, 0.8);
+  --color-modal-reward: #bdb9b9;
   --color-score-reward: currentColor;
-  --color-score-zebra: rgb(221, 221, 221);
+  --color-score-zebra: rgb(218, 218, 218);
   --color-header-control: var(--color-text);
-  --header-control-size: 15px;
+  --color-header-control-bg: var(--color-text);
+  --header-control-size: 17px;
   --border-radius: 20px;
-  --container-max-width: 600px;
+  --container-max-width: 680px;
   --container-min-width: 375px;
   --box-shadow: 0 1px 1px 1px var(--color-body-bg);
 }
@@ -640,7 +662,7 @@ body {
   --color-text-sec: rgb(61, 61, 71);
   --color-border: rgb(190, 190, 190);
   --color-border-dark: rgb(177, 177, 177);
-  --color-border-select: rgb(121, 121, 121);
+  --color-border-select: rgb(90, 90, 90);
   --color-btn: var(--color-text);
   --color-btn-bg: var(--color-accent);
   --color-clues-row-highlighted-bg: rgb(82, 82, 92);
@@ -651,11 +673,12 @@ body {
   --color-cell-border-bold: rgb(148, 148, 148);
   --color-header-control-bg: var(--color-accent);
   --color-clue-cross: rgb(175, 175, 175);
-  --color-logo-icon: #5f3d5a;
+  --color-logo-icon: #7e4a77;
   --color-header-control: rgb(158, 158, 158);
-  --color-modal-bg: rgb(218, 218, 218);
+  --color-modal-bg: rgb(219, 216, 212);
   --color-backdrop-bg: rgba(40, 40, 46, 0.8);
-  --color-score-zebra: rgb(207, 207, 207);
+  --color-score-zebra: rgb(192, 192, 192);
+  --color-modal-reward: #adaaaa;
 }
 
 .game-controls {
@@ -667,7 +690,7 @@ body {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  gap: clamp(15px, 15px + 10 * (100vw - 375px) / 225, 25px);
+  gap: clamp(15px, 15px + 10 * (100vw - 375px) / 305, 25px);
   width: 100%;
   margin-top: 40px;
 }
@@ -699,12 +722,11 @@ body {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  gap: 25px;
+  gap: 20px;
 }
 
 .score-btn {
   padding: 5px;
-  background-color: transparent;
   border-radius: 50%;
   color: var(--color-header-control);
 }
@@ -721,11 +743,18 @@ body {
   padding: 5px;
   color: var(--color-header-control);
   background-color: transparent;
+  border-radius: 50%;
 }
-.toggler > svg {
+.toggler__icon {
   width: var(--header-control-size);
   height: var(--header-control-size);
   fill: currentColor;
+}
+
+.toggler--reviewer-mode .toggler__icon,
+.toggler--sound .toggler__icon {
+  width: calc(var(--header-control-size) + 2px);
+  height: calc(var(--header-control-size) + 2px);
 }
 
 .logo {
@@ -739,6 +768,7 @@ body {
   color: var(--color-text);
 }
 .logo__text {
+  font-size: 16px;
   line-height: 0;
   font-weight: 800;
   text-transform: uppercase;
@@ -771,6 +801,7 @@ body {
       -ms-flex-direction: column;
           flex-direction: column;
   width: 300px;
+  margin-bottom: 5px;
   font-size: 14px;
   text-transform: capitalize;
 }
@@ -801,11 +832,13 @@ body {
           justify-content: center;
   width: 100%;
 }
-.score__row:nth-of-type(odd) {
-  background-color: var(--color-score-zebra);
+.score__row {
+  border-bottom: 1px solid var(--color-score-zebra);
 }
 .score__header {
+  padding-bottom: 5px;
   font-weight: 700;
+  border-bottom: 1px solid var(--color-score-zebra);
 }
 .score__item {
   display: -webkit-box;
@@ -818,6 +851,9 @@ body {
   height: auto;
   width: 30%;
 }
+.score__item:last-of-type {
+  font-weight: bold;
+}
 .score__item:first-of-type {
   width: 10%;
 }
@@ -825,6 +861,10 @@ body {
   height: 22px;
   width: 22px;
   fill: var(--color-score-reward);
+}
+
+.score__results .score__item:first-of-type {
+  background-color: var(--color-modal-bg);
 }
 
 .backdrop {
@@ -840,10 +880,9 @@ body {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
   background-color: var(--color-backdrop-bg);
-  overflow: scroll;
   pointer-events: none;
   visibility: hidden;
   opacity: 0;
@@ -861,8 +900,8 @@ body {
 }
 
 .scroll-lock {
-  overflow: hidden;
   scrollbar-gutter: stable;
+  overflow: hidden;
 }
 
 .modal {
@@ -878,7 +917,7 @@ body {
       -ms-flex-align: center;
           align-items: center;
   gap: 20px;
-  padding: 30px 20px;
+  padding: 20px;
   max-width: 375px;
   color: var(--color-modal-text);
   background-color: var(--color-modal-bg);
@@ -891,8 +930,32 @@ body {
 }
 .modal__content {
   width: 100%;
+  line-height: 1.3;
 }
 .modal__btn {
-  padding: 15px 25px;
+  height: 35px;
+  padding: 0 25px;
   text-transform: uppercase;
+}
+
+.solved-msg {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  gap: 10px;
+}
+.solved-msg__text {
+  text-align: center;
+}
+.solved-msg__icon {
+  width: 40px;
+  height: 40px;
+  fill: var(--color-modal-reward);
 }/*# sourceMappingURL=main.css.map */

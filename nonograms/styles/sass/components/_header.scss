@@ -15,7 +15,7 @@
   &__controls {
     display: flex;
     align-items: center;
-    gap: 25px;
+    gap: 20px;
   }
 }
 
@@ -23,7 +23,7 @@
   @extend .btn;
   padding: 5px;
   //background-color: var(--color-header-control-bg);
-  background-color: transparent;
+  //background-color: transparent;
   border-radius: 50%;
   color: var(--color-header-control);
 
@@ -40,14 +40,23 @@
   padding: 5px;
 
   color: var(--color-header-control);
+  //background-color: var(--color-header-control-bg);
   background-color: transparent;
 
-  //border-radius: 50%;
+  border-radius: 50%;
 
-  & > svg {
+  &__icon {
     width: var(--header-control-size);
     height: var(--header-control-size);
     fill: currentColor;
+  }
+}
+
+.toggler--reviewer-mode,
+.toggler--sound {
+  .toggler__icon {
+    width: calc(var(--header-control-size) + 2px);
+    height: calc(var(--header-control-size) + 2px);
   }
 }
 
@@ -58,6 +67,7 @@
   color: var(--color-text);
 
   &__text {
+    font-size: 16px;
     line-height: 0;
     font-weight: 800;
     text-transform: uppercase;

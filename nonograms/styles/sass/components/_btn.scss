@@ -16,7 +16,7 @@
   height: 25px;
   padding: 0 10px;
 
-  font-size: 14px;
+  font-size: 15px;
   line-height: 1;
   text-transform: capitalize;
   font-weight: 400;
@@ -27,17 +27,11 @@
 
   &:disabled {
     @include non-interactive {
-      opacity: 0.5;
+      opacity: 0.4;
+      filter: grayscale(1);
     }
   }
 }
-
-// .btn-primary-invert {
-//   @extend .btn-primary;
-
-//   color: var(--color-btn-bg);
-//   background-color: var(--color-btn);
-// }
 
 .btn-secondary {
   @extend .btn;
