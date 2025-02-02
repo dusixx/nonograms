@@ -16,6 +16,9 @@ import {
 } from '../constants/index.js';
 
 export const getSavedSnapshot = () => {
+  if (!Object.hasOwn(localStorage, lsKey.snapshot)) {
+    return;
+  }
   return JSONParse(localStorage.getItem(lsKey.snapshot));
 };
 

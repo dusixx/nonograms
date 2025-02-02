@@ -159,7 +159,7 @@ gameField.addListener(eventName.gameFieldHasChanged, (e) => {
   playSound(e);
   // available only when there are selected or discarded cells
   saveBtn.disabled = !gameField.hasSelectedOrDiscarded;
-  loadBtn.disabled = false;
+  loadBtn.disabled = !getSavedSnapshot();
 });
 
 init();
