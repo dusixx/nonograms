@@ -13,10 +13,12 @@ import {
   JSONParse,
 } from '../utils/helpers.js';
 
-const iconSrc = (idx) => {
+const iconHref = (idx) => {
   idx = idx > 3 ? 3 : idx;
   return `./assets/icons.svg#icon-r${idx + 1}`;
 };
+
+const LATEST_COUNT = 5;
 
 //
 //--------------------
@@ -50,7 +52,7 @@ export class Score extends Element {
     }
     this.#data.push({ puzzleName, lvlName, elapsed });
     // remove the oldest
-    if (this.#data.length > 5) {
+    if (this.#data.length > LATEST_COUNT) {
       this.#data = this.#data.slice(1);
     }
   }
@@ -61,7 +63,7 @@ export class Score extends Element {
 
     //{ puzzleName, lvlName, elapsed }
     const allRows = sorted.map((rowData, place) => {
-      const icon = new SVGElement('', { href: iconSrc(place) });
+      const icon = new SVGElement('', { href: iconHref(place) });
       icon.ref.style.fill = fill[place] ?? '';
 
       return new Element(
@@ -100,7 +102,7 @@ export class Score extends Element {
 
   loadFromLocalStorage() {
     const data = JSONParse(localStorage.getItem(localStorageKey.score));
-    this.#data = isArray(data) ? data.slice(0, 5) : [];
+    this.#data = isArray(data) ? data.slice(0, LATEST_COUNT) : [];
     this.update();
   }
 }

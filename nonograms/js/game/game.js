@@ -1,17 +1,19 @@
 import './togglers.js';
+import { Score } from '../components/score.js';
+
 import {
   saveSnapshot,
   getSavedSnapshot,
   getSolvedMessage,
   playSound,
 } from './helpers.js';
+
 import {
   eventName,
   classes as cls,
   message,
   sounds,
 } from '../constants/index.js';
-import { Score } from '../components/score.js';
 
 import {
   scoreBtn,
@@ -33,6 +35,7 @@ import {
 //--------------------
 //
 
+// update score from local storage
 const score = new Score();
 score.loadFromLocalStorage();
 

@@ -1,9 +1,13 @@
 import { classes as cls, buttonName } from '../constants/index.js';
-import { Element, Button } from '../components/index.js';
-import { GameField } from '../components/game-field.js';
-import { PuzzleSelect } from '../components/puzzle-select.js';
-import { Timer } from '../components/timer.js';
-import { Modal } from '../components/modal.js';
+
+import {
+  Element,
+  Button,
+  GameField,
+  PuzzleSelect,
+  Timer,
+  Modal,
+} from '../components/index.js';
 
 //
 // exports

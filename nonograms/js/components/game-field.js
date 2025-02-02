@@ -1,6 +1,6 @@
 import { Element } from './base/element.js';
-import { Cells } from './cells.js';
-import { Clues } from './clues.js';
+import { Cells } from './cells/cells.js';
+import { Clues } from './clues/clues.js';
 import { JSONParse, isMatrix } from '../utils/index.js';
 import { eventName, classes as cls } from '../constants/index.js';
 

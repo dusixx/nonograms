@@ -1,52 +1,47 @@
-const sectionClasses = {
+export const classes = {
+  bodyDarkTheme: 'dark-theme',
   main: 'main',
   mainWrapper: 'main__wrapper',
   header: 'header',
   headerWrapper: 'header__wrapper',
-};
+  headerControls: 'header__controls',
 
-const gameFieldClasses = {
+  gameStats: 'game-stats',
+  gameControls: 'game-controls',
+  solutionBtn: 'btn-primary',
   gameField: 'game-field',
-  // cells
+
   cell: 'cell',
   cellSelected: 'cell--selected',
   cellDiscarded: 'cell--discarded',
   cells: 'cells',
   cellsRow: 'cells__row',
-  // clues
+
   clue: 'clue',
   clueDiscarded: 'clue--discarded',
   cluesList: 'clues-list',
   cluesListHighlighted: 'clues-list--highlighted',
   cluesLeft: 'clues-left',
   cluesTop: 'clues-top',
-};
 
-export const classes = {
-  ...sectionClasses,
-  ...gameFieldClasses,
-  // puzzle select
   puzzleSelect: 'puzzle-select',
   puzzleSelectLvl: 'custom-select',
   puzzleSelectPic: 'custom-select',
   puzzleSelectRnd: 'btn-secondary',
-  // misc
+
   timer: 'timer',
+
   toggler: 'toggler',
   togglerIcon: 'toggler__icon',
   togglerReviewerMode: 'toggler toggler--reviewer-mode',
   togglerSound: 'toggler toggler--sound',
-  // logo
+
   logo: 'logo',
   logoText: 'logo__text',
   logoIcon: 'logo__icon',
-  headerControls: 'header__controls',
+
   scoreBtn: 'score-btn toggler',
   scoreBtnIcon: 'score-btn__icon',
-  bodyDarkTheme: 'dark-theme',
-  gameControls: 'game-controls',
-  solutionBtn: 'btn-primary',
-  gameStats: 'game-stats',
 
   score: 'score',
   scoreResults: 'score__results',

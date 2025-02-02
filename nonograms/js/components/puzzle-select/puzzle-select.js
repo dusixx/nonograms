@@ -1,7 +1,7 @@
-import { Element, Button } from './base/index.js';
-import { puzzles } from '../../data/puzzles/index.js';
-import { isFunc, rndInt } from '../utils/helpers.js';
-import { classes as cls } from '../constants/index.js';
+import { Element, Button } from '../base/index.js';
+import { puzzles } from '../../../data/puzzles/index.js';
+import { isFunc, rndInt } from '../../utils/helpers.js';
+import { classes as cls } from '../../constants/index.js';
 
 export class PuzzleSelect extends Element {
   #level;

@@ -1,13 +1,19 @@
-import { Element, SVGElement } from '../components/index.js';
-import { gameField, puzzleSelect, timer } from '../layout/main.js';
-import { soundToggler } from '../layout/header.js';
+import { Element, SVGElement } from '../components/base/index.js';
+import { JSONParse } from '../utils/helpers.js';
+
+import {
+  gameField,
+  puzzleSelect,
+  timer,
+  soundToggler,
+} from '../layout/index.js';
+
 import {
   localStorageKey as lsKey,
   classes as cls,
   message,
   sounds,
 } from '../constants/index.js';
-import { JSONParse } from '../utils/helpers.js';
 
 export const getSavedSnapshot = () => {
   return JSONParse(localStorage.getItem(lsKey.snapshot));
@@ -39,10 +45,12 @@ export const playSound = ({ detail: { cell, clue } }) => {
   if (!soundToggler.isEnabled) {
     return;
   }
+  // clue
   if (clue) {
     sounds.clueChanged.play();
     return;
   }
+  // cell
   const { isDiscarded, isSelected } = cell;
   if (isSelected) {
     sounds.selectCell.play();

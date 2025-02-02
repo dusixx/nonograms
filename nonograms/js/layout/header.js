@@ -1,5 +1,5 @@
-import { Button, Element, SVGElement } from '../components/index.js';
-import { Toggler } from '../components/toggler.js';
+import { Button, Element, SVGElement, Toggler } from '../components/index.js';
+
 import {
   localStorageKey as lsKey,
   soundState,

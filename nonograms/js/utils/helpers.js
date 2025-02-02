@@ -1,5 +1,3 @@
-import { matrices } from '../../data/puzzles/matrices.js';
-
 const toStr = Object.prototype.toString;
 export const getTypeName = (v) => toStr.call(v).slice(8, -1);
 

@@ -1,14 +1,14 @@
-import { Element } from './base/element.js';
+import { Element } from '../base/index.js';
 import { Cell } from './cell.js';
-import { CluesHelper } from './clues-helper.js';
-import { isMatrix } from '../utils/helpers.js';
+import { CluesHelper } from '../clues/clues-helper.js';
+import { isMatrix } from '../../utils/helpers.js';
 
 import {
   eventName,
   cellStateFlags,
   mouseBtn,
   classes as cls,
-} from '../constants/index.js';
+} from '../../constants/index.js';
 
 //
 //------------------

@@ -1,11 +1,11 @@
-import { Element } from './base/element.js';
-import { isPositiveInt } from '../utils/helpers.js';
+import { Element } from '../base/element.js';
+import { isPositiveInt } from '../../utils/helpers.js';
 import {
   eventName,
   cellStateFlags,
   mouseBtn,
   classes as cls,
-} from '../constants/index.js';
+} from '../../constants/index.js';
 
 //
 //------------------

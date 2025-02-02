@@ -12,9 +12,7 @@ import {
   themeToggler,
 } from '../layout/header.js';
 
-//
 // Sound
-//
 const currentSoundState = localStorage.getItem(lsKey.sound) ?? soundState.on;
 soundToggler.toggle(currentSoundState === soundState.on);
 
@@ -22,9 +20,7 @@ soundToggler.onToggle = (enabled) => {
   localStorage.setItem(lsKey.sound, enabled ? soundState.on : soundState.off);
 };
 
-//
-// Theme
-//
+// Color theme
 const currentTheme = localStorage.getItem(lsKey.theme) ?? colorTheme.light;
 
 const enabled = themeToggler.toggle(currentTheme === colorTheme.light);
