@@ -34,12 +34,14 @@ export const classes = {
   timer: 'timer',
   toggler: 'toggler',
   togglerIcon: 'toggler__icon',
+  togglerReviewerMode: 'toggler toggler--reviewer-mode',
+  togglerSound: 'toggler toggler--sound',
   // logo
   logo: 'logo',
   logoText: 'logo__text',
   logoIcon: 'logo__icon',
   headerControls: 'header__controls',
-  scoreBtn: 'score-btn',
+  scoreBtn: 'score-btn toggler',
   scoreBtnIcon: 'score-btn__icon',
   bodyDarkTheme: 'dark-theme',
   gameControls: 'game-controls',
@@ -60,4 +62,8 @@ export const classes = {
   modalPara: 'modal__para',
   modalContent: 'modal__content',
   modalBtn: 'modal__btn',
+
+  solvedMsg: 'solved-msg',
+  solvedMsgIcon: 'solved-msg__icon',
+  solvedMsgText: 'solved-msg__text',
 };

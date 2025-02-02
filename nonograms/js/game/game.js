@@ -1,6 +1,16 @@
 import './togglers.js';
-import { saveSnapshot, getSavedSnapshot } from './helpers.js';
-import { eventName, classes as cls, message } from '../constants/index.js';
+import {
+  saveSnapshot,
+  getSavedSnapshot,
+  getSolvedMessage,
+  playSound,
+} from './helpers.js';
+import {
+  eventName,
+  classes as cls,
+  message,
+  sounds,
+} from '../constants/index.js';
 import { Score } from '../components/score.js';
 
 import {
@@ -14,9 +24,17 @@ import {
   solutionBtn,
   resetBtn,
   modal,
+  soundToggler,
 } from '../layout/index.js';
 
+//
+//--------------------
+// Helpers
+//--------------------
+//
+
 const score = new Score();
+score.loadFromLocalStorage();
 
 const init = () => {
   saveBtn.disabled = true;
@@ -60,8 +78,7 @@ reviewerModeToggler.onToggle = (enabled) => {
 };
 
 // reinit game
-puzzleSelect.onChange = (puzzleData) => {
-  console.log(puzzleSelect.value);
+puzzleSelect.onChange = () => {
   init();
 };
 
@@ -128,11 +145,15 @@ gameField.addListener(eventName.solutionFound, () => {
   score.add({ ...puzzleSelect.value, elapsed: timer.elapsed });
   score.saveToLocalStorage();
 
-  modal.show(message.haveSolved(timer.elapsed), '250px');
+  if (soundToggler.isEnabled) {
+    sounds.solved.play();
+  }
+  modal.show(getSolvedMessage(timer.elapsed), '250px');
 });
 
 // game field was changed
-gameField.addListener(eventName.gameFieldHasChanged, () => {
+gameField.addListener(eventName.gameFieldHasChanged, (e) => {
+  playSound(e);
   // available only when there are selected or discarded cells
   saveBtn.disabled = !gameField.hasSelectedOrDiscarded;
   loadBtn.disabled = false;
