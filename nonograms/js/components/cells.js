@@ -1,24 +1,29 @@
-import { Cell } from './cell.js';
 import { Element } from './base/element.js';
+import { Cell } from './cell.js';
+import { CluesHelper } from './clues-helper.js';
 import { isMatrix } from '../utils/helpers.js';
+
 import {
   eventName,
   cellStateFlags,
   mouseBtn,
   classes as cls,
 } from '../constants/index.js';
-import { CluesHelper } from './clues-helper.js';
+
+//
+//------------------
+// Cells
+//------------------
+//
 
 export class Cells extends Element {
   #started;
   #numOfValid = 0;
-
   #selectedValid = new Set(); // Set<Cell>
   #selectedInvalid = new Set(); // Set<Cell>
   #selected = new Set(); // Set<Cell>
   #discarded = new Set(); // Set<Cell>
   #cellsMap = new Map(); // Map<ref,Cell>
-
   #pressedMouseBtn = -1;
   #eraserMode;
   #reviewerMode;
@@ -69,8 +74,6 @@ export class Cells extends Element {
     targetSet[action](cell);
 
     this.#addCellToDesiredSet(cell);
-
-    cell.dispatchCustom(eventName.cellHasChanged);
   };
 
   #handleMouseDown = (e) => {
@@ -98,6 +101,7 @@ export class Cells extends Element {
       cell.toggleDiscard();
     }
     this.#addSelectedCellToDesiredSet(cell);
+    cell.dispatchCustom(eventName.cellHasChanged);
     this.#checkIfSolved();
   };
 
@@ -112,6 +116,8 @@ export class Cells extends Element {
     if (!cell) {
       return;
     }
+    // get cell current state
+    const { isDiscarded, isSelected } = cell;
     this.#mouseOverCell = cell;
     cell.dispatchCustom(eventName.cellMouseOver);
 
@@ -125,7 +131,12 @@ export class Cells extends Element {
     } else {
       return;
     }
+    // cell was not actualy changed
+    if (cell.isDiscarded === isDiscarded && cell.isSelected === isSelected) {
+      return;
+    }
     this.#addSelectedCellToDesiredSet(cell);
+    cell.dispatchCustom(eventName.cellHasChanged);
     this.#checkIfSolved();
   };
 
@@ -149,6 +160,7 @@ export class Cells extends Element {
       return;
     }
     cell.toggleDiscard();
+    cell.dispatchCustom(eventName.cellHasChanged);
   };
 
   #addInteractivity = () => {
@@ -202,7 +214,6 @@ export class Cells extends Element {
     this.#selectedInvalid.clear();
     this.#selected.clear();
     this.#discarded.clear();
-    //this.allowPointerEvents(true);
   }
 
   update(mx) {
@@ -229,7 +240,6 @@ export class Cells extends Element {
 
   revealSolution() {
     this.reset();
-    //this.allowPointerEvents(false);
     this.values.forEach((cell) =>
       cell.isValid ? cell.toggleSelect(true) : cell.toggleDiscard(true)
     );
