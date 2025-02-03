@@ -40,6 +40,17 @@ export const soundState = {
   off: 'off',
 };
 
+export const title = {
+  resetBtn: 'Restart game',
+  solutionBtn: 'Reveal solution',
+  saveBtn: 'Save game',
+  loadBtn: 'Continue saved game',
+  scoreBtn: 'High score table',
+  reviewerModeToggler: 'Reviewer mode',
+  soundToggler: 'Mute/Unmute',
+  themeToggler: 'Theme',
+};
+
 export const buttonName = {
   reset: 'reset',
   solution: 'solution',

@@ -7,6 +7,7 @@ import {
   colorTheme,
   classes as cls,
   iconUrl,
+  title,
 } from '../constants/index.js';
 
 //
@@ -21,15 +22,12 @@ const logo = new Element(
 );
 
 const scoreBtn = new Button(
-  { className: cls.scoreBtn },
-  new SVGElement(
-    { className: cls.scoreBtnIcon, title: 'Score' },
-    { href: iconUrl.star }
-  )
+  { className: cls.scoreBtn, title: title.scoreBtn },
+  new SVGElement({ className: cls.scoreBtnIcon }, { href: iconUrl.star })
 );
 
 const reviewerModeToggler = new Toggler(
-  { className: cls.togglerReviewerMode },
+  { className: cls.togglerReviewerMode, title: title.reviewerModeToggler },
   {
     onSvgHref: iconUrl.eyeOn,
     offSvgHref: iconUrl.eyeOff,
@@ -37,17 +35,20 @@ const reviewerModeToggler = new Toggler(
 );
 
 const soundToggler = new Toggler(
-  { className: cls.togglerSound },
+  { className: cls.togglerSound, title: title.soundToggler },
   {
     onSvgHref: iconUrl.soundOn,
     offSvgHref: iconUrl.soundOff,
   }
 );
 
-const themeToggler = new Toggler(null, {
-  onSvgHref: iconUrl.moon,
-  offSvgHref: iconUrl.sun,
-});
+const themeToggler = new Toggler(
+  { title: title.themeToggler },
+  {
+    onSvgHref: iconUrl.moon,
+    offSvgHref: iconUrl.sun,
+  }
+);
 
 //
 // Header controls

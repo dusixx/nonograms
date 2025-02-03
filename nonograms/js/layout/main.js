@@ -1,4 +1,4 @@
-import { classes as cls, buttonName } from '../constants/index.js';
+import { classes as cls, buttonName, title } from '../constants/index.js';
 
 import {
   Element,
@@ -45,21 +45,25 @@ const gameField = new GameField();
 //
 const resetBtn = new Button({
   className: 'btn-primary',
+  title: title.resetBtn,
   text: buttonName.reset,
 });
 
 const solutionBtn = new Button({
   className: cls.solutionBtn,
+  title: title.solutionBtn,
   text: buttonName.solution,
 });
 
 const saveBtn = new Button({
   className: 'btn-primary',
+  title: title.saveBtn,
   text: buttonName.save,
 });
 
 const loadBtn = new Button({
   className: 'btn-primary',
+  title: title.loadBtn,
   text: buttonName.load,
 });
 
