@@ -61,3 +61,13 @@ export const playSound = ({ detail: { cell, clue } }) => {
     sounds.clearCell.play();
   }
 };
+
+// init audio
+Object.entries(sounds).forEach(([name, value]) => {
+  value.volume = 1;
+  if (name !== 'solved') {
+    value.playbackRate = 10;
+  } else {
+    value.playbackRate = 1.5;
+  }
+});
