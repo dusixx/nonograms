@@ -1,7 +1,18 @@
-$max-container-width: 680px;
-$min-container-width: 375px;
-
 :root {
+  @extend .light-theme;
+
+  --game-field-rows: 5;
+  --game-field-cols: 5;
+
+  --container-max-width: 750px;
+  --container-min-width: 375px;
+
+  --header-icons-size: 17px;
+  --border-radius: 20px;
+  --box-shadow: 0 1px 1px 1px var(--color-body-bg);
+}
+
+.light-theme {
   --color-body-bg: rgb(247, 247, 247);
   --color-accent: #593954;
   --color-text: rgb(65, 65, 65);
@@ -11,8 +22,6 @@ $min-container-width: 375px;
   --color-border-dark: rgb(177, 177, 177);
   --color-border-select: var(--color-border);
 
-  --color-reviewer-mode: #d8d8d8;
-
   --color-btn: var(--color-text-sec);
   --color-btn-bg: var(--color-text);
 
@@ -20,7 +29,9 @@ $min-container-width: 375px;
   --color-clues-row-bg: rgb(218, 218, 218);
   --color-clue-border: rgb(189, 189, 189);
 
-  --color-cell-bg: rgb(247, 247, 247);
+  --color-reviewer-mode: #dfdfdf;
+
+  --color-cell-bg: rgb(248, 248, 248);
   --color-cell-selected-bg: var(--color-text);
   --color-cell-border: rgb(189, 189, 189);
   --color-cell-border-bold: rgb(148, 148, 148);
@@ -38,12 +49,6 @@ $min-container-width: 375px;
   --color-score-zebra: rgb(218, 218, 218);
   --color-header-control: var(--color-text);
   --color-header-control-bg: var(--color-text);
-
-  --header-control-size: 17px;
-  --border-radius: 20px;
-  --container-max-width: 680px;
-  --container-min-width: 375px;
-  --box-shadow: 0 1px 1px 1px var(--color-body-bg);
 }
 
 .dark-theme {
@@ -63,16 +68,19 @@ $min-container-width: 375px;
   --color-clues-row-bg: var(--color-text-sec);
   --color-clue-border: rgb(109, 109, 109);
 
+  --color-reviewer-mode: #c4c5c7;
+
+  --color-cell-bg: rgba(236, 236, 236, 0.9);
   --color-cell-selected-bg: rgb(40, 40, 46);
-  --color-cell-border: rgb(189, 189, 189);
-  --color-cell-border-bold: rgb(148, 148, 148);
+  --color-cell-border: rgb(167, 167, 167);
+  --color-cell-border-bold: rgb(143, 143, 143);
 
   --color-header-control-bg: var(--color-accent);
   --color-clue-cross: rgb(175, 175, 175);
   --color-logo-icon: #7e4a77;
   --color-header-control: rgb(158, 158, 158);
 
-  --color-modal-bg: rgb(219, 216, 212);
+  --color-modal-bg: rgb(212, 212, 212);
   --color-backdrop-bg: rgba(40, 40, 46, 0.8);
 
   --color-score-zebra: rgb(192, 192, 192);

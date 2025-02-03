@@ -1,13 +1,13 @@
-@use '../utils//vars';
-
 .game-controls {
   display: flex;
   flex-wrap: wrap;
-  //justify-content: space-evenly;
   align-items: center;
-  gap: smooth-out($min-container-width, 15px, $max-container-width, 25px);
+  gap: 15px;
+  padding: 0 15px;
+
   width: 100%;
-  margin-top: 40px;
+  max-width: max(60%, calc(var(--game-field-cols) * 3em));
+  margin-top: 30px;
 
   .btn-primary {
     font-size: 14px;

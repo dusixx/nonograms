@@ -1,11 +1,8 @@
-$clueSize: 1.7em;
-
 .clues-top,
 .clues-left {
   display: grid;
   justify-content: center;
   align-content: center;
-  //background-color: var(--color-clues-bg);
 }
 
 .clues-top {
@@ -22,7 +19,8 @@ $clueSize: 1.7em;
     flex-direction: column;
     justify-content: end;
 
-    padding: 5px 0;
+    padding-top: 5px;
+    padding-bottom: 3px;
     @media (width <=500px) {
       padding: 0;
     }
@@ -41,7 +39,6 @@ $clueSize: 1.7em;
 }
 
 .clues-left {
-  //justify-items: end;
   grid-template-rows: repeat(
     var(--game-field-rows),
     var(--game-field-cell-size)
@@ -54,7 +51,7 @@ $clueSize: 1.7em;
   .clues-list {
     justify-content: end;
 
-    padding: 0 5px;
+    padding-left: 5px;
     @media (width <=500px) {
       padding: 0;
     }
@@ -91,8 +88,8 @@ $clueSize: 1.7em;
   justify-content: center;
   align-items: center;
 
-  height: $clueSize;
-  width: $clueSize;
+  height: 1.6em;
+  width: 1.6em;
 
   line-height: 0;
   cursor: pointer;

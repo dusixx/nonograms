@@ -1,6 +1,4 @@
 .header {
-  //border-bottom: solid 1px rgba(121, 121, 121, 0.1);
-
   &__wrapper {
     @extend .wrapper;
 
@@ -8,8 +6,7 @@
     align-items: center;
     justify-content: space-between;
     width: 100%;
-    padding-top: 20px;
-    //padding-bottom: 20px;
+    padding: 15px;
   }
 
   &__controls {
@@ -22,14 +19,12 @@
 .score-btn {
   @extend .btn;
   padding: 5px;
-  //background-color: var(--color-header-control-bg);
-  //background-color: transparent;
   border-radius: 50%;
   color: var(--color-header-control);
 
   &__icon {
-    width: var(--header-control-size);
-    height: var(--header-control-size);
+    width: var(--header-icons-size);
+    height: var(--header-icons-size);
     fill: currentColor;
   }
 }
@@ -40,23 +35,28 @@
   padding: 5px;
 
   color: var(--color-header-control);
-  //background-color: var(--color-header-control-bg);
   background-color: transparent;
 
   border-radius: 50%;
 
   &__icon {
-    width: var(--header-control-size);
-    height: var(--header-control-size);
+    width: var(--header-icons-size);
+    height: var(--header-icons-size);
     fill: currentColor;
   }
 }
 
-.toggler--reviewer-mode,
+.toggler--reviewer-mode {
+  .toggler__icon {
+    width: calc(var(--header-icons-size) + 2px);
+    height: calc(var(--header-icons-size) + 2px);
+  }
+}
+
 .toggler--sound {
   .toggler__icon {
-    width: calc(var(--header-control-size) + 2px);
-    height: calc(var(--header-control-size) + 2px);
+    width: calc(var(--header-icons-size) + 14px);
+    height: calc(var(--header-icons-size) + 14px);
   }
 }
 
@@ -74,8 +74,8 @@
   }
 
   &__icon {
-    width: 14px;
-    height: 14px;
+    width: 16px;
+    height: 16px;
     fill: var(--color-logo-icon);
   }
 }
