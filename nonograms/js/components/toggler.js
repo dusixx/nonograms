@@ -34,7 +34,8 @@ export class Toggler extends Button {
   };
 
   set size(v) {
-    this.#svg.ref.style.width = this.#svg.ref.style.height = v;
+    const { style } = this.#svg.ref;
+    style.width = style.height = v;
   }
 
   set fill(v) {

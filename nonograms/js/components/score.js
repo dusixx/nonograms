@@ -13,9 +13,10 @@ import {
   JSONParse,
 } from '../utils/helpers.js';
 
-const iconHref = (idx) => {
-  idx = idx > 3 ? 3 : idx;
-  return `./assets/icons.svg#icon-r${idx + 1}`;
+// place from 0
+const getRewardIconHref = (place) => {
+  place = place > 3 ? 3 : place;
+  return `./assets/icons.svg#icon-r${place + 1}`;
 };
 
 const LATEST_COUNT = 5;
@@ -63,7 +64,7 @@ export class Score extends Element {
 
     //{ puzzleName, lvlName, elapsed }
     const allRows = sorted.map((rowData, place) => {
-      const icon = new SVGElement('', { href: iconHref(place) });
+      const icon = new SVGElement('', { href: getRewardIconHref(place) });
       icon.ref.style.fill = fill[place] ?? '';
 
       return new Element(
@@ -102,7 +103,7 @@ export class Score extends Element {
 
   loadFromLocalStorage() {
     const data = JSONParse(localStorage.getItem(localStorageKey.score));
-    this.#data = isArray(data) ? data.slice(0, LATEST_COUNT) : [];
+    this.#data = isArray(data) ? data.slice(-LATEST_COUNT) : [];
     this.update();
   }
 }

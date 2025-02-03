@@ -56,9 +56,9 @@ export const message = {
 export const scoreColumnName = ['#', 'puzzle', 'complexity', 'elapsed'];
 
 export const scoreRewardColor = [
-  '#a98d33',
-  '#768d81',
-  '#9d7265',
+  '#b19859',
+  '#89938e',
+  '#9d7367',
   '#a7a7a7',
   '#a7a7a7',
 ];

@@ -68,6 +68,7 @@ Object.entries(sounds).forEach(([name, value]) => {
   if (name !== 'solved') {
     value.playbackRate = 10;
   } else {
-    value.playbackRate = 1.5;
+    value.volume = 0.1;
+    value.playbackRate = 1;
   }
 });
