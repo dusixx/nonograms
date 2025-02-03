@@ -59,8 +59,8 @@ export const scoreRewardColor = [
   '#a98d33',
   '#768d81',
   '#9d7265',
-  '#a5a3a3',
-  '#a5a3a3',
+  '#a7a7a7',
+  '#a7a7a7',
 ];
 
 export const sounds = {
@@ -71,23 +71,14 @@ export const sounds = {
   solved: new Audio('./assets/sounds/won.mp3'),
 };
 
-Object.entries(sounds).forEach(([name, value]) => {
-  value.volume = 1;
-  if (name !== 'solved') {
-    value.playbackRate = 10;
-  } else {
-    value.playbackRate = 1.5;
-  }
-});
-
 export const iconUrl = {
   trophy: './assets/icons.svg#icon-trophy5',
-  logo: './assets/icons.svg#icon-nng-logo',
+  logo: './assets/icons.svg#icon-chess-board',
   star: './assets/icons.svg#icon-star',
   eyeOn: './assets/icons.svg#icon-eye-on',
   eyeOff: './assets/icons.svg#icon-eye-off',
-  soundOn: './assets/icons.svg#icon-sound-on',
-  soundOff: './assets/icons.svg#icon-sound-off',
+  soundOn: './assets/icons.svg#icon-sound-on6',
+  soundOff: './assets/icons.svg#icon-sound-off6',
   moon: './assets/icons.svg#icon-moon3',
   sun: './assets/icons.svg#icon-sun3',
 };
