@@ -82,3 +82,5 @@ export const iconUrl = {
   moon: './assets/icons.svg#icon-moon3',
   sun: './assets/icons.svg#icon-sun3',
 };
+
+export const reviewerModeCellBgColor = 'var(--color-reviewer-mode)';

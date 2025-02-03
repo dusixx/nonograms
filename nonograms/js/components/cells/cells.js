@@ -8,6 +8,7 @@ import {
   cellStateFlags,
   mouseBtn,
   classes as cls,
+  reviewerModeCellBgColor,
 } from '../../constants/index.js';
 
 //
@@ -56,13 +57,15 @@ export class Cells extends Element {
     if (cell.isSelected) {
       this.#selected.add(cell);
       this.#discarded.delete(cell);
-    } else if (cell.isDiscarded) {
+      return;
+    }
+    if (cell.isDiscarded) {
       this.#discarded.add(cell);
       this.#selected.delete(cell);
-    } else {
-      this.#discarded.delete(cell);
-      this.#selected.delete(cell);
+      return;
     }
+    this.#discarded.delete(cell);
+    this.#selected.delete(cell);
   };
 
   #addSelectedCellToDesiredSet = (cell) => {
@@ -172,14 +175,12 @@ export class Cells extends Element {
     document.addEventListener('mouseup', this.#handleMouseUp);
   };
 
-  // div.cells > div.cells__row*mxSize > div.cell*mxSize
   #appendCells = (mx) => {
     if (!isMatrix(mx)) {
       return;
     }
     const cluesHelper = new CluesHelper(mx);
 
-    // [ div.cells__row > div.cell,... ]
     const allRows = mx.map((valuesRow, row) => {
       const cellsRow = new Element({ className: cls.cellsRow });
 
@@ -250,9 +251,7 @@ export class Cells extends Element {
 
     this.values.forEach((cell) => {
       cell.ref.style.backgroundColor =
-        cell.isValid && this.#reviewerMode
-          ? 'var(--color-reviewer-mode)'
-          : null;
+        cell.isValid && this.#reviewerMode ? reviewerModeCellBgColor : null;
     });
     return this.#reviewerMode;
   }

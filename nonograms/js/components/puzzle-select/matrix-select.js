@@ -1,4 +1,4 @@
-import { Element } from '../base/element.js';
+import { Element } from '../base/index.js';
 import { isFunc } from '../../utils/index.js';
 import { matrices } from '../../../data/puzzles/matrices.js';
 
