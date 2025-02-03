@@ -149,7 +149,7 @@ gameField.addListener(eventName.solutionFound, () => {
   score.saveToLocalStorage();
 
   if (soundToggler.isEnabled) {
-    sounds.solved.play();
+    sounds.solvePuzzle.play();
   }
   modal.show(getSolvedMessage(timer.elapsed), '250px');
 });

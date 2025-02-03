@@ -66,7 +66,6 @@ export const playSound = ({ detail: { cell, clue } }) => {
 Object.entries(sounds).forEach(([name, value]) => {
   value.volume = 1;
   if (!/^solvepuzzle$/i.test(name)) {
-    console.log(name);
     value.playbackRate = 10;
   } else {
     value.volume = 0.1;

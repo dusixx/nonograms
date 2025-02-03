@@ -298,6 +298,7 @@ body {
   margin: 0 auto;
   max-width: var(--container-max-width);
   min-width: var(--container-min-width);
+  padding: 0 10px;
 }
 
 .btn, .toggler, .score-btn, .btn-secondary, .btn-primary, .modal__btn {
@@ -637,8 +638,7 @@ body {
       -ms-flex-align: center;
           align-items: center;
   gap: 15px;
-  width: 100%;
-  max-width: max(60%, var(--game-field-cols) * 3em);
+  width: clamp(375px, max(65%, var(--game-field-cols) * 3em), 100%);
   margin-top: 30px;
 }
 .game-controls .btn-primary, .game-controls .modal__btn {
@@ -660,7 +660,8 @@ body {
       -ms-flex-pack: justify;
           justify-content: space-between;
   width: 100%;
-  padding: 15px;
+  padding-top: 15px;
+  padding-bottom: 15px;
 }
 .header__controls {
   display: -webkit-box;
