@@ -4,26 +4,5 @@ body {
   color: var(--color-dark);
   background-color: var(--color-body-bg);
 
-  //height: 100vh;
-  //width: 100vw;
-
-  // background-image: linear-gradient(
-  //     rgba(43, 43, 51, 0.6),
-  //     rgba(43, 43, 51, 0.6)
-  //   ),
-  //   url('../../../assets/bg.jpg');
-  // background-position: top;
-  // background-repeat: no-repeat;
-  // background-size: cover;
-  // background-attachment: fixed;
-
   @include main-transition('color, background-color');
 }
-
-// body::before {
-//   content: '';
-//   display: block;
-//   width: 100%;
-//   height: 5px;
-//   background-color: rgba(170, 170, 170, 0.2);
-// }
