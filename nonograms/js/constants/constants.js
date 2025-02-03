@@ -67,8 +67,8 @@ export const sounds = {
   selectCell: new Audio('./assets/sounds/select.mp3'),
   discardCell: new Audio('./assets/sounds/discard.mp3'),
   clearCell: new Audio('./assets/sounds/clear.mp3'),
-  clueChanged: new Audio('./assets/sounds/clue-changed.mp3'),
-  solved: new Audio('./assets/sounds/won.mp3'),
+  changeClue: new Audio('./assets/sounds/change-clue.mp3'),
+  solvePuzzle: new Audio('./assets/sounds/solve-puzzle.mp3'),
 };
 
 export const iconUrl = {

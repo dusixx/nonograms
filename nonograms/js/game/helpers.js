@@ -48,7 +48,7 @@ export const playSound = ({ detail: { cell, clue } }) => {
   }
   // clue
   if (clue) {
-    sounds.clueChanged.play();
+    sounds.changeClue.play();
     return;
   }
   // cell
@@ -65,7 +65,8 @@ export const playSound = ({ detail: { cell, clue } }) => {
 // init audio
 Object.entries(sounds).forEach(([name, value]) => {
   value.volume = 1;
-  if (name !== 'solved') {
+  if (!/^solvepuzzle$/i.test(name)) {
+    console.log(name);
     value.playbackRate = 10;
   } else {
     value.volume = 0.1;
