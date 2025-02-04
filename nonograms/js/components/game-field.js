@@ -111,4 +111,14 @@ export class GameField extends Element {
   get hasSelectedOrDiscarded() {
     return this.#cells.hasSelectedOrDiscarded;
   }
+
+  allowPointerEvents(flag) {
+    if (!flag) {
+      // prevent document context menu after discarding last invalid cell
+      document.addEventListener('contextmenu', (e) => e.preventDefault(), {
+        once: true,
+      });
+    }
+    super.allowPointerEvents(flag);
+  }
 }
