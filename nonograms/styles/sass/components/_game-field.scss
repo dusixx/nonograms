@@ -1,7 +1,9 @@
 .game-field {
   //--game-field-rows: 5;
   //--game-field-cols: 5;
-  // NOTE: for square board only
+
+  // TODO: add (aspect-ratio: 1) for cell|clue|...
+  // and change styles
   --game-field-cell-size: min(2.5rem, calc(80vw / var(--game-field-cols)));
 
   display: grid;
