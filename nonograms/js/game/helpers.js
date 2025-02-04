@@ -63,15 +63,15 @@ export const playSound = ({ detail: { cell, clue } }) => {
 };
 
 export const showHintOnce = () => {
-  // if (Object.hasOwn(localStorage, lsKey.hint)) {
-  //   return;
-  // }
+  if (Object.hasOwn(localStorage, lsKey.hint)) {
+    return;
+  }
   modal.show([
     new Element({ tag: 'img', src: './assets/hint.png', alt: 'hint' }),
     new Element({
       tag: 'p',
       className: cls.modalPara,
-      text: 'Use reviewer1 mode',
+      text: 'Use this for faster checking',
     }),
   ]);
   localStorage.setItem(lsKey.hint, '1');
