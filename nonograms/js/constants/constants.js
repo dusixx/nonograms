@@ -47,6 +47,7 @@ export const title = {
   saveBtn: 'Save game',
   loadBtn: 'Continue saved game',
   scoreBtn: 'High score table',
+  randomBtn: 'Random puzzle',
   reviewerModeToggler: 'Reviewer mode',
   soundToggler: 'Mute/Unmute',
   themeToggler: 'Theme',
@@ -66,7 +67,6 @@ export const message = {
 };
 
 export const scoreColumnName = ['#', 'puzzle', 'complexity', 'elapsed'];
-
 export const scoreRewardColor = [
   '#b19859',
   '#89938e',
@@ -93,6 +93,11 @@ export const iconUrl = {
   soundOff: './assets/icons.svg#icon-sound-off6',
   moon: './assets/icons.svg#icon-moon3',
   sun: './assets/icons.svg#icon-sun3',
+  dice: './assets/icons.svg#icon-dice',
 };
 
-export const reviewerModeCellBgColor = 'var(--color-reviewer-mode)';
+export const reviewerModeOpts = {
+  cellBgColor: 'var(--color-reviewer-mode)',
+  hintMsg: 'Click on this button in the header to speed up the task check',
+  imgSrc: './assets/hint.png',
+};

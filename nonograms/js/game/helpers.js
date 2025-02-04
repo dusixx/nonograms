@@ -15,6 +15,7 @@ import {
   message,
   sounds,
   iconUrl,
+  reviewerModeOpts,
 } from '../constants/index.js';
 
 export const getSavedSnapshot = () => {
@@ -34,10 +35,13 @@ export const saveSnapshot = () => {
 };
 
 export const getSolvedMessage = (secs) => {
-  const text = message.haveSolved(secs);
   return [
     new SVGElement({ className: cls.modalIcon }, { href: iconUrl.trophy }),
-    new Element({ tag: 'p', className: cls.modalPara, text }),
+    new Element({
+      tag: 'p',
+      className: cls.modalPara,
+      text: message.haveSolved(secs),
+    }),
   ];
 };
 
@@ -68,11 +72,11 @@ export const showHintOnce = () => {
   }
   modal.show(
     [
-      new Element({ tag: 'img', src: './assets/hint.png', alt: 'hint' }),
+      new Element({ tag: 'img', src: reviewerModeOpts.imgSrc, alt: 'hint' }),
       new Element({
         tag: 'p',
         className: cls.modalPara,
-        text: 'Click on this button in the header to speed up the task check',
+        text: reviewerModeOpts.hintMsg,
       }),
     ],
     '250px'

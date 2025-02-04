@@ -1,7 +1,7 @@
-import { Element, Button } from '../base/index.js';
+import { Element, Button, SVGElement } from '../base/index.js';
 import { puzzles } from '../../../data/puzzles/index.js';
 import { isFunc, rndInt } from '../../utils/helpers.js';
-import { classes as cls } from '../../constants/index.js';
+import { classes as cls, title, iconUrl } from '../../constants/index.js';
 
 export class PuzzleSelect extends Element {
   #level;
@@ -30,6 +30,13 @@ export class PuzzleSelect extends Element {
       className: cls.puzzleSelectRnd,
       text: 'random',
     });
+    // this.#random = new Button(
+    //   { className: cls.puzzleSelectRnd, title: title.randomBtn },
+    //   new SVGElement(
+    //     { className: cls.puzzleSelectIcon },
+    //     { href: iconUrl.dice }
+    //   )
+    // );
     this.#updatePuzzles(lvlNames[0]);
     this.append(this.#level, this.#puzzle, this.#random);
     this.#addInteractivity();

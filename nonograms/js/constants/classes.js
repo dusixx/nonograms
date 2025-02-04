@@ -27,7 +27,8 @@ export const classes = {
   puzzleSelect: 'puzzle-select',
   puzzleSelectLvl: 'custom-select',
   puzzleSelectPic: 'custom-select',
-  puzzleSelectRnd: 'btn-secondary',
+  puzzleSelectRnd: 'puzzle-select__btn',
+  puzzleSelectIcon: 'puzzle-select__icon',
 
   timer: 'timer',
   hint: 'hint',

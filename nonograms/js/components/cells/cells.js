@@ -8,7 +8,7 @@ import {
   cellStateFlags,
   mouseBtn,
   classes as cls,
-  reviewerModeCellBgColor,
+  reviewerModeOpts,
 } from '../../constants/index.js';
 
 //
@@ -251,7 +251,9 @@ export class Cells extends Element {
 
     this.values.forEach((cell) => {
       cell.ref.style.backgroundColor =
-        cell.isValid && this.#reviewerMode ? reviewerModeCellBgColor : null;
+        cell.isValid && this.#reviewerMode
+          ? reviewerModeOpts.cellBgColor
+          : null;
     });
     return this.#reviewerMode;
   }

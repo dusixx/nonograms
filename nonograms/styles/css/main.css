@@ -305,7 +305,7 @@ body {
   padding: 0 10px;
 }
 
-.btn, .toggler, .score-btn, .btn-secondary, .btn-primary, .modal__btn {
+.btn, .toggler, .score-btn, .btn-secondary, .puzzle-select__btn, .btn-primary, .modal__btn {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -346,7 +346,7 @@ body {
           filter: grayscale(0.2);
 }
 
-.btn-secondary {
+.btn-secondary, .puzzle-select__btn {
   display: -webkit-inline-box;
   display: -ms-inline-flexbox;
   display: inline-flex;
@@ -358,7 +358,7 @@ body {
   background-color: transparent;
   color: var(--color-text);
 }
-.btn-secondary:disabled {
+.btn-secondary:disabled, .puzzle-select__btn:disabled {
   pointer-events: none;
   -webkit-user-select: none;
      -moz-user-select: none;
@@ -367,7 +367,7 @@ body {
   opacity: 0.6;
 }
 
-.dark-theme .btn-secondary {
+.dark-theme .btn-secondary, .dark-theme .puzzle-select__btn {
   opacity: 0.9;
 }
 
@@ -607,6 +607,11 @@ body {
 }
 .puzzle-select .custom-select {
   width: 120px;
+}
+.puzzle-select__icon {
+  width: 62%;
+  height: 62%;
+  fill: currentColor;
 }
 
 .timer {
