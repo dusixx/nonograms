@@ -30,6 +30,7 @@ export const classes = {
   puzzleSelectRnd: 'btn-secondary',
 
   timer: 'timer',
+  hint: 'hint',
 
   toggler: 'toggler',
   togglerIcon: 'toggler__icon',
@@ -53,12 +54,10 @@ export const classes = {
   scrollLock: 'scroll-lock',
   backdrop: 'backdrop',
   backdropActive: 'backdrop--active',
+
   modal: 'modal',
   modalPara: 'modal__para',
   modalContent: 'modal__content',
+  modalIcon: 'modal__icon',
   modalBtn: 'modal__btn',
-
-  solvedMsg: 'solved-msg',
-  solvedMsgIcon: 'solved-msg__icon',
-  solvedMsgText: 'solved-msg__text',
 };

@@ -28,6 +28,7 @@ export const localStorageKey = {
   theme: 'nng-35fc8f7e525a-theme',
   sound: 'nng-35fc8f7e525a-sound',
   score: 'nng-35fc8f7e525a-score',
+  hint: 'nng-35fc8f7e525a-hint',
 };
 
 export const colorTheme = {
