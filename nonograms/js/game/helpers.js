@@ -6,6 +6,7 @@ import {
   puzzleSelect,
   timer,
   soundToggler,
+  modal,
 } from '../layout/index.js';
 
 import {
@@ -34,11 +35,10 @@ export const saveSnapshot = () => {
 
 export const getSolvedMessage = (secs) => {
   const text = message.haveSolved(secs);
-  return new Element(
-    { className: cls.solvedMsg },
-    new SVGElement({ className: cls.solvedMsgIcon }, { href: iconUrl.trophy }),
-    new Element({ tag: 'p', className: cls.solvedMsgText, text })
-  );
+  return [
+    new SVGElement({ className: cls.modalIcon }, { href: iconUrl.trophy }),
+    new Element({ tag: 'p', className: cls.modalPara, text }),
+  ];
 };
 
 // on 'gamefieldhaschanged'
@@ -60,6 +60,21 @@ export const playSound = ({ detail: { cell, clue } }) => {
   } else {
     sounds.clearCell.play();
   }
+};
+
+export const showHintOnce = () => {
+  // if (Object.hasOwn(localStorage, lsKey.hint)) {
+  //   return;
+  // }
+  modal.show([
+    new Element({ tag: 'img', src: './assets/hint.png', alt: 'hint' }),
+    new Element({
+      tag: 'p',
+      className: cls.modalPara,
+      text: 'Use reviewer1 mode',
+    }),
+  ]);
+  localStorage.setItem(lsKey.hint, '1');
 };
 
 // init audio

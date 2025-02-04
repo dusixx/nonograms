@@ -6,6 +6,7 @@ import {
   getSavedSnapshot,
   getSolvedMessage,
   playSound,
+  showHintOnce,
 } from './helpers.js';
 
 import {
@@ -34,6 +35,8 @@ import {
 // Helpers
 //--------------------
 //
+
+showHintOnce();
 
 // update score from local storage
 const score = new Score();
@@ -72,7 +75,7 @@ const reset = () => {
 
 scoreBtn.onClick = () => {
   score.loadFromLocalStorage();
-  modal.show(score);
+  modal.show([score]);
 };
 
 // toggle reviewer mode
