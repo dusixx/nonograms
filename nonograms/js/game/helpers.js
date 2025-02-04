@@ -66,14 +66,17 @@ export const showHintOnce = () => {
   if (Object.hasOwn(localStorage, lsKey.hint)) {
     return;
   }
-  modal.show([
-    new Element({ tag: 'img', src: './assets/hint.png', alt: 'hint' }),
-    new Element({
-      tag: 'p',
-      className: cls.modalPara,
-      text: 'Use this for faster checking',
-    }),
-  ]);
+  modal.show(
+    [
+      new Element({ tag: 'img', src: './assets/hint.png', alt: 'hint' }),
+      new Element({
+        tag: 'p',
+        className: cls.modalPara,
+        text: 'Click on this button in the header to speed up the task check',
+      }),
+    ],
+    '250px'
+  );
   localStorage.setItem(lsKey.hint, '1');
 };
 
