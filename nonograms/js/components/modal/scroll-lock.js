@@ -1,7 +1,7 @@
 const root = document.documentElement;
+const { body } = document;
 
 const isVScrollBarVisible = () => {
-  const { body } = document;
   const curBodyClientWidth = body.clientWidth;
   const curBodyOverflow = body.style.overflow;
 
@@ -19,10 +19,10 @@ export class ScrollLock {
 
   static lock() {
     this.#top = window.scrollY;
-    this.#css = root.style.cssText;
+    this.#css = body.style.cssText;
     this.#locked = true;
 
-    root.style.cssText = `
+    body.style.cssText = `
         ${this.#css};
         position: fixed;
         top: -${this.#top}px;
@@ -35,10 +35,10 @@ export class ScrollLock {
   static unlock() {
     this.#locked = false;
 
-    root.style.cssText = this.#css;
-    root.style.scrollBehavior = 'auto';
+    body.style.cssText = this.#css;
+    body.style.scrollBehavior = 'auto';
     window.scrollTo({ top: this.#top });
-    root.style.removeProperty('scroll-behavior');
+    body.style.removeProperty('scroll-behavior');
 
     return this.#locked;
   }

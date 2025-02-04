@@ -1,6 +1,6 @@
 import { Element, Button } from '../base/index.js';
 import { classes as cls } from '../../constants/classes.js';
-import { isNonEmptyStr, isStr } from '../../utils/helpers.js';
+import { isArray, isNonEmptyStr, isStr } from '../../utils/helpers.js';
 import { ScrollLock } from './scroll-lock.js';
 
 export class Modal extends Element {
@@ -39,7 +39,6 @@ export class Modal extends Element {
   #toggle(force) {
     const wasShown = this.toggleClass(cls.backdropActive, force);
     ScrollLock.toggle(wasShown);
-    //document.documentElement.classList.toggle(cls.scrollLock, wasShown);
 
     if (wasShown) {
       document.addEventListener('keydown', this.#handleEscKeydown, {
@@ -51,17 +50,20 @@ export class Modal extends Element {
     return wasShown;
   }
 
+  /**
+   * @param {Array<Element|SVGElement>|string} cont
+   */
   show(cont, width) {
     if (isStr(cont)) {
-      cont = new Element({ tag: 'p', text: cont, className: cls.modalPara });
+      cont = [new Element({ tag: 'p', text: cont, className: cls.modalPara })];
     }
-    if (!(cont instanceof Element)) {
+    if (!isArray(cont)) {
       return;
     }
     this.#content.ref.style.width = width ?? '';
 
     this.#content.removeChildren();
-    this.#content.append(cont);
+    this.#content.append(...cont);
     this.#toggle(true);
   }
 
