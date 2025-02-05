@@ -19,10 +19,9 @@ import {
 } from '../constants/index.js';
 
 export const getSavedSnapshot = () => {
-  if (!Object.hasOwn(localStorage, lsKey.snapshot)) {
-    return;
-  }
-  return JSONParse(localStorage.getItem(lsKey.snapshot));
+  return Object.hasOwn(localStorage, lsKey.snapshot)
+    ? JSONParse(localStorage.getItem(lsKey.snapshot))
+    : null;
 };
 
 export const saveSnapshot = () => {
@@ -34,15 +33,16 @@ export const saveSnapshot = () => {
   localStorage.setItem(lsKey.snapshot, snapshot);
 };
 
-export const getSolvedMessage = (secs) => {
-  return [
+export const showSolvedMessage = (secs) => {
+  modal.content.ref.style.width = '250px';
+  modal.show(
     new SVGElement({ className: cls.modalIcon }, { href: iconUrl.trophy }),
     new Element({
       tag: 'p',
       className: cls.modalPara,
       text: message.haveSolved(secs),
-    }),
-  ];
+    })
+  );
 };
 
 // on 'gamefieldhaschanged'
@@ -70,16 +70,14 @@ export const showHintOnce = () => {
   if (Object.hasOwn(localStorage, lsKey.hint)) {
     return;
   }
+  modal.content.ref.style.width = '250px';
   modal.show(
-    [
-      new Element({ tag: 'img', src: reviewerModeOpts.imgSrc, alt: 'hint' }),
-      new Element({
-        tag: 'p',
-        className: cls.modalPara,
-        text: reviewerModeOpts.hintMsg,
-      }),
-    ],
-    '250px'
+    new Element({ tag: 'img', src: reviewerModeOpts.imgSrc, alt: 'hint' }),
+    new Element({
+      tag: 'p',
+      className: cls.modalPara,
+      text: reviewerModeOpts.hintMsg,
+    })
   );
   localStorage.setItem(lsKey.hint, '1');
 };

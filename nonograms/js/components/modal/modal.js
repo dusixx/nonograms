@@ -30,7 +30,7 @@ export class Modal extends Element {
     };
   }
 
-  #handleEscKeydown = (e) => {
+  #handleKeydown = (e) => {
     if (e.key === 'Escape' && !e.ctrlKey && !e.altKey && !e.shiftKey) {
       this.#toggle(false);
     }
@@ -41,33 +41,26 @@ export class Modal extends Element {
     ScrollLock.toggle(wasShown);
 
     if (wasShown) {
-      document.addEventListener('keydown', this.#handleEscKeydown, {
+      document.addEventListener('keydown', this.#handleKeydown, {
         once: true,
       });
     } else {
-      document.removeEventListener('keydown', this.#handleEscKeydown);
+      document.removeEventListener('keydown', this.#handleKeydown);
     }
     return wasShown;
   }
 
-  /**
-   * @param {Array<Element|SVGElement>|string} cont
-   */
-  show(cont, width) {
-    if (isStr(cont)) {
-      cont = [new Element({ tag: 'p', text: cont, className: cls.modalPara })];
-    }
-    if (!isArray(cont)) {
-      return;
-    }
-    this.#content.ref.style.width = width ?? '';
-
+  show(...children) {
     this.#content.removeChildren();
-    this.#content.append(...cont);
+    this.#content.append(...children);
     this.#toggle(true);
   }
 
   hide() {
     this.#toggle(false);
+  }
+
+  get content() {
+    return this.#content;
   }
 }

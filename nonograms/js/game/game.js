@@ -4,9 +4,9 @@ import { Score } from '../components/score.js';
 import {
   saveSnapshot,
   getSavedSnapshot,
-  getSolvedMessage,
   playSound,
   showHintOnce,
+  showSolvedMessage,
 } from './helpers.js';
 
 import {
@@ -42,7 +42,7 @@ showHintOnce();
 const score = new Score();
 score.loadFromLocalStorage();
 
-const init = () => {
+export const init = () => {
   saveBtn.disabled = true;
   resetBtn.disabled = true;
   solutionBtn.disabled = false;
@@ -75,7 +75,8 @@ const reset = () => {
 
 scoreBtn.onClick = () => {
   score.loadFromLocalStorage();
-  modal.show([score]);
+  modal.content.ref.style.width = '';
+  modal.show(score);
 };
 
 // toggle reviewer mode
@@ -154,7 +155,7 @@ gameField.addListener(eventName.solutionFound, () => {
   if (soundToggler.isEnabled) {
     sounds.solvePuzzle.play();
   }
-  modal.show(getSolvedMessage(timer.elapsed), '250px');
+  showSolvedMessage(timer.elapsed);
 });
 
 // game field was changed
@@ -164,5 +165,3 @@ gameField.addListener(eventName.gameFieldHasChanged, (e) => {
   saveBtn.disabled = !gameField.hasSelectedOrDiscarded;
   loadBtn.disabled = !getSavedSnapshot();
 });
-
-init();
