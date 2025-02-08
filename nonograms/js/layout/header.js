@@ -36,9 +36,7 @@ export const themeToggler = new Toggler(
   }
 );
 
-//
-// Header controls
-//
+// header controls
 const headerControls = new Element(
   { className: cls.headerControls },
   scoreBtn,

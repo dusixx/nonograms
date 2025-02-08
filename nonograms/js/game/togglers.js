@@ -6,7 +6,7 @@ import {
   classes as cls,
 } from '../constants/index.js';
 
-// Sound
+// sound
 const currentSoundState = localStorage.getItem(lsKey.sound) ?? soundState.on;
 soundToggler.toggle(currentSoundState === soundState.on);
 
@@ -14,7 +14,7 @@ soundToggler.onToggle = (enabled) => {
   localStorage.setItem(lsKey.sound, enabled ? soundState.on : soundState.off);
 };
 
-// Color theme
+// color theme
 const currentTheme = localStorage.getItem(lsKey.theme) ?? colorTheme.light;
 
 const enabled = themeToggler.toggle(currentTheme === colorTheme.light);

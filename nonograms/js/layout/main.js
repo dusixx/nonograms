@@ -9,59 +9,37 @@ import {
   Modal,
 } from '../components/index.js';
 
-//
-// exports
-export {
-  main,
-  puzzleSelect,
-  timer,
-  gameField,
-  saveBtn,
-  loadBtn,
-  solutionBtn,
-  resetBtn,
-  modal,
-};
-//
-
-//
-// Stats
-//
-const puzzleSelect = new PuzzleSelect();
-const timer = new Timer();
+// stats
+export const puzzleSelect = new PuzzleSelect();
+export const timer = new Timer();
 const gameStats = new Element(
   { className: cls.gameStats },
   puzzleSelect,
   timer
 );
 
-//
-// Game field
-//
-const gameField = new GameField();
+export const gameField = new GameField();
 
-//
-// Game controls
-//
-const resetBtn = new Button({
+// game controls
+export const resetBtn = new Button({
   className: 'btn-primary',
   title: title.resetBtn,
   text: buttonName.reset,
 });
 
-const solutionBtn = new Button({
+export const solutionBtn = new Button({
   className: cls.solutionBtn,
   title: title.solutionBtn,
   text: buttonName.solution,
 });
 
-const saveBtn = new Button({
+export const saveBtn = new Button({
   className: 'btn-primary',
   title: title.saveBtn,
   text: buttonName.save,
 });
 
-const loadBtn = new Button({
+export const loadBtn = new Button({
   className: 'btn-primary',
   title: title.loadBtn,
   text: buttonName.load,
@@ -75,9 +53,9 @@ const gameControls = new Element(
   resetBtn
 );
 
-const modal = new Modal();
+export const modal = new Modal();
 
-const main = new Element(
+export const main = new Element(
   { className: cls.main, tag: 'main' },
   new Element(
     { className: cls.mainWrapper },
