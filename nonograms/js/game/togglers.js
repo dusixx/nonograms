@@ -1,16 +1,10 @@
+import { soundToggler, themeToggler } from '../layout/header.js';
 import {
   localStorageKey as lsKey,
   soundState,
   colorTheme,
   classes as cls,
-  eventName,
 } from '../constants/index.js';
-
-import {
-  reviewerModeToggler,
-  soundToggler,
-  themeToggler,
-} from '../layout/header.js';
 
 // Sound
 const currentSoundState = localStorage.getItem(lsKey.sound) ?? soundState.on;

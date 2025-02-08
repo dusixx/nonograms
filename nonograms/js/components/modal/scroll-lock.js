@@ -1,4 +1,3 @@
-const root = document.documentElement;
 const { body } = document;
 
 const isVScrollBarVisible = () => {

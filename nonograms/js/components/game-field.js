@@ -64,9 +64,6 @@ export class GameField extends Element {
     if (!isMatrix(mx)) {
       return;
     }
-    // const { style } = this.ref;
-    // style.setProperty(cssVar.gameFieldRows, mx.length);
-    // style.setProperty(cssVar.gameFieldCols, mx[0]?.length ?? 0);
     const { style } = document.body;
     style.setProperty(cssVar.gameFieldRows, mx.length);
     style.setProperty(cssVar.gameFieldCols, mx[0]?.length ?? 0);

@@ -1,19 +1,5 @@
 import { Button, Element, SVGElement, Toggler } from '../components/index.js';
-
-import {
-  localStorageKey as lsKey,
-  soundState,
-  eventName,
-  colorTheme,
-  classes as cls,
-  iconUrl,
-  title,
-} from '../constants/index.js';
-
-//
-// exports
-export { header, scoreBtn, reviewerModeToggler, themeToggler, soundToggler };
-//
+import { classes as cls, iconUrl, title } from '../constants/index.js';
 
 const logo = new Element(
   { className: cls.logo },
@@ -21,12 +7,12 @@ const logo = new Element(
   new Element({ tag: 'span', className: cls.logoText, text: 'nonograms' })
 );
 
-const scoreBtn = new Button(
+export const scoreBtn = new Button(
   { className: cls.scoreBtn, title: title.scoreBtn },
   new SVGElement({ className: cls.scoreBtnIcon }, { href: iconUrl.star })
 );
 
-const reviewerModeToggler = new Toggler(
+export const reviewerModeToggler = new Toggler(
   { className: cls.togglerReviewerMode, title: title.reviewerModeToggler },
   {
     onSvgHref: iconUrl.eyeOn,
@@ -34,7 +20,7 @@ const reviewerModeToggler = new Toggler(
   }
 );
 
-const soundToggler = new Toggler(
+export const soundToggler = new Toggler(
   { className: cls.togglerSound, title: title.soundToggler },
   {
     onSvgHref: iconUrl.soundOn,
@@ -42,7 +28,7 @@ const soundToggler = new Toggler(
   }
 );
 
-const themeToggler = new Toggler(
+export const themeToggler = new Toggler(
   { title: title.themeToggler },
   {
     onSvgHref: iconUrl.moon,
@@ -67,4 +53,7 @@ const wrapper = new Element(
   headerControls
 );
 
-const header = new Element({ tag: 'header', className: cls.header }, wrapper);
+export const header = new Element(
+  { tag: 'header', className: cls.header },
+  wrapper
+);

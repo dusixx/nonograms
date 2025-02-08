@@ -5,7 +5,6 @@ import { isMatrix } from '../../utils/helpers.js';
 
 import {
   eventName,
-  cellStateFlags,
   mouseBtn,
   classes as cls,
   reviewerModeOpts,
@@ -31,7 +30,7 @@ export class Cells extends Element {
   // to avoid blind spots when hovering over cell row border
   #mouseOverCell;
 
-  constructor(mx, callback) {
+  constructor(mx) {
     super({ className: cls.cells });
 
     this.update(mx);

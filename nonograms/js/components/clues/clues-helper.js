@@ -16,8 +16,8 @@ export class CluesHelper {
 
     this.#mx = mx;
     // create clues matrices
-    this.#left = Array.from({ length: rowsCount }, (_) => []);
-    this.#top = Array.from({ length: colsCount }, (_) => []);
+    this.#left = Array.from({ length: rowsCount }, () => []);
+    this.#top = Array.from({ length: colsCount }, () => []);
   }
 
   getClues() {

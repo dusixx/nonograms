@@ -51,7 +51,7 @@ export const msToDHMS = (ms) => {
 
 export const elapsedToTime = (seconds) => {
   const { secs, mins, hours } = msToDHMS(seconds * 1000);
-  const res = `${mins}`.padStart(2, 0) + ':' + `${secs}`.padStart(2, 0);
+  let res = `${mins}`.padStart(2, 0) + ':' + `${secs}`.padStart(2, 0);
   if (hours > 0) {
     res = `${hours}`.padStart(2, 0) + res;
   }

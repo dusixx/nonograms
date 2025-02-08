@@ -1,6 +1,5 @@
 import { Element, Button } from '../base/index.js';
 import { classes as cls } from '../../constants/classes.js';
-import { isArray, isNonEmptyStr, isStr } from '../../utils/helpers.js';
 import { ScrollLock } from './scroll-lock.js';
 
 export class Modal extends Element {

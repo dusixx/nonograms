@@ -1,6 +1,6 @@
 import './togglers.js';
 import { Score } from '../components/score.js';
-
+import { eventName, sounds } from '../constants/index.js';
 import {
   saveSnapshot,
   getSavedSnapshot,
@@ -8,14 +8,6 @@ import {
   showHintOnce,
   showSolvedMessage,
 } from './helpers.js';
-
-import {
-  eventName,
-  classes as cls,
-  message,
-  sounds,
-} from '../constants/index.js';
-
 import {
   scoreBtn,
   reviewerModeToggler,

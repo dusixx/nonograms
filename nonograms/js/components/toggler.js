@@ -1,5 +1,5 @@
 import { Button, SVGElement } from './base/index.js';
-import { isPositiveInt, isFunc } from '../utils/helpers.js';
+import { isFunc } from '../utils/helpers.js';
 import { classes as cls } from '../constants/index.js';
 
 export class Toggler extends Button {
