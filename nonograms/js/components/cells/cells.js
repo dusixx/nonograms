@@ -10,12 +10,6 @@ import {
   reviewerModeOpts,
 } from '../../constants/index.js';
 
-//
-//------------------
-// Cells
-//------------------
-//
-
 export class Cells extends Element {
   #started;
   #numOfValid = 0;

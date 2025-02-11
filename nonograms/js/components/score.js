@@ -13,22 +13,17 @@ import {
   JSONParse,
 } from '../utils/helpers.js';
 
+const LATEST_COUNT = 5;
+
 // place from 0
 const getRewardIconHref = (place) => {
   place = place > 3 ? 3 : place;
   return `./assets/icons.svg#icon-r${place + 1}`;
 };
 
-const LATEST_COUNT = 5;
-
-//
-//--------------------
-// Score
-//--------------------
-//
-
 export class Score extends Element {
   #data = [];
+
   #results;
 
   constructor() {
@@ -62,7 +57,7 @@ export class Score extends Element {
     this.#results.removeChildren();
     const sorted = [...this.#data].sort((a, b) => a.elapsed - b.elapsed);
 
-    //{ puzzleName, lvlName, elapsed }
+    // { puzzleName, lvlName, elapsed }
     const allRows = sorted.map((rowData, place) => {
       const icon = new SVGElement('', { href: getRewardIconHref(place) });
       icon.ref.style.fill = fill[place] ?? '';

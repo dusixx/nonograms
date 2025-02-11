@@ -33,15 +33,6 @@ export class Toggler extends Button {
     };
   };
 
-  set size(v) {
-    const { style } = this.#svg.ref;
-    style.width = style.height = v;
-  }
-
-  set fill(v) {
-    this.#svg.ref.style.fill = v;
-  }
-
   get isEnabled() {
     return this.#enabled;
   }
@@ -52,6 +43,10 @@ export class Toggler extends Button {
 
   set onToggle(handler) {
     this.#onToggle = isFunc(handler) ? handler : null;
+  }
+
+  get onToggle() {
+    return this.#onToggle;
   }
 
   toggle(force) {

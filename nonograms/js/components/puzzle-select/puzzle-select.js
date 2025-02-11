@@ -133,4 +133,8 @@ export class PuzzleSelect extends Element {
   set onChange(handler) {
     this.#onChange = isFunc(handler) ? handler : null;
   }
+
+  get onChange() {
+    return this.#onChange;
+  }
 }

@@ -82,13 +82,14 @@ export const showHintOnce = () => {
   localStorage.setItem(lsKey.hint, '1');
 };
 
-// init audio
-Object.entries(sounds).forEach(([name, value]) => {
-  value.volume = 1;
-  if (!/^solvepuzzle$/i.test(name)) {
-    value.playbackRate = 10;
-  } else {
-    value.volume = 0.1;
-    value.playbackRate = 1;
-  }
-});
+export const initAudio = () => {
+  Object.entries(sounds).forEach(([name, value]) => {
+    value.volume = 1;
+    if (!/^solvepuzzle$/i.test(name)) {
+      value.playbackRate = 10;
+    } else {
+      value.volume = 0.1;
+      value.playbackRate = 1;
+    }
+  });
+};

@@ -1,10 +1,6 @@
 import { BaseElement } from './base-element.js';
 
 export class Element extends BaseElement {
-  constructor(props, ...children) {
-    super(props, ...children);
-  }
-
   dispatch(name, opts) {
     return this.ref.dispatchEvent(
       new Event(name, {
@@ -30,10 +26,15 @@ export class Element extends BaseElement {
     this.ref.style.pointerEvents = v ? '' : 'none';
   }
 
-  set visibile(v) {
+  set visible(v) {
     const { style } = this.ref;
     style.visibility = v ? 'visible' : 'hidden';
     style.pointerEvents = v ? '' : 'none';
+  }
+
+  get visible() {
+    const { style } = this.ref;
+    return style.visibility === 'visible';
   }
 
   hide() {

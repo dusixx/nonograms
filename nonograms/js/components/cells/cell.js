@@ -2,15 +2,9 @@ import { Element } from '../base/element.js';
 import { isPositiveInt } from '../../utils/helpers.js';
 import { cellStateFlags, classes as cls } from '../../constants/index.js';
 
-//
-//------------------
-// Cell
-//------------------
-//
-
 export class Cell extends Element {
   #value = cellStateFlags.invalid;
-  #position; //{row, col}
+  #position; // {row, col}
 
   constructor(props, ...children) {
     super(props, ...children);

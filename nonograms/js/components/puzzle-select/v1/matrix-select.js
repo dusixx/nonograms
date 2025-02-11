@@ -40,6 +40,10 @@ export class MatrixSelect extends Element {
     }
   }
 
+  get onChange() {
+    return this.#onChange;
+  }
+
   get disabled() {
     return this.ref.disabled;
   }

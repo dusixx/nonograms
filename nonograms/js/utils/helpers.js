@@ -17,7 +17,7 @@ export const checkArgument = (v, typeName, func) => {
   if (!isNonEmptyStr(typeName)) {
     return;
   }
-  let success = isFunc(func) ? Boolean(func(v)) : getTypeName(v) === typeName;
+  const success = isFunc(func) ? Boolean(func(v)) : getTypeName(v) === typeName;
   if (!success) {
     throw TypeError(`${typeName} expected`);
   }

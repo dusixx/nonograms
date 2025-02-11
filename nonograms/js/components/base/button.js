@@ -29,6 +29,10 @@ export class Button extends Element {
     this.#onClick = isFunc(handler) ? handler : null;
   }
 
+  get onClick() {
+    return this.#onClick;
+  }
+
   get disabled() {
     return this.ref.disabled;
   }

@@ -7,6 +7,7 @@ import {
   playSound,
   showHintOnce,
   showSolvedMessage,
+  initAudio,
 } from './helpers.js';
 import {
   scoreBtn,
@@ -23,11 +24,10 @@ import {
 } from '../layout/index.js';
 
 //
-//--------------------
 // Helpers
-//--------------------
 //
 
+initAudio();
 showHintOnce();
 
 // update score from local storage
@@ -60,9 +60,7 @@ const reset = () => {
 };
 
 //
-//--------------------
 // Handlers
-//--------------------
 //
 
 scoreBtn.onClick = () => {

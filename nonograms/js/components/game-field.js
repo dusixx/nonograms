@@ -9,12 +9,6 @@ const cssVar = {
   gameFieldCols: '--game-field-cols',
 };
 
-//
-//------------------
-// GameField
-//------------------
-//
-
 export class GameField extends Element {
   #cells;
   #cluesLeft;
