@@ -11,7 +11,7 @@ import {
   solutionBtn,
   soundToggler,
   timer,
-} from '../layout/index.js';
+} from '../ui/index.js';
 import { Score } from '../score/score.js';
 import {
   initAudio,

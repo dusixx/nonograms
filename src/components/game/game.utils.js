@@ -15,7 +15,7 @@ import {
   soundToggler,
   themeToggler,
   timer,
-} from '../layout/index.js';
+} from '../ui/index.js';
 
 const MODAL_WIDTH = '250px';
 

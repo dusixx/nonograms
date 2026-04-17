@@ -1,6 +1,6 @@
 import hintImageUrl from '../../assets/hint.png';
 import { ClassName, LocalStorageKey } from '../../common/constants/index.js';
-import { modal } from '../layout/main.js';
+import { modal } from '../ui/main.js';
 
 const MODAL_WIDTH = '250px';
 
