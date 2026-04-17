@@ -1,7 +1,8 @@
-import { ClassName } from '../common/constants/index.js';
-import { isFunc, rndInt } from '../common/utils.js';
-import { puzzles } from '../data/index.js';
-import { Button, Element } from './base/index.js';
+import { ClassName } from '../../common/constants/index.js';
+import { isFunc, rndInt } from '../../common/utils.js';
+import { puzzles } from '../../data/index.js';
+import { Element } from '../base/index.js';
+import { createPuzzleSelectView } from './puzzle-select.utils.js';
 
 export class PuzzleSelect extends Element {
   #level;
@@ -13,23 +14,11 @@ export class PuzzleSelect extends Element {
     super({ className: ClassName.PuzzleSelect, ...props });
     const lvlNames = Object.keys(puzzles);
 
-    this.#level = new Element(
-      {
-        tag: 'select',
-        className: ClassName.PuzzleSelectLvl,
-      },
-      ...lvlNames.map(
-        (value) => new Element({ tag: 'option', value, text: value })
-      )
-    );
-    this.#puzzle = new Element({
-      tag: 'select',
-      className: ClassName.PuzzleSelectPic,
-    });
-    this.#random = new Button({
-      className: ClassName.PuzzleSelectRnd,
-      text: 'random',
-    });
+    const { level, puzzle, random } = createPuzzleSelectView(lvlNames);
+    this.#level = level;
+    this.#puzzle = puzzle;
+    this.#random = random;
+
     this.#updatePuzzles(lvlNames[0]);
     this.append(this.#level, this.#puzzle, this.#random);
     this.#addInteractivity();
@@ -48,12 +37,11 @@ export class PuzzleSelect extends Element {
         .map(({ id, name, mx }) => {
           callback?.({ id, name, mx });
 
-          const opt = new Element({
+          return new Element({
             tag: 'option',
             value: id,
             text: name,
           });
-          return opt;
         })
     );
   };

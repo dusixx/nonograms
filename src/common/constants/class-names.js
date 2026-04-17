@@ -25,10 +25,9 @@ export const ClassName = {
   CluesTop: 'clues-top',
 
   PuzzleSelect: 'puzzle-select',
-  PuzzleSelectLvl: 'custom-select',
-  PuzzleSelectPic: 'custom-select',
-  PuzzleSelectRnd: 'puzzle-select__btn',
-  PuzzleSelectIcon: 'puzzle-select__icon',
+  PuzzleSelectLevel: 'custom-select',
+  PuzzleSelectName: 'custom-select',
+  PuzzleSelectRandom: 'puzzle-select__btn',
 
   Timer: 'timer',
   Hint: 'hint',
