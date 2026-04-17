@@ -15,7 +15,8 @@ import {
 import { Score } from '../score.js';
 import {
   initAudio,
-  initTogglers,
+  initColorThemeToggler,
+  initSoundToggler,
   playFieldChangedSound,
   showSolvedMessage,
   snapshotHelper,
@@ -26,7 +27,8 @@ export class Game {
 
   constructor() {
     initAudio();
-    initTogglers();
+    initColorThemeToggler();
+    initSoundToggler();
 
     this.#score = new Score();
     this.#score.loadFromLocalStorage();

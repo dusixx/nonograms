@@ -15,7 +15,6 @@ export class CluesHelper {
     const colsCount = mx[0]?.length ?? 0;
 
     this.#mx = mx;
-    // create clues matrices
     this.#left = Array.from({ length: rowsCount }, () => []);
     this.#top = Array.from({ length: colsCount }, () => []);
   }

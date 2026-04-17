@@ -8,7 +8,6 @@ export class Clue extends Element {
 
   constructor(props, ...children) {
     super(props, ...children);
-    // add clue base class
     this.toggleClass(ClassName.Clue, true);
   }
 

@@ -8,7 +8,6 @@ export class Cell extends Element {
 
   constructor(props, ...children) {
     super(props, ...children);
-    // add cell base class
     this.toggleClass(ClassName.Cell, true);
   }
 

@@ -19,6 +19,23 @@ import {
 
 const MODAL_WIDTH = '250px';
 
+const SOLVE_PUZZLE_SOUND_PLAYBACK_RATE = 10;
+const SOUND_PLAYBACK_RATE = 1;
+const SOUND_VOLUME = 0.1;
+const DEF_SOUND_VOLUME = 1;
+
+export const initAudio = () => {
+  Object.entries(Sound).forEach(([name, value]) => {
+    value.volume = DEF_SOUND_VOLUME;
+    if (!/^solvepuzzle$/i.test(name)) {
+      value.playbackRate = SOLVE_PUZZLE_SOUND_PLAYBACK_RATE;
+    } else {
+      value.volume = SOUND_VOLUME;
+      value.playbackRate = SOUND_PLAYBACK_RATE;
+    }
+  });
+};
+
 export const snapshotHelper = {
   getFromLocalStorage() {
     return Object.hasOwn(localStorage, LocalStorageKey.Snapshot)
@@ -70,20 +87,7 @@ export const playFieldChangedSound = ({ detail: { cell, clue } }) => {
   }
 };
 
-export const initAudio = () => {
-  Object.entries(Sound).forEach(([name, value]) => {
-    value.volume = 1;
-    if (!/^solvepuzzle$/i.test(name)) {
-      value.playbackRate = 10;
-    } else {
-      value.volume = 0.1;
-      value.playbackRate = 1;
-    }
-  });
-};
-
-export const initTogglers = () => {
-  // sound
+export const initSoundToggler = () => {
   const currentSoundState =
     localStorage.getItem(LocalStorageKey.Sound) ?? SoundState.On;
 
@@ -95,8 +99,9 @@ export const initTogglers = () => {
       enabled ? SoundState.On : SoundState.Off
     );
   };
+};
 
-  // color theme
+export const initColorThemeToggler = () => {
   const currentTheme =
     localStorage.getItem(LocalStorageKey.Theme) ?? ColorTheme.Light;
 

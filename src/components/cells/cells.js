@@ -113,7 +113,6 @@ export class Cells extends Element {
     if (!cell) {
       return;
     }
-    // get cell current state
     const { isDiscarded, isSelected } = cell;
     this.#mouseOverCell = cell;
     cell.dispatchCustom(EventName.CellMouseOver);
