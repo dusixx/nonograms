@@ -1,6 +1,6 @@
 import { ClassName, ICONS_URL } from '../../common/constants/index.js';
 import { elapsedToTime } from '../../common/utils.js';
-import { SVGElement } from '../base/svg-element.js';
+import { Element, SVGElement } from '../base/index.js';
 
 export const LATEST_COUNT = 5;
 
