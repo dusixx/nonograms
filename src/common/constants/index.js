@@ -1,7 +1,7 @@
+export * from './class-names.js';
+export * from './event-names.js';
 export * from './icons.js';
 export * from './sounds.js';
-export * from './event-names.js';
-export * from './class-names.js';
 
 export const CellStateFlags = {
   Invalid: 0,
@@ -34,4 +34,9 @@ export const ColorTheme = {
 export const SoundState = {
   On: 'on',
   Off: 'off',
+};
+
+export const CSSVars = {
+  GameFieldRows: '--game-field-rows',
+  GameFieldCols: '--game-field-cols',
 };

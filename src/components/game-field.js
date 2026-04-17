@@ -1,13 +1,8 @@
-import { ClassName, EventName } from '../common/constants/index.js';
+import { CSSVars, ClassName, EventName } from '../common/constants/index.js';
 import { JSONParse, isMatrix } from '../common/utils.js';
 import { Element } from './base/element.js';
 import { Cells } from './cells/cells.js';
 import { Clues } from './clues/clues.js';
-
-const cssVar = {
-  gameFieldRows: '--game-field-rows',
-  gameFieldCols: '--game-field-cols',
-};
 
 export class GameField extends Element {
   #cells;
@@ -59,8 +54,8 @@ export class GameField extends Element {
       return;
     }
     const { style } = document.body;
-    style.setProperty(cssVar.gameFieldRows, mx.length);
-    style.setProperty(cssVar.gameFieldCols, mx[0]?.length ?? 0);
+    style.setProperty(CSSVars.GameFieldRows, mx.length);
+    style.setProperty(CSSVars.GameFieldCols, mx[0]?.length ?? 0);
 
     const { cluesTop, cluesLeft } = this.#cells.update(mx);
     this.#cluesTop.update(cluesTop);
