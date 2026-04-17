@@ -12,7 +12,7 @@ import {
   soundToggler,
   timer,
 } from '../layout/index.js';
-import { Score } from '../score.js';
+import { Score } from '../score/score.js';
 import {
   initAudio,
   initColorThemeToggler,
