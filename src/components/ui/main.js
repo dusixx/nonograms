@@ -1,4 +1,4 @@
-import { ClassName } from '../../common/constants/index.js';
+import { ClassName } from '@common';
 import {
   Button,
   Element,
@@ -6,7 +6,7 @@ import {
   Modal,
   PuzzleSelect,
   Timer,
-} from '../index.js';
+} from '@components';
 import { ButtonName, Title } from './constants.js';
 
 // stats

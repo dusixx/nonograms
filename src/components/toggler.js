@@ -1,6 +1,5 @@
-import { ClassName } from '../common/constants/index.js';
-import { isFunc } from '../common/utils.js';
-import { Button, SVGElement } from './base/index.js';
+import { ClassName, isFunc } from '@common';
+import { Button, SVGElement } from '@components';
 
 export class Toggler extends Button {
   #enabled;

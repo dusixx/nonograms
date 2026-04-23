@@ -1,6 +1,5 @@
-import { ClassName } from '../common/constants/index.js';
-import { isPositiveInt, msToDHMS } from '../common/utils.js';
-import { Element } from './base/element.js';
+import { ClassName, isPositiveInt, msToDHMS } from '@common';
+import { Element } from '@components';
 
 export class Timer extends Element {
   #elapsed = 0;

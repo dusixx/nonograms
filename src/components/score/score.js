@@ -1,11 +1,12 @@
-import { ClassName, LocalStorageKey } from '../../common/constants/index.js';
 import {
+  ClassName,
   isArray,
   isNonEmptyStr,
   isPositiveInt,
   JSONParse,
-} from '../../common/utils.js';
-import { Element } from '../base/index.js';
+  LocalStorageKey,
+} from '@common';
+import { Element } from '@components';
 import {
   createScoreHeaderView,
   createScorePlugView,

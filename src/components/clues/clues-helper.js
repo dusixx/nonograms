@@ -1,5 +1,4 @@
-import { CellStateFlags } from '../../common/constants/index.js';
-import { checkArgument, isMatrix } from '../../common/utils.js';
+import { CellStateFlags, checkArgument, isMatrix } from '@common';
 
 const isValid = (v) => v & CellStateFlags.Valid;
 

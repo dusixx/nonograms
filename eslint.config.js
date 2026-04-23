@@ -3,6 +3,7 @@ import eslintConfigPrettier from 'eslint-config-prettier';
 import importPlugin from 'eslint-plugin-import-x';
 import prettierPlugin from 'eslint-plugin-prettier';
 import globals from 'globals';
+import path from 'path';
 
 export default [
   js.configs.recommended,
@@ -24,6 +25,17 @@ export default [
     },
     settings: {
       'import/resolver': {
+        alias: {
+          map: [
+            ['@', path.resolve(__dirname, './src')],
+            ['@common', path.resolve(__dirname, './src/common')],
+            ['@components', path.resolve(__dirname, 'src/components')],
+            ['@utils', path.resolve(__dirname, 'src/utils')],
+            ['@styles', path.resolve(__dirname, 'src/styles')],
+            ['@data', path.resolve(__dirname, 'src/data')],
+          ],
+          extensions: ['.js', '.mjs', '.cjs', '.json'],
+        },
         node: {
           extensions: ['.js', '.mjs', '.cjs', '.json'],
         },

@@ -1,5 +1,5 @@
-import { ClassName } from '../../common/constants/class-names.js';
-import { Button, Element } from '../base/index.js';
+import { ClassName } from '@common';
+import { Button, Element } from '@components';
 
 export const createPuzzleSelectView = (lvlNames) => {
   const level = new Element(

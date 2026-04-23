@@ -1,6 +1,5 @@
-import { ClassName } from '../../common/constants/index.js';
-import { Button, Element } from '../base/index.js';
-import { ScrollLock } from './scroll-lock.js';
+import { ClassName } from '@common';
+import { Button, Element, ScrollLock } from '@components';
 
 export class Modal extends Element {
   #content;

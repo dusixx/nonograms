@@ -1,6 +1,5 @@
-import { ClassName, ICONS_URL } from '../../common/constants/index.js';
-import { elapsedToTime } from '../../common/utils.js';
-import { Element, SVGElement } from '../base/index.js';
+import { ClassName, elapsedToTime, ICONS_URL } from '@common';
+import { Element, SVGElement } from '@components';
 
 export const LATEST_COUNT = 5;
 

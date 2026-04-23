@@ -49,7 +49,7 @@ export const ClassName = {
   ScoreRow: 'score__row',
   ScoreRowItem: 'score__item',
   ScoreHeader: 'score__header',
-  ScoreNoResults: 'score__noresults',
+  ScoreNoResults: 'score__no-results',
 
   ScrollLock: 'scroll-lock',
   Backdrop: 'backdrop',

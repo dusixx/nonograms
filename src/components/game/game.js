@@ -1,4 +1,5 @@
-import { EventName, Sound } from '../../common/constants/index.js';
+import { EventName, Sound } from '@common';
+import { Score } from '@components';
 import {
   gameField,
   loadBtn,
@@ -11,8 +12,7 @@ import {
   solutionBtn,
   soundToggler,
   timer,
-} from '../ui/index.js';
-import { Score } from '../score/score.js';
+} from '../ui';
 import {
   initAudio,
   initColorThemeToggler,

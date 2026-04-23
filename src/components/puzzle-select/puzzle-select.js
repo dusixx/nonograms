@@ -1,7 +1,6 @@
-import { ClassName } from '../../common/constants/index.js';
-import { isFunc, rndInt } from '../../common/utils.js';
-import { puzzles } from '../../data/index.js';
-import { Element } from '../base/index.js';
+import { ClassName, isFunc, rndInt } from '@common';
+import { Element } from '@components';
+import { puzzles } from '@data';
 import { createPuzzleSelectView } from './puzzle-select.utils.js';
 
 export class PuzzleSelect extends Element {

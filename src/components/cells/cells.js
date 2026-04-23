@@ -1,6 +1,6 @@
-import { isMatrix } from '../../common/utils.js';
-import { Element } from '../base/index.js';
-import { CluesHelper } from '../clues/clues-helper.js';
+import { isMatrix } from '@common';
+import { Element } from '@components';
+import { CluesHelper } from '@components/clues/clues-helper.js';
 
 import {
   ClassName,

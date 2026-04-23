@@ -1,7 +1,5 @@
-import { ClassName, EventName } from '../../common/constants/index.js';
-import { isMatrix } from '../../common/utils.js';
-import { Element } from '../base/index.js';
-import { Clue } from './clue.js';
+import { ClassName, EventName, isMatrix } from '@common';
+import { Clue, Element } from '@components';
 
 export class Clues extends Element {
   #cluesMap = new Map(); // Map<ref,Clue>

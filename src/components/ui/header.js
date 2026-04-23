@@ -1,5 +1,5 @@
-import { ClassName, IconUrl } from '../../common/constants/index.js';
-import { Button, Element, SVGElement, Toggler } from '../index.js';
+import { ClassName, IconUrl } from '@common';
+import { Button, Element, SVGElement, Toggler } from '@components';
 import { Title } from './constants.js';
 
 const logo = new Element(

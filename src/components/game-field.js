@@ -1,8 +1,5 @@
-import { CSSVars, ClassName, EventName } from '../common/constants/index.js';
-import { JSONParse, isMatrix } from '../common/utils.js';
-import { Element } from './base/element.js';
-import { Cells } from './cells/cells.js';
-import { Clues } from './clues/clues.js';
+import { CSSVars, ClassName, EventName, JSONParse, isMatrix } from '@common';
+import { Cells, Clues, Element } from '@components';
 
 export class GameField extends Element {
   #cells;

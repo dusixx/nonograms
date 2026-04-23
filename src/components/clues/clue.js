@@ -1,6 +1,5 @@
-import { ClassName } from '../../common/constants/index.js';
-import { isPositiveInt } from '../../common/utils.js';
-import { Element } from '../base/element.js';
+import { ClassName, isPositiveInt } from '@common';
+import { Element } from '@components';
 
 export class Clue extends Element {
   #position;

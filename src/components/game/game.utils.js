@@ -2,12 +2,12 @@ import {
   ClassName,
   ColorTheme,
   IconUrl,
+  JSONParse,
   LocalStorageKey,
   Sound,
   SoundState,
-} from '../../common/constants/index.js';
-import { JSONParse } from '../../common/utils.js';
-import { Element, SVGElement } from '../base/index.js';
+} from '@common';
+import { Element, SVGElement } from '@components';
 import {
   gameField,
   modal,
@@ -15,7 +15,7 @@ import {
   soundToggler,
   themeToggler,
   timer,
-} from '../ui/index.js';
+} from '../ui';
 
 const MODAL_WIDTH = '250px';
 
