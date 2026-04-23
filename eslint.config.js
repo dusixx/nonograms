@@ -1,8 +1,5 @@
 import js from '@eslint/js';
-import typescriptPlugin from '@typescript-eslint/eslint-plugin';
-import typescriptParser from '@typescript-eslint/parser';
 import eslintConfigPrettier from 'eslint-config-prettier';
-import importPlugin from 'eslint-plugin-import-x';
 import prettierPlugin from 'eslint-plugin-prettier';
 import globals from 'globals';
 
@@ -12,7 +9,6 @@ export default [
   {
     files: ['**/*.js', '**/*.mjs', '**/*.cjs'],
     languageOptions: {
-      parser: typescriptParser,
       ecmaVersion: 'latest',
       sourceType: 'module',
       globals: {
@@ -22,8 +18,6 @@ export default [
       },
     },
     plugins: {
-      '@typescript-eslint': typescriptPlugin,
-      import: importPlugin,
       prettier: prettierPlugin,
     },
     rules: {
@@ -34,7 +28,6 @@ export default [
         },
       ],
       'no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
-      'import/order': 'warn',
     },
   },
   {
