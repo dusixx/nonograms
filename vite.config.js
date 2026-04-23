@@ -1,6 +1,8 @@
 import path from 'path';
 import { defineConfig } from 'vite';
 
+const __dirname = import.meta.dirname;
+
 export default defineConfig({
   base: './',
   build: {
@@ -10,7 +12,7 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      '@': path.resolve(__dirname, 'src'),
+      '@': 'src',
       '@components': path.resolve(__dirname, 'src/components'),
       '@common': path.resolve(__dirname, 'src/common'),
       '@utils': path.resolve(__dirname, 'src/utils'),
