@@ -1,7 +1,7 @@
-export * from './class-names.js';
-export * from './event-names.js';
-export * from './icons.js';
-export * from './sounds.js';
+export * from './class-name.js';
+export * from './event-name.js';
+export * from './icon.js';
+export * from './sound.js';
 
 export const CellStateFlags = {
   Invalid: 0,
