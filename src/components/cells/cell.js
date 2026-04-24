@@ -1,6 +1,5 @@
-import { CellStateFlags, ClassName } from '../../common/constants/index.js';
-import { isPositiveInt } from '../../common/utils.js';
-import { Element } from '../base/element.js';
+import { CellStateFlags, ClassName, isPositiveInt } from '@common';
+import { Element } from '@components';
 
 export class Cell extends Element {
   #value = CellStateFlags.Invalid;
