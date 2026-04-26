@@ -1,0 +1,87 @@
+:root {
+  @extend .light-theme;
+
+  --game-field-rows: 5;
+  --game-field-cols: 5;
+
+  --container-max-width: 750px;
+  --container-min-width: 375px;
+
+  --border-radius: 20px;
+  --box-shadow: 0 1px 1px 1px var(--color-body-bg);
+}
+
+.light-theme {
+  --color-body-bg: rgb(247, 247, 247);
+  --color-accent: #593954;
+  --color-text: #414141;
+  --color-text-sec: rgb(235, 235, 235);
+
+  --color-border: rgb(206, 206, 206);
+  --color-border-dark: rgb(177, 177, 177);
+  --color-border-select: var(--color-border);
+
+  --color-btn: var(--color-text-sec);
+  --color-btn-bg: var(--color-text);
+
+  --color-clues-row-highlighted-bg: rgb(194, 194, 194);
+  --color-clues-row-bg: rgb(218, 218, 218);
+  --color-clue-border: rgb(189, 189, 189);
+
+  --color-reviewer-mode: #dfdfdf;
+
+  --color-cell-bg: rgb(248, 248, 248);
+  --color-cell-selected-bg: var(--color-text);
+  --color-cell-border: rgb(189, 189, 189);
+  --color-cell-border-bold: rgb(148, 148, 148);
+
+  --color-cross: rgb(124, 124, 124);
+  --color-clue-cross: var(--color-cross);
+  --color-logo-icon: var(--color-text);
+
+  --color-modal-text: rgb(65, 65, 65);
+  --color-modal-bg: rgb(235, 235, 235);
+  --color-backdrop-bg: rgba(40, 40, 46, 0.8);
+  --color-modal-reward: #bdb9b9;
+
+  --color-score-reward: currentColor;
+  --color-score-zebra: rgb(218, 218, 218);
+  --color-header-control: var(--color-text);
+  --color-header-control-bg: var(--color-text);
+}
+
+.dark-theme {
+  --color-body-bg: rgb(43, 43, 51);
+  --color-accent: #593954;
+  --color-text: rgb(207, 207, 207);
+  --color-text-sec: rgb(61, 61, 71);
+
+  --color-border: rgb(190, 190, 190);
+  --color-border-dark: rgb(177, 177, 177);
+  --color-border-select: rgb(90, 90, 90);
+
+  --color-btn: var(--color-text);
+  --color-btn-bg: var(--color-accent);
+
+  --color-clues-row-highlighted-bg: rgb(82, 82, 92);
+  --color-clues-row-bg: var(--color-text-sec);
+  --color-clue-border: rgb(109, 109, 109);
+
+  --color-reviewer-mode: #c4c5c7;
+
+  --color-cell-bg: rgba(236, 236, 236, 0.9);
+  --color-cell-selected-bg: rgb(40, 40, 46);
+  --color-cell-border: rgb(167, 167, 167);
+  --color-cell-border-bold: rgb(143, 143, 143);
+
+  --color-header-control-bg: var(--color-accent);
+  --color-clue-cross: rgb(175, 175, 175);
+  --color-logo-icon: #7e4a77;
+  --color-header-control: rgb(158, 158, 158);
+
+  --color-modal-bg: rgb(212, 212, 212);
+  --color-backdrop-bg: rgba(40, 40, 46, 0.8);
+
+  --color-score-zebra: rgb(192, 192, 192);
+  --color-modal-reward: #adaaaa;
+}

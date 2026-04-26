@@ -1,0 +1,15 @@
+.game-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 15px;
+
+  width: clamp(375px, max(65%, calc(var(--game-field-cols) * 3em)), 100%);
+  margin-top: 30px;
+
+  .btn-primary {
+    font-size: 14px;
+    flex-grow: 1;
+    padding: 20px 4px;
+  }
+}

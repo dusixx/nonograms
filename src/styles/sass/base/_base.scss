@@ -1,0 +1,14 @@
+:root {
+  scrollbar-width: thin;
+}
+
+body {
+  font-family: 'Nunito', sans-serif;
+  user-select: none;
+  color: var(--color-dark);
+  background-color: var(--color-body-bg);
+
+  overflow-y: scroll;
+
+  @include main-transition('color, background-color');
+}

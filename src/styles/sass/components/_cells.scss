@@ -1,0 +1,61 @@
+.cells {
+  display: grid;
+  grid-area: cells;
+
+  // grid-template-rows: repeat(
+  //   var(--game-field-rows),
+  //   var(--game-field-cell-size)
+  // );
+  border: 2px solid var(--color-cell-border-bold);
+}
+
+.cells__row {
+  display: grid;
+  grid-template-columns: repeat(
+    var(--game-field-cols),
+    var(--game-field-cell-size)
+  );
+
+  // normal borders
+  &:not(:last-of-type) {
+    border-bottom: 1px solid var(--color-cell-border);
+  }
+  // bold borders
+  &:nth-of-type(5n):not(:last-of-type) {
+    border-bottom-color: var(--color-cell-border-bold);
+    // next cells row
+    & + .cells__row {
+      border-top: 1px solid var(--color-cell-border-bold);
+    }
+  }
+  cursor: pointer;
+}
+
+.cell {
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+
+  background-color: var(--color-cell-bg);
+
+  // normal borders
+  &:not(:last-of-type) {
+    border-right: 1px solid var(--color-cell-border);
+  }
+  // bold borders
+  &:nth-of-type(5n) {
+    border-right-color: var(--color-cell-border-bold);
+    // next cell
+    & + .cell {
+      border-left: 1px solid var(--color-cell-border-bold);
+    }
+  }
+
+  &--selected {
+    background-color: var(--color-cell-selected-bg) !important;
+  }
+
+  &--discarded {
+    @include crossed-out($size: 90%);
+  }
+}

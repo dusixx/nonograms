@@ -1,0 +1,21 @@
+.game-field {
+  //--game-field-rows: 5;
+  //--game-field-cols: 5;
+
+  // TODO: add (aspect-ratio: 1) for cell|clue|...
+  // and change styles
+  --game-field-cell-size: min(2.5rem, calc(80vw / var(--game-field-cols)));
+
+  display: grid;
+  grid-template-areas:
+    'placeholder clues-top'
+    'clues-left cells';
+
+  width: fit-content;
+  margin-top: 20px;
+
+  font-family: 'Oswald', sans-serif;
+  font-weight: 300;
+  font-size: 13px;
+  color: var(--color-text);
+}

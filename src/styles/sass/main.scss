@@ -1,0 +1,23 @@
+@import './vendors/modern-normalize';
+
+@import './utils/funcs';
+@import './utils/mixins';
+@import './utils/vars';
+
+@import './base/reset';
+@import './base/base';
+
+@import './components/wrapper';
+@import './components/btn';
+@import './components/custom-select';
+
+@import './components/clues';
+@import './components/cells';
+
+@import './components/game-stats';
+@import './components/game-field';
+@import './components/game-controls';
+@import './components/header';
+@import './components/main';
+@import './components/score';
+@import './components/modal';

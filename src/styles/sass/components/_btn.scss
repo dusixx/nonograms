@@ -1,0 +1,61 @@
+.btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  font-family: inherit;
+  border-style: none;
+
+  user-select: none;
+  cursor: pointer;
+}
+
+.btn-primary {
+  @extend .btn;
+
+  height: 25px;
+  padding: 0 10px;
+
+  font-size: 15px;
+  line-height: 1;
+  text-transform: capitalize;
+  font-weight: 400;
+
+  color: var(--color-btn);
+  background-color: var(--color-btn-bg);
+  border-radius: var(--border-radius);
+
+  &:disabled {
+    @include non-interactive {
+      opacity: 0.5;
+      filter: grayscale(0.2);
+    }
+  }
+}
+
+.btn-secondary {
+  @extend .btn;
+
+  display: inline-flex;
+  padding-left: 0;
+  padding-right: 0;
+
+  font-size: 13px;
+  text-transform: capitalize;
+  text-decoration: underline;
+
+  background-color: transparent;
+  color: var(--color-text);
+
+  &:disabled {
+    @include non-interactive {
+      opacity: 0.6;
+    }
+  }
+}
+
+.dark-theme {
+  .btn-secondary {
+    opacity: 0.9;
+  }
+}

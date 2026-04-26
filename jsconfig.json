@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "ignoreDeprecations": "6.0",
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"],
+      "@components/*": ["src/components/*"],
+      "@components": ["src/components"],
+      "@common/*": ["src/common/*"],
+      "@common": ["src/common"],
+      "@utils/*": ["./src/utils/*"],
+      "@utils": ["./src/utils"],
+      "@styles/*": ["./src/styles/*"],
+      "@styles": ["./src/styles"],
+      "@data/*": ["./src/data/*"],
+      "@data": ["./src/data"],
+      "@assets/*": ["./src/assets/*"],
+      "@assets": ["./src/assets"]
+    }
+  }
+}
