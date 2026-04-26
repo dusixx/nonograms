@@ -1,22 +1,21 @@
-import { isMatrix } from '@common';
+import { ClassName, EventName, isMatrix, MouseButton } from '@common';
 import { Element } from '@components';
 import { CluesHelper } from '@components/clues/clues-helper.js';
-
-import {
-  ClassName,
-  EventName,
-  MouseButton,
-} from '../../common/constants/index.js';
 import { Cell } from './cell.js';
 
 export class Cells extends Element {
   #started;
   #numOfValid = 0;
-  #selectedValid = new Set(); // Set<Cell>
-  #selectedInvalid = new Set(); // Set<Cell>
-  #selected = new Set(); // Set<Cell>
-  #discarded = new Set(); // Set<Cell>
-  #cellsMap = new Map(); // Map<ref,Cell>
+  /** @type Set<Cell> */
+  #selectedValid = new Set();
+  /** @type Set<Cell> */
+  #selectedInvalid = new Set();
+  /** @type Set<Cell> */
+  #selected = new Set();
+  /** @type Set<Cell> */
+  #discarded = new Set();
+  /** @type Map<HTMLElement, Cell> */
+  #cellsMap = new Map();
   #pressedMouseBtn = -1;
   #eraserMode;
   #reviewerMode;
@@ -25,7 +24,6 @@ export class Cells extends Element {
 
   constructor(mx) {
     super({ className: ClassName.Cells });
-
     this.update(mx);
     this.#addInteractivity();
   }
@@ -39,7 +37,7 @@ export class Cells extends Element {
       this.#selectedValid.size === this.#numOfValid &&
       this.#selectedInvalid.size === 0;
     if (wasSolved) {
-      // to avoid any side effect
+      // to avoid any side effects
       this.#handleMouseUp();
       this.dispatchCustom(EventName.SolutionFound);
     }

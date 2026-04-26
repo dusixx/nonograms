@@ -13,7 +13,9 @@
       "@styles/*": ["./src/styles/*"],
       "@styles": ["./src/styles"],
       "@data/*": ["./src/data/*"],
-      "@data": ["./src/data"]
+      "@data": ["./src/data"],
+      "@assets/*": ["./src/assets/*"],
+      "@assets": ["./src/assets"]
     }
   }
 }

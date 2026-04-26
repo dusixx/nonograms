@@ -1,4 +1,4 @@
-import iconsUrl from '../../assets/icons.svg';
+import iconsUrl from '@assets/icons.svg';
 
 export const ICONS_URL = iconsUrl;
 
