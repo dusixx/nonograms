@@ -22,9 +22,10 @@ export class Score extends Element {
     super({ className: ClassName.Score });
 
     const header = createScoreHeaderView();
-
     this.#results = new Element({ className: ClassName.ScoreResults });
     this.append(header, this.#results);
+
+    this.loadFromLocalStorage();
   }
 
   add({ puzzleName, lvlName, elapsed } = {}) {

@@ -125,7 +125,7 @@ export class Cells extends Element {
     } else {
       return;
     }
-    // cell was not actualy changed
+    // cell was not actually changed
     if (cell.isDiscarded === isDiscarded && cell.isSelected === isSelected) {
       return;
     }

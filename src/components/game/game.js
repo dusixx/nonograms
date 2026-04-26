@@ -15,8 +15,7 @@ import {
 } from '../ui';
 import {
   initAudio,
-  initColorThemeToggler,
-  initSoundToggler,
+  initTogglers,
   playFieldChangedSound,
   showSolvedMessage,
   snapshotHelper,
@@ -27,11 +26,9 @@ export class Game {
 
   constructor() {
     initAudio();
-    initColorThemeToggler();
-    initSoundToggler();
+    initTogglers();
 
     this.#score = new Score();
-    this.#score.loadFromLocalStorage();
 
     this.#initGameField();
     this.#initControls();

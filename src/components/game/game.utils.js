@@ -87,7 +87,7 @@ export const playFieldChangedSound = ({ detail: { cell, clue } }) => {
   }
 };
 
-export const initSoundToggler = () => {
+const initSoundToggler = () => {
   const currentSoundState =
     localStorage.getItem(LocalStorageKey.Sound) ?? SoundState.On;
 
@@ -101,7 +101,7 @@ export const initSoundToggler = () => {
   };
 };
 
-export const initColorThemeToggler = () => {
+const initColorThemeToggler = () => {
   const currentTheme =
     localStorage.getItem(LocalStorageKey.Theme) ?? ColorTheme.Light;
 
@@ -116,4 +116,9 @@ export const initColorThemeToggler = () => {
       enabled ? ColorTheme.Light : ColorTheme.Dark
     );
   };
+};
+
+export const initTogglers = () => {
+  initColorThemeToggler();
+  initSoundToggler();
 };
