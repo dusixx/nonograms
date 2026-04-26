@@ -1,36 +1,36 @@
-const svg = {
-  NS_URI: 'http://www.w3.org/2000/svg',
-  NS: 'http://www.w3.org/1999/xlink',
-};
+const NAMESPACE_URI = 'http://www.w3.org/2000/svg';
+const NAMESPACE = 'http://www.w3.org/1999/xlink';
 
 export class SVGElement {
   #ref;
   #children = [];
-
-  // Array<{href, className, ...rest}> useAttrsMap - <use> elements attributes
-  constructor({ className, ...rest }, ...useAttrsMap) {
-    const ref = document.createElementNS(svg.NS_URI, 'svg');
+  /**
+   * @param {{className: string, rest: any[]}} svgAttr - `<svg>` attributes
+   * @param {Array<{href: string, className: string, rest: any[]}>} useAttr - nesting `<use>` attributes
+   * */
+  constructor({ className, ...rest }, ...useAttr) {
+    const ref = document.createElementNS(NAMESPACE_URI, 'svg');
 
     if (className) {
-      ref.className.baseVal = className;
+      ref.classList.add('class', className);
     }
     this.#ref = ref;
-    this.append(...useAttrsMap);
-    // NOTE: setAttributeNS(...)???
+    this.append(...useAttr);
     this.setAttribute(rest);
   }
 
-  append(...useAttrsMap) {
-    const uses = useAttrsMap.map(({ href, className, ...rest }) => {
-      const use = document.createElementNS(svg.NS_URI, 'use');
+  /** @param {Array<{href: string, className: string, rest: any[]}>} useAttr - nesting `<use>` attributes */
+  append(...useAttr) {
+    const uses = useAttr.map(({ href, className, ...rest }) => {
+      const use = document.createElementNS(NAMESPACE_URI, 'use');
 
       // set className and href
       if (className) {
-        use.className.baseVal = className;
+        use.classList.add(className);
       }
-      use.setAttributeNS(svg.NS, 'href', href);
+      use.setAttributeNS(NAMESPACE, 'href', href);
 
-      // set other attrs if specified
+      // set other attributes if specified
       Object.entries(rest).forEach(([attr, value]) => {
         use.setAttribute(attr, value);
       });
@@ -43,7 +43,6 @@ export class SVGElement {
 
   setAttribute(map) {
     Object.entries(map).forEach(([name, value]) => {
-      // setAttributeNS(...)???
       this.#ref.setAttribute(name, value);
     });
   }

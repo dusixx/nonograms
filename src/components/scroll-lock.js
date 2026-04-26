@@ -1,15 +1,6 @@
+import { isVScrollBarVisible } from '@/common';
+
 const { body } = document;
-
-const isVScrollBarVisible = () => {
-  const curBodyClientWidth = body.clientWidth;
-  const curBodyOverflow = body.style.overflow;
-
-  body.style.overflow = 'hidden';
-  const res = curBodyClientWidth !== body.clientWidth;
-  body.style.overflow = curBodyOverflow;
-
-  return res;
-};
 
 export class ScrollLock {
   static #top;
